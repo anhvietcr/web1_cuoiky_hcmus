@@ -1,0 +1,397 @@
+/*Custom style by Anhvietcr*/
+html, body	{
+	margin: 0;
+	padding: 0;
+    background: url(img/content.png) top left repeat;
+}
+
+.frmLogin,
+.frmReg  {
+    background-color: #fff;
+	width: 300px;
+	margin: 0 auto;
+	border: 1px solid #A29D9D;
+	padding: 10px 15px;
+	border-radius: 4px;
+	box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.3);
+	top: 100px;
+	right: 0;
+	left: 0;
+	position: absolute;
+}
+
+.frmLogin label,
+.frmReg label {
+	font-size: 15px;
+	padding: 10px 0px 0px;
+}
+
+.frmLogin button,
+.frmReg button {
+	width: 100%;
+}
+
+.frmLogin > .submit-group,
+.frmReg > .submit-group {
+	text-align: center;
+	font-size: 15px;
+	line-height: 35px;
+}
+
+.frmLogin input[type="checkbox"] {
+	margin: 5px;
+}
+
+.frmUpdate {
+	margin: 0 auto;
+	width: 50%;
+}
+
+.frmUpdate .submit-group {
+	text-align: center;
+}
+
+.frmUpdate button {
+	margin: 0 auto;
+}
+
+.frmUpdate input[type="file"] + .frmUpdate input[type="button"]{
+    width: 100%;
+    background: transparent !important;
+    border: 0 solid #fff;
+    color: #555;
+    box-shadow: 0 0 1px 1px #eee;
+    padding: 3px;
+}
+
+.fix-menu {
+	padding: 10px 0px 0px 0px;
+	background-color: #5cb85c;
+	border-radius: 0px 0px 6px 6px;
+	position: fixed;
+	width: inherit;
+	z-index: 9999;
+}
+
+.fix-menu #icon {
+	float: left;
+	position: relative;
+    width: 24px;
+    height: 24px;
+    padding-left: 20px;
+}
+
+.fix-menu #new-request {
+    color: #ff030d;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.fix-menu ul {
+	float: right;
+	list-style-type: none;
+	display: inline-block;
+	margin-right: 40px;
+}
+
+.fix-menu li {
+	display: inline-block;
+	padding: 0px 20px;
+}
+
+.fix-menu a {
+	position: relative;
+	color: #fff;
+	font-size: 16px;
+}
+
+.fix-menu a:hover {
+	text-decoration: none;
+	color: #000;
+}
+
+.fix-menu a:before,
+.fix-menu a:after {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	animation: trans 1s forwards;
+    transition: linear 0.5s;
+}
+
+.fix-menu a:hover:before {
+	border-left: 2px solid #fff;
+	border-top: 2px solid #fff;
+	top: -6px;
+	left: -9px;
+}
+
+.fix-menu a:hover:after {
+	border-bottom: 2px solid #fff;
+	border-right: 2px solid #fff;
+	bottom: -6px;
+	right: -9px;
+}
+
+@keyframes trans {
+	from {width: 0; height: 0}
+	to {width: 10px; height: 10px;}
+}
+
+.main {
+	margin: 8vh 0;
+	width: inherit;
+}
+
+.content {
+	width: 69%;
+	display: inline-block;
+    margin-right: 10px;
+}
+
+.status {
+    padding: 10px;
+	position: relative;
+}
+
+.status textarea{
+	overflow: hidden;
+	padding: 10px 10px 0px;
+	width: 80%;
+	font-size: 16px;
+	border: 1px solid rgba(0,0,0,0.4);
+	border-radius: 6px;
+}
+
+.status input[type="submit"] {
+	position: absolute;
+	display: inline-block;
+    padding: 10px 50px;
+	font-size: 16px;
+	font-weight: 500;
+	top: 0;
+	right: 0;
+	margin: 10px;
+}
+
+.new {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 30px 6px 6px 6px;
+	margin: 5px 0px;
+}
+
+.new-title {
+	height: 64px;
+
+}
+.new-title img {
+	float: left;
+	width: 64px;
+	height: 64px;
+	margin-right: 15px;
+	background: #fff;
+	border-radius: 50%;
+}
+
+.new-title h4 {
+	display: flex;
+	margin: 0;
+	padding: 10px 0px;
+	font-weight: 600;
+	font-size: 18px;
+}
+
+.new-title i {
+	color: #999;
+}
+
+.new-content {
+	display: block;
+	padding: 10px;
+	margin-left: 20px;
+	font-size: 16px;
+}
+
+.right-menu {
+	position: fixed;
+	width: inherit;
+	display: inline-flex;
+}
+
+.right-menu .sub-menu {
+	width: 30%;
+	float: right;
+	background-color: #5cb85c;
+	border: 1px solid #4cb85c;
+	border-radius: 6px;
+    font-size: 16px;
+}
+
+.right-menu strong {
+    font-size: 20px;
+    color: #111;
+}
+
+.right-menu ul {
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.right-menu .sub-menu li {
+    text-align: left;
+    padding: 5px 10px;
+    margin-left: 40px;
+}
+
+.right-menu #licon {
+    position: absolute;
+    background-image: url(img/list.png);
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    left: 25px;
+}
+
+.right-menu .sub-menu li a {
+    text-decoration: none;
+    position: relative;
+    color: #eee;
+}
+
+.right-menu .sub-menu li a:hover {
+    color: #fff;
+    margin-left: 2px;
+}
+
+.right-menu .sub-menu li a:hover:before {
+    content: "";
+    height: 2px;
+    width: 0;
+    position: absolute;
+    background-color: #fff;
+    bottom: -3px;
+    left: 0;
+    animation-name: awidth;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes awidth {
+    from {width: 0%;}
+    to {width: 100%;}
+}
+
+.tabs {
+	position: relative;
+	width: 100%;
+}
+
+.tab {
+	float: left;
+}
+
+.tab input[type="radio"] {
+	display: none;
+}
+
+.tab-title {
+	position: relative;
+	display: block;
+	cursor: pointer;
+	top: 0;
+	color: #555;
+	padding: 15px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+}
+
+.tab-title:hover {
+	background: #4cae4c;
+	color: #fff;
+	border: 1px solid #fff;
+}
+
+.tab-content {
+	width: 100%;
+	position: absolute;
+	color: #000;
+	left: 0;
+	transition: all 0.5s;
+	opacity: 0;
+	z-index: 1;
+}
+
+.tab-item:checked + .tab-title {
+	top: -0.25em;
+	background: #50b450;
+	color: #fff;
+}
+
+.tab-item:checked + .tab-title + .tab-content {
+	opacity: 1;
+	z-index: 3;
+}
+
+/*make update tab content*/
+.tab-content .global {
+	list-style-type: none;
+	text-align: center;
+	padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 205px;
+    grid-gap: 5px;
+}
+
+.tab-content .global li {
+	padding: 15px;
+	display: inline-flex;
+	border: 1px solid #eee;
+    background-color: rgba(255,255,255,0.6);
+	justify-content: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 1px 1px #72ae71;
+}
+
+.tab-content .global li img {
+	width: 64px;
+	height: 64px;
+    margin-bottom: 10px;
+}
+
+.tab-content .global li h2 {
+    font-size: 15px;
+    height: 60px;
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.tab-content .global li form {
+    width: 100%;
+}
+
+.tab-content .global li .submit-group {
+    display: inline-flex;
+}
+
+.tab-content .global li button {
+    margin: 15px 0 0;
+    width: 100%;
+}
+
+.copyright {
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+	width: 100%;
+	background-color: rgba(100,100,100,0.1);
+	font-size: 15px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
