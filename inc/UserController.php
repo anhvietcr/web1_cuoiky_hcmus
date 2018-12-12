@@ -8,10 +8,6 @@ class UserController
 {
     private $request;
 
-    public function __construct()
-    {
-        db::connect("localhost", "web1_hcmus", "root", "123456");
-    }
 
     private function setCookie($username, $remember = "on")
     {

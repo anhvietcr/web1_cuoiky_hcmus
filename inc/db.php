@@ -30,4 +30,8 @@ class db
             throw new PDOException($ex->getMessage());
         }
     }
+    public function __construct()
+    {
+        db::connect("localhost", "web1_hcmus", "root", "123456");
+    }
 }
