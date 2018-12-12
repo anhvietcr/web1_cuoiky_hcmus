@@ -2,7 +2,7 @@
 
 class db
 {
-    /*
+    /*ABC
      *
      * Nếu xây dựng các query trong class db thì chuyển $connection vể private
      * Hiện tại để public là để các class khác có thể truy cập và thực thi
