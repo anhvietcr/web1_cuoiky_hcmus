@@ -1,2 +1,2 @@
 **/.idea/*
-*/db.php
+inc/db.php
