@@ -2,7 +2,7 @@
 
 class db
 {
-    /*ABC
+    /*
      *
      * Nếu xây dựng các query trong class db thì chuyển $connection vể private
      * Hiện tại để public là để các class khác có thể truy cập và thực thi
@@ -12,8 +12,14 @@ class db
     private static $option;
     public static $connection;
 
-    public static function connect($host, $dbname, $username, $password)
+    public static function connect()
     {
+
+    	$host = 'localhost';
+    	$dbname = 'web1_hcmus';
+    	$username = 'root';
+    	$password = '123456';
+
         self::$option = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -29,9 +35,5 @@ class db
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
         }
-    }
-    public function __construct()
-    {
-        db::connect("localhost", "web1_hcmus", "root", "123456");
     }
 }

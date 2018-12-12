@@ -8,7 +8,11 @@ class UserController
 {
     private $request;
 
-
+    public function __construct()
+    {
+        db::connect();
+    }
+    
     private function setCookie($username, $remember = "on")
     {
         if ($remember == 'on') {
