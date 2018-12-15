@@ -18,7 +18,7 @@ class UserController
         if ($remember == 'on') {
             $time = 3600 * 24; // 24 hours
         } else {
-            $time = 60; // 1 minutes
+            $time = 60*10; // 10 minutes
         }
 
         setcookie('login', $username , time() + $time);
