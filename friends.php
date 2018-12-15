@@ -4,10 +4,10 @@ require_once 'inc/autoload.php';
 
 // Format Helper
 $formatHelper = new FormatHelper();
-
+//$_SERVER['REQUEST_METHOD' => Xác định request gửi đến server con đường nào (post,get,patch,delete)
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user = new UserController();
-    $message = "";
+    $message = "";//Thông báo KQ từ server trả về
 
     if (isset($_POST['addFriend'])) {
 

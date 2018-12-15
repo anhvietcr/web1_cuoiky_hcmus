@@ -42,7 +42,7 @@ HEADER;
         $this->footer =<<<FOOTER
 </div>
 <div class="copyright">
-    <p>Anhvietcr | 1660765 | HCMUS</p>       
+    <p>FIT @ F5-- @ HCMUS</p>       
 </div>
 </body>
 </html>
@@ -60,7 +60,7 @@ FOOTER;
         $follows = !empty($usr['follows']) ? unserialize($usr['follows']) : [];
         $count = count($follows);
         $req = $count > 0 ? "<span id='new-request'>+$count</span>" : "";
-
+//Here doc viết html vẫn giữ format
         $this->fixmenu =<<<FIXMENU
 <div class="fix-menu">
         <div id="icon">
@@ -104,7 +104,7 @@ RIGHTMENU;
 STATUS;
         return $this->status;
     }
-
+//
     public function addNewsfeed($contents)
     {
         $user = new UserController();

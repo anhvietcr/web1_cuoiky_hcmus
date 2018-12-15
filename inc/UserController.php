@@ -12,7 +12,7 @@ class UserController
     {
         db::connect();
     }
-    
+
     private function setCookie($username, $remember = "on")
     {
         if ($remember == 'on') {
@@ -24,7 +24,7 @@ class UserController
         setcookie('login', $username , time() + $time);
         return 1;
     }
-
+//Trả về user theo id và username
     public function GetUser($username = '', $id = '')
     {
         // valid params
@@ -44,7 +44,7 @@ class UserController
             throw new PDOException($ex->getMessage());
         }
     }
-
+//...=> truyền vào mảng đối số mà k biết trước số lượng
     public function login(...$args)
     {
         $this->request = $args[0];
@@ -53,7 +53,7 @@ class UserController
         if (empty($this->request['username']) || empty($this->request['password'])) {
             return "Nhập đầy đủ dữ liệu";
         }
-
+//Kiểm tra đầu vào username (nó là email) có đúng định dạng hay không
         if (!preg_match('/^[0-9a-zA-Z._]+\@[a-zA-Z]+\..*$/', $this->request['username'])) {
             return "Tên đăng nhập phải đúng định dạng email";
         }
@@ -363,19 +363,22 @@ class UserController
             }
 
             // checked exists friend request
+            //unserialize là hàm chuyển đổi dữ liệu từ database sang array
+            //Gán $followingA = thuộc tính following của Tài khoản A
             $followingA = !empty($A['following']) ? unserialize($A['following']) : [];
             $followsA = !empty($A['follows']) ? unserialize($A['follows']) : [];
             $followsB = !empty($B['follows']) ? unserialize($B['follows']) : [];
             $followingB = !empty($B['following']) ? unserialize($B['following']) : [];
             $idA = $A['id'];
             $idB = $B['id'];
-
+            //Nếu A đang theo dỏi B or B đang theo dõi A => k thể kết bạn
             if (in_array($idB, $followingA) || in_array($idB, $followsA)
                 || in_array($idA, $followingB) || in_array($idA, $followsB)) {
                 return "Không thể gửi yêu cầu kết bạn";
             }
 
             // add id to list follow
+            // ghi nhận A đang theo dỏi B
             array_push($followingA, $idB);
             array_push($followsB, $idA);
 
@@ -421,6 +424,7 @@ class UserController
             }
 
             // checked exists friend request
+            //
             $followedB = !empty($B['followed']) ? unserialize($B['followed']) : [];
             $followsA = !empty($A['follows']) ? unserialize($A['follows']) : [];
             $followedA = !empty($A['followed']) ? unserialize($A['followed']) : [];
