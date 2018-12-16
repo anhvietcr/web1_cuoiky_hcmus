@@ -235,7 +235,7 @@ class UserController
         }
     }
 
-    public function NewStatus($username, $content)
+    public function NewStatus($username, $content,$role)
     {
         // valid params
         if (empty($content)) {
@@ -249,7 +249,7 @@ class UserController
             }
 
             $status = new StatusController();
-            $id = $status->NewStatus($usr['id'], $content);
+            $id = $status->NewStatus($usr['id'], $content,$role);
 
             return $id ? $id : "Đăng status thất bại, có lỗi xảy ra";
         } catch (PDOException $ex) {
@@ -258,6 +258,26 @@ class UserController
     }
 
 
+    //Trang làm nè: Kiểm tra username gọi đến controller newcomment
+    public function NewComment($id_status,$username, $content)
+    {
+        // valid params
+        if (empty($content)) {
+            return "Chưa viết gì hết";
+        }
+
+        try {
+            $usr = $this->GetUser($username);
+            if ($usr['username'] != $username) {
+                return "Không tồn tại tên đăng nhập";
+            }
+            $status = new StatusController();
+            $id = $status->NewComment($id_status,$usr['id'],$content);
+            return $id ? $id : "Đăng comment thất bại, có lỗi xảy ra";
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
     public function LoadNewsfeed($username)
     {
         try {

@@ -17,7 +17,7 @@ class FormatHelper
     private $friend;
     private $frmResetPassword;
     private $frmNewPassword;
-
+    private $commentForm;
     //Function format header with custom title
     public function addHeader($title)
     {
@@ -29,6 +29,9 @@ class FormatHelper
     <meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="asset/style.css">
 	<link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
@@ -104,27 +107,50 @@ RIGHTMENU;
     <form action="" method="POST">
         <textarea rows='2' placeholder='Viết gì đó ...' class="content" name="content"></textarea>
         <input type="submit" name="addStatus" class="btn btn-success center-block" value="Đăng">
+
+          <select class="form-control" id="sel1" name = "role">
+            <option>Công khai</option>
+            <option>Bạn bè</option>
+            <option>Chỉ mình tôi</option>
+          </select>
     </form>
 </div>
 STATUS;
         return $this->status;
     }
-//
+//Trang làm nè: tạo Giao diện để comment
+    public function addCommentForm($id_status)
+    {
+        $this->commentForm =<<<COMMENT
+<div class="comment-form">
+    <form action="" method="POST">
+        <input name='id_status' value='$id_status' hidden>
+        <textarea rows='2' name="content_comment" placeholder='Viết bình luận ...'></textarea>
+        <input type="submit" name="addComment" class="btn btn-primary center-block" value="Đăng">
+    </form>
+</div>
+COMMENT;
+        return $this->commentForm;
+    }
+
     public function addNewsfeed($contents)
     {
         $user = new UserController();
         foreach ($contents as $content) {
             // real-name & avatar
+            $commentForm = $this->addCommentForm($content['id']);
             $usr = $user->GetUser('', $content['id_user']);
             $name = empty($usr['realname']) ? $usr['username'] : $usr['realname'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-
             // content html
             $this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
             $this->newsfeed .= "<img src='$src' alt='logo'>";
             $this->newsfeed .= "<h4 id='user'>$name</h4>";
             $this->newsfeed .= "<i>$content[created]</i></div>";
-            $this->newsfeed .= "<div class='new-content'>$content[content]</div></div></div>";
+            $this->newsfeed .= "<div class='new-content'>$content[content]</div>";
+            //$this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
+            $this->newsfeed .= "<img src='$src' alt='logo' width='30px' height='30px'>";
+            $this->newsfeed.= $commentForm."</div></div>";
         }
         return $this->newsfeed;
     }
