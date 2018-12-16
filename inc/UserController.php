@@ -257,6 +257,7 @@ class UserController
         }
     }
 
+
     public function LoadNewsfeed($username)
     {
         try {

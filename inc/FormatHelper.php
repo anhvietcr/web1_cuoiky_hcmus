@@ -67,6 +67,7 @@ FOOTER;
             <a href="index.php"><img src="asset/img/home.png" alt="home"></a>
         </div>
         <ul id="nav">
+            <li><a href="search.php">Tìm kiếm</a></li>
             <li><a href="dashboard.php">( $name )</a></li>
             <li><a href="friends.php">Bạn bè $req </a></li>
             <li><a href="logout.php">Đăng xuất</a></li>
@@ -90,6 +91,10 @@ FIXMENU;
         </div>
 RIGHTMENU;
         return $this->rightMenu;
+    }
+
+    public function searchBar() {
+        
     }
 
     public function addStatus()
