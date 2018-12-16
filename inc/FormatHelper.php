@@ -103,25 +103,6 @@ FIXMENU;
 RIGHTMENU;
         return $this->rightMenu;
     }
-    
-    public function searchBar($type) {
-        if ($type === 1) {
-            $this->frmUserSearchBar = <<<FRMUSERSEARCHBAR
-            <form action="">
-            <input type="search">
-            <i class="fa fa-search"></i>
-          </form>
-FRMUSERSEARCHBAR;
-        } else {
-            $this->frmUserSearchBar = <<<FRMUSERSEARCHBAR
-            <form action="">
-            <input type="search">
-            <i class="fa fa-search"></i>
-          </form>
-FRMUSERSEARCHBAR;
-        }
-        return $this->frmUserSearchBar;
-    }
 
     public function addStatus()
     {
