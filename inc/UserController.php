@@ -272,7 +272,6 @@ class UserController
             }
             $status = new StatusController();
             $id = $status->NewComment($id_status,$usr['id'],$content);
-
             return $id ? $id : "Đăng comment thất bại, có lỗi xảy ra";
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());

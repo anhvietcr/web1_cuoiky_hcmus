@@ -104,7 +104,7 @@ RIGHTMENU;
 STATUS;
         return $this->status;
     }
-//
+//Trang làm nè: tạo Giao diện để comment
     public function addCommentForm($id_status)
     {
         $this->commentForm =<<<COMMENT
