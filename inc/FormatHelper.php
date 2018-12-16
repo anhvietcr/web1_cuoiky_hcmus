@@ -15,9 +15,12 @@ class FormatHelper
     private $status;
     private $newsfeed;
     private $friend;
+    private $users;
     private $frmResetPassword;
     private $frmNewPassword;
     private $commentForm;
+
+
     //Function format header with custom title
     public function addHeader($title)
     {
@@ -27,8 +30,11 @@ class FormatHelper
 <head>
     <title> $title </title>
     <meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="asset/style.css">
-	<link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="asset/style.css">
+    <link rel="stylesheet" type="text/css" href="asset/search/searchBar.css">
+    <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://use.fontawesome.com/1e803d693b.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -70,7 +76,8 @@ FOOTER;
             <a href="index.php"><img src="asset/img/home.png" alt="home"></a>
         </div>
         <ul id="nav">
-            <li><a href="search.php">Tìm kiếm</a></li>
+            <li><a href="search_status.php">Tìm status</a></li>
+            <li><a href="search_user.php">Tìm user </a></li>
             <li><a href="dashboard.php">( $name )</a></li>
             <li><a href="friends.php">Bạn bè $req </a></li>
             <li><a href="logout.php">Đăng xuất</a></li>
@@ -95,9 +102,24 @@ FIXMENU;
 RIGHTMENU;
         return $this->rightMenu;
     }
-
-    public function searchBar() {
-        
+    
+    public function searchBar($type) {
+        if ($type === 1) {
+            $this->frmUserSearchBar = <<<FRMUSERSEARCHBAR
+            <form action="">
+            <input type="search">
+            <i class="fa fa-search"></i>
+          </form>
+FRMUSERSEARCHBAR;
+        } else {
+            $this->frmUserSearchBar = <<<FRMUSERSEARCHBAR
+            <form action="">
+            <input type="search">
+            <i class="fa fa-search"></i>
+          </form>
+FRMUSERSEARCHBAR;
+        }
+        return $this->frmUserSearchBar;
     }
 
     public function addStatus()
@@ -289,5 +311,42 @@ FORM_NEW_PASSWORD;
     public function addAlert($display = 'none', $style = 'danger', $message = '')
     {
         return "<div class='alert alert-$style' style='$display'><center>$message</center></div>";
+    }
+
+    public function SearchUser($nameKey) {
+        $this->friend = "";
+        $user = new UserController();
+        $listUser = $user->ListUsers();
+        if(count($listUser) == 0) {
+            return null;
+        }
+
+        foreach ($listUser as $usr) {
+            // if ($username === $usr['username']) continue;
+            if ($nameKey !== '') {
+                if (strpos($usr['realname'], $nameKey) === false && strpos($usr['username'], $nameKey) === false) {
+                    continue;
+                }
+            }
+            // if (in_array($usr['id'], $followed) || in_array($usr['id'], $follows) || in_array($usr['id'], $following)) continue;
+
+            // real-name & avatar
+            $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
+            $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
+            $this->users .= '<tr><td width="10">';
+            $this->users .= '<img class="pull-left img-circle nav-user-photo" width="50" src="'. $src .'" />';
+            $this->users .= '</td><td>';
+            $this->users .= $name ;
+            $this->users .= '</td><td align="center">';
+            $this->users .= $usr['username'];
+            $this->users .= '</td><td><i>'. $usr['created'] .'</i></td></tr>';
+
+            // $this->friend .= "<button class='btn btn-primary' name='addFriend'>Thêm bạn bè</button></form></li>";
+        }
+        return $this->users;
+    }
+
+    public function SearchStatus($username, $keyWord) {
+
     }
 }

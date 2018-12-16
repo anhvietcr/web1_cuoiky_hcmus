@@ -636,6 +636,21 @@ class UserController
             throw new PDOException($ex->getMessage());
         }
     }
+
+    public function ListStatus()
+    {
+        try {
+            // prepare string select username
+            $sqlSelect = "SELECT id, username, realname, avatar, following, followed, follows, created FROM users LIMIT 100";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute()) {
+                return $data->fetchAll(PDO::FETCH_ASSOC);
+            }
+            return "Có lỗi xảy ra";
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
 }
 
 $work = new UserController();
