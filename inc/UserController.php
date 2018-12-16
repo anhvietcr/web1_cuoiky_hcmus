@@ -235,7 +235,7 @@ class UserController
         }
     }
 
-    public function NewStatus($username, $content)
+    public function NewStatus($username, $content,$role)
     {
         // valid params
         if (empty($content)) {
@@ -249,7 +249,7 @@ class UserController
             }
 
             $status = new StatusController();
-            $id = $status->NewStatus($usr['id'], $content);
+            $id = $status->NewStatus($usr['id'], $content,$role);
 
             return $id ? $id : "Đăng status thất bại, có lỗi xảy ra";
         } catch (PDOException $ex) {

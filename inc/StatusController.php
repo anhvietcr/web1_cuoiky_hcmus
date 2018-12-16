@@ -10,14 +10,14 @@ class StatusController
     public function __construct()
     {}
 
-    public function NewStatus($id_user, $content)
+    public function NewStatus($id_user, $content,$role)
     {
     	$content = htmlspecialchars($content);
         try {
             // prepare string insert status
-            $sqlInsert = "INSERT INTO status(id_user, content, created) VALUES(?,?,now())";
+            $sqlInsert = "INSERT INTO status(id_user, content,role, created) VALUES(?,?,?,now())";
             $data = db::$connection->prepare($sqlInsert);
-            if ($data->execute([$id_user, $content])) {
+            if ($data->execute([$id_user, $content,$role])) {
                 return db::$connection->lastInsertId();
             }
             return 0;
