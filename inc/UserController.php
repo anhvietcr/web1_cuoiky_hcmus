@@ -257,6 +257,27 @@ class UserController
         }
     }
 
+    //Trang làm nè: Kiểm tra username gọi đến controller newcomment
+    public function NewComment($id_status,$username, $content)
+    {
+        // valid params
+        if (empty($content)) {
+            return "Chưa viết gì hết";
+        }
+
+        try {
+            $usr = $this->GetUser($username);
+            if ($usr['username'] != $username) {
+                return "Không tồn tại tên đăng nhập";
+            }
+            $status = new StatusController();
+            $id = $status->NewComment($id_status,$usr['id'],$content);
+
+            return $id ? $id : "Đăng comment thất bại, có lỗi xảy ra";
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
     public function LoadNewsfeed($username)
     {
         try {
