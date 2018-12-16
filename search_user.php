@@ -4,7 +4,6 @@ require_once 'inc/autoload.php';
 
 // Format Helper
 $formatHelper = new FormatHelper();
-$searchBarType = 1;
 $users = null;
 //$_SERVER['REQUEST_METHOD' => Xác định request gửi đến server con đường nào (post,get,patch,delete)
 if ($_SERVER['REQUEST_METHOD'] == "POST") {

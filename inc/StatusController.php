@@ -58,6 +58,21 @@ class StatusController
         }
     }
 
+    public function StatusAll()
+    {
+        try {
+            $sqlSelect = "SELECT * FROM status ORDER BY created";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute()) {
+                $row = $data->fetchAll(PDO::FETCH_ASSOC);
+                return $row;
+            }
+            return null;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
     public function StatusRandom()
     {
         try {

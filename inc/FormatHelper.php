@@ -16,6 +16,7 @@ class FormatHelper
     private $newsfeed;
     private $friend;
     private $users;
+    private $posts;
     private $frmResetPassword;
     private $frmNewPassword;
     private $commentForm;
