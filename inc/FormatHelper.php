@@ -155,7 +155,7 @@ COMMENT;
             $this->newsfeed .= "<i>$content[created]</i></div>";
             $this->newsfeed .= "<div class='new-content'>$content[content]</div>";
             //$this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
-            //Comment form
+            //Comment form (Trang)
             $id_status = $content['id'];
             $commentForm = $this->addCommentForm($id_status);
 
@@ -163,7 +163,7 @@ COMMENT;
             $this->newsfeed .= "<img src='$currentAvatar' alt='logo' width='30px' height='30px'>";
             $this->newsfeed.= $commentForm."</div></div>";
 
-            //show comment
+            //show comment Giao diện (Trang)
             $comments = $comment->CommentWithIdStatus($id_status);
             foreach ($comments as $row)
             {
@@ -182,6 +182,7 @@ COMMENT;
         }
         return $this->newsfeed;
     }
+    //Trang
     public function showComment($contents)
     {
 
