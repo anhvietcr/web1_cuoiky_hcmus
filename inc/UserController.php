@@ -257,6 +257,7 @@ class UserController
         }
     }
 
+
     //Trang làm nè: Kiểm tra username gọi đến controller newcomment
     public function NewComment($id_status,$username, $content)
     {
@@ -635,6 +636,90 @@ class UserController
             throw new PDOException($ex->getMessage());
         }
     }
+
+    public function SearchPosts($username, $permission, $keyword)
+    {
+        try {
+            $usr = $this->GetUser($username);
+            if ($usr['username'] != $username) {
+                return "Không tồn tại tên đăng nhập";
+            }
+
+            $id = $usr['id'];
+            $following = $usr['following'];
+            $arrStatus = [];
+            $resultStatus = [];
+
+            /*
+             * Getting status from myself
+             *
+             * Exist friend
+             * -> Append status friend
+             *
+             * Else NOT exists friend (empty following) + Friend haven't status
+             * -> Get random status
+             *
+             */
+            $status = new StatusController();
+            // getting status from myself
+            $stt = $status->StatusById($id);
+
+            if ($stt != null && $permission == 3) {
+                $arrStatus = array_merge($arrStatus, $stt);
+                foreach ($arrStatus as $sttItem) {
+                    if ($keyword === '') {
+                        array_push($resultStatus, $sttItem);
+                        continue;
+                    }
+                    if (strpos($sttItem['content'], $keyword) !== false) {
+                        array_push($resultStatus, $sttItem);
+                    }
+                }
+
+                return $resultStatus;
+            }
+
+            if (!empty($following) && $permission == 2) {
+                $idFriends = unserialize($following);
+                foreach ($idFriends as $idf) {
+                    // getting status from friend
+                    $stt = $status->StatusById($idf, 10);
+
+                    if ($stt != null) $arrStatus = array_merge($arrStatus, $stt);
+                }
+
+                foreach ($arrStatus as $sttItem) {
+                    if ($keyword === '') {
+                        array_push($resultStatus, $sttItem);
+                        continue;
+                    }
+                    if (strpos($sttItem['content'], $keyword) !== false) {
+                        array_push($resultStatus, $sttItem);
+                    }
+                }
+                return $resultStatus;
+            }
+
+            if ($permission == 1) {
+                $arrStatus = $status->StatusAll();
+
+                foreach ($arrStatus as $sttItem) {
+                    if ($keyword === '') {
+                        array_push($resultStatus, $sttItem);
+                        continue;
+                    }
+                    if (strpos($sttItem['content'], $keyword) !== false) {
+                        array_push($resultStatus, $sttItem);
+                    }
+                }
+            }
+
+            return $resultStatus;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+    
 }
 
 $work = new UserController();
