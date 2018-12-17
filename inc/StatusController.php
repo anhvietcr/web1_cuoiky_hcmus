@@ -26,23 +26,6 @@ class StatusController
         }
     }
 
-    //Trang làm nè : lưu comment xuống databasr
-    public function NewComment($id_status,$id_user, $content)
-    {
-        //var_dump($id_status);
-        //die();
-        try {
-            // prepare string insert status
-            $sqlInsert = "INSERT INTO comments(id_status,id_user_comment, content, created) VALUES(?,?,?,now())";
-            $data = db::$connection->prepare($sqlInsert);
-            if ($data->execute([$id_status,$id_user, $content])) {
-                return db::$connection->lastInsertId();
-            }
-            return 0;
-        } catch (PDOException $ex) {
-            throw new PDOexception($ex->getMessage());
-        }
-    }
     public function StatusById($id_user, $limit = 10)
     {
         try {

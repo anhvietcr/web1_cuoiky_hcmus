@@ -5,7 +5,7 @@ require_once 'inc/autoload.php';
 // Format Helper
 $formatHelper = new FormatHelper();
 $user = new UserController();
-
+$comment = new CommentController();
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (!empty($_POST['content'])) {
@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 $newsfeed = $user->LoadNewsfeed($_COOKIE['login']);
-
 // DIRECTION
 if (!isset($_COOKIE['login'])) {
     header('Location: index.php');

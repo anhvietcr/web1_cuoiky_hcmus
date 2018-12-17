@@ -271,8 +271,8 @@ class UserController
             if ($usr['username'] != $username) {
                 return "Không tồn tại tên đăng nhập";
             }
-            $status = new StatusController();
-            $id = $status->NewComment($id_status,$usr['id'],$content);
+            $comment = new CommentController();
+            $id = $comment->NewComment($id_status,$usr['id'],$content);
             return $id ? $id : "Đăng comment thất bại, có lỗi xảy ra";
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
@@ -301,7 +301,6 @@ class UserController
              *
              */
             $status = new StatusController();
-
             // getting status from myself
             $stt = $status->StatusById($id);
             if ($stt != null) {
@@ -327,6 +326,7 @@ class UserController
             throw new PDOException($ex->getMessage());
         }
     }
+
 
     public function ListFriends($username, $follow = 'followed')
     {

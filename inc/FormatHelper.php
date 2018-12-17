@@ -141,10 +141,10 @@ COMMENT;
     {
 
         $user = new UserController();
+        $comment = new CommentController();
         $currentUser = $user->GetUser($username);
         foreach ($contents as $content) {
             // real-name & avatar
-            $commentForm = $this->addCommentForm($content['id']);
             $usr = $user->GetUser('', $content['id_user']);
             $name = empty($usr['realname']) ? $usr['username'] : $usr['realname'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
@@ -156,13 +156,43 @@ COMMENT;
             $this->newsfeed .= "<div class='new-content'>$content[content]</div>";
             //$this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
             //Comment form
+            $id_status = $content['id'];
+            $commentForm = $this->addCommentForm($id_status);
+
             $currentAvatar = !empty($currentUser['avatar']) ? 'data:image;base64,'.$currentUser['avatar'] : "asset/img/non-avatar.png";
             $this->newsfeed .= "<img src='$currentAvatar' alt='logo' width='30px' height='30px'>";
             $this->newsfeed.= $commentForm."</div></div>";
+
+            //show comment
+            $comments = $comment->CommentWithIdStatus($id_status);
+            foreach ($comments as $row)
+            {
+               $userComment = $user->GetUser('',$row['id_user_comment']);
+
+                $contentComment = $row['content'];
+
+                $avatarUserComment = !empty($userComment['avatar']) ? 'data:image;base64,'.$userComment['avatar'] : "asset/img/non-avatar.png";
+                $nameComment = $userComment['realname'];
+                $this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
+                $this->newsfeed.= "<img src='$avatarUserComment' alt='logo' width='30px' height='30px'>";
+                $this->newsfeed.= "$nameComment";
+                $this->newsfeed.= " $contentComment.</div></div></div>";
+            }
+
         }
         return $this->newsfeed;
     }
+    public function showComment($contents)
+    {
 
+        foreach ($contents as $content) {
+            // real-name & avatar
+            var_dump($content);
+
+        }
+        die();
+        return $this->newsfeed;
+    }
     public function ListUsers($username)
     {
         $this->friend = "";
