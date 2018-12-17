@@ -173,10 +173,10 @@ COMMENT;
 
                 $avatarUserComment = !empty($userComment['avatar']) ? 'data:image;base64,'.$userComment['avatar'] : "asset/img/non-avatar.png";
                 $nameComment = $userComment['realname'];
-                $this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
+                $this->newsfeed .= "<div class='show-comment'>";
                 $this->newsfeed.= "<img src='$avatarUserComment' alt='logo' width='30px' height='30px'>";
                 $this->newsfeed.= "$nameComment";
-                $this->newsfeed.= " $contentComment.</div></div></div>";
+                $this->newsfeed.= " $contentComment.</div>";
             }
 
         }
