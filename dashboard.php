@@ -32,7 +32,7 @@ if (!isset($_COOKIE['login'])) {
     <div class="main">
         <div class="content">
             <?= $formatHelper->addStatus() ?>
-            <?= $formatHelper->addNewsfeed($newsfeed) ?>
+            <?= $formatHelper->addNewsfeed($newsfeed,$_COOKIE['login']) ?>
         </div>
 
         <?= $formatHelper->addRightMenu() ?>

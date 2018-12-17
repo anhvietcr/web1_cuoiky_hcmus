@@ -137,9 +137,11 @@ COMMENT;
         return $this->commentForm;
     }
 
-    public function addNewsfeed($contents)
+    public function addNewsfeed($contents,$username)
     {
+
         $user = new UserController();
+        $currentUser = $user->GetUser($username);
         foreach ($contents as $content) {
             // real-name & avatar
             $commentForm = $this->addCommentForm($content['id']);
@@ -153,7 +155,9 @@ COMMENT;
             $this->newsfeed .= "<i>$content[created]</i></div>";
             $this->newsfeed .= "<div class='new-content'>$content[content]</div>";
             //$this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
-            $this->newsfeed .= "<img src='$src' alt='logo' width='30px' height='30px'>";
+            //Comment form
+            $currentAvatar = !empty($currentUser['avatar']) ? 'data:image;base64,'.$currentUser['avatar'] : "asset/img/non-avatar.png";
+            $this->newsfeed .= "<img src='$currentAvatar' alt='logo' width='30px' height='30px'>";
             $this->newsfeed.= $commentForm."</div></div>";
         }
         return $this->newsfeed;
