@@ -60,7 +60,7 @@ if (!isset($_COOKIE['login'])) {
         </div>    
         <div class="container" style="padding-top: 10%; width: 100%;">
         <?php if ($posts != null) {
-            echo ($formatHelper->addNewsfeed($posts));
+            echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
         } ?>
     </div>
     </div>
