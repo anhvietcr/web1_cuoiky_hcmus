@@ -319,11 +319,23 @@ class UserController
         }
     }
 
-    public function NewStatus($username, $content,$role)
+    public function NewStatus($username, $attach, ...$args)
     {
+        $this->request = $args[0];
+
         // valid params
-        if (empty($content)) {
+        if (empty($this->request['content'])) {
             return "Chưa viết gì hết";
+        }
+
+        // Update avatar
+        if (!empty($attach['image']['name']) && $attach['image']['size'] > 0) {
+
+            if (getimagesize($attach['image']['tmp_name']) === false) {
+                return "Không đúng định dạng hình ảnh.";
+            }
+
+            $this->request['image'] = $attach['image'];
         }
 
         try {
@@ -333,7 +345,10 @@ class UserController
             }
 
             $status = new StatusController();
-            $id = $status->NewStatus($usr['id'], $content,$role);
+            $id = $status->NewStatus(
+                $usr['id'], 
+                $this->request
+            );
 
             return $id ? $id : "Đăng status thất bại, có lỗi xảy ra";
         } catch (PDOException $ex) {

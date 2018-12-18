@@ -395,3 +395,7 @@ html, body	{
     padding-top: 15px;
     padding-bottom: 5px;
 }
+
+.image_status {
+	width: 100%;
+}

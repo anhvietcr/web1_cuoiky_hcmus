@@ -108,10 +108,13 @@ RIGHTMENU;
     {
         $this->status =<<<STATUS
 <div class="status">
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <textarea rows='2' placeholder='Viết gì đó ...' class="content" name="content"></textarea>
         <input type="submit" name="addStatus" class="btn btn-success center-block" value="Đăng">
-
+            <div class="form-group">
+                <label for="image">Hình ảnh: </label>
+                <input type="file" name="image" class="form-control">
+            </div>
           <select class="form-control" id="sel1" name = "role">
             <option>Công khai</option>
             <option>Bạn bè</option>
@@ -144,6 +147,9 @@ COMMENT;
         $comment = new CommentController();
         $currentUser = $user->GetUser($username);
         foreach ($contents as $content) {
+
+            $imageAttach = !empty($content['image']) ? "$content[image]" : "";
+
             // real-name & avatar
             $usr = $user->GetUser('', $content['id_user']);
             $name = empty($usr['realname']) ? $usr['username'] : $usr['realname'];
@@ -154,6 +160,11 @@ COMMENT;
             $this->newsfeed .= "<h4 id='user'>$name</h4>";
             $this->newsfeed .= "<i>$content[created]</i></div>";
             $this->newsfeed .= "<div class='new-content'>$content[content]</div>";
+
+            if (!empty($imageAttach))
+                $this->newsfeed .= "<img src='$imageAttach' class='image_status'><br>";
+
+
             //$this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
             //Comment form (Trang)
             $id_status = $content['id'];

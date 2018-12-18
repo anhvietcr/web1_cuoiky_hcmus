@@ -7,17 +7,40 @@ include_once 'autoload.php';
 
 class StatusController
 {
+    protected $request;
     public function __construct()
     {}
 
-    public function NewStatus($id_user, $content,$role)
+    public function NewStatus($id_user, ...$args)
     {
-    	$content = htmlspecialchars($content);
+        $this->request = $args[0];
+
+    	$content = htmlspecialchars($this->request['content']);
+
+        // upload and get path file
+        $token = '';
+        $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        $len = strlen($prepare) - 1;
+        for ($c = 0; $c < 10; $c++)
+        {
+            $token .= $prepare[rand(0, $len)];
+        }
+        $file_name = $this->request['image']['name'];
+        $target_path_local = __DIR__."\\upload\\". $id_user . $token . $file_name;
+        $target_path_db = "/inc/upload/". $id_user . $token . $file_name;
+        move_uploaded_file($this->request["image"]["tmp_name"], $target_path_local);
+
         try {
             // prepare string insert status
-            $sqlInsert = "INSERT INTO status(id_user, content,role, created) VALUES(?,?,?,now())";
+            $sqlInsert = "INSERT INTO status(id_user, content, role, image, created) VALUES(?,?,?,?,now())";
             $data = db::$connection->prepare($sqlInsert);
-            if ($data->execute([$id_user, $content,$role])) {
+            if ($data->execute(
+                [
+                    $id_user, 
+                    $content, 
+                    $this->request['role'],
+                    $target_path_db
+                ])) {
                 return db::$connection->lastInsertId();
             }
             return 0;

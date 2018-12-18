@@ -9,7 +9,7 @@ $comment = new CommentController();
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (!empty($_POST['content'])) {
-        $user->NewStatus($_COOKIE['login'], $_POST['content'],$_POST['role']);
+        $user->NewStatus($_COOKIE['login'], $_FILES, $_POST);
         header('Location: '.$_SERVER['PHP_SELF']);
     }
     if (!empty($_POST['content_comment'])) {
