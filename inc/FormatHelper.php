@@ -331,7 +331,6 @@ FORM_NEW_PASSWORD;
     }
 
     public function SearchUser($nameKey) {
-        $this->friend = "";
         $user = new UserController();
         $listUser = $user->ListUsers();
         if(count($listUser) == 0) {
@@ -339,26 +338,24 @@ FORM_NEW_PASSWORD;
         }
 
         foreach ($listUser as $usr) {
-            // if ($username === $usr['username']) continue;
+            
             if ($nameKey !== '') {
                 if (strpos($usr['realname'], $nameKey) === false && strpos($usr['username'], $nameKey) === false) {
                     continue;
                 }
             }
-            // if (in_array($usr['id'], $followed) || in_array($usr['id'], $follows) || in_array($usr['id'], $following)) continue;
 
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
             $this->users .= '<tr><td width="10">';
-            $this->users .= '<img class="pull-left img-circle nav-user-photo" width="50" src="'. $src .'" />';
+            $this->users .= '<img class="pull-left img-circle nav-user-photo" width="50" src="'. $src .'" /> ';
             $this->users .= '</td><td>';
             $this->users .= $name ;
-            $this->users .= '</td><td align="center">';
-            $this->users .= $usr['username'];
-            $this->users .= '</td><td><i>'. $usr['created'] .'</i></td></tr>';
-
-            // $this->friend .= "<button class='btn btn-primary' name='addFriend'>Thêm bạn bè</button></form></li>";
+            $this->users .= '</td><td align="left">';
+            $this->users .= $usr['username'] . '</td>';
+            $this->users .= '<td>Tham gia: <i>'. $usr['created'] .'</i></td>';
+            $this->users .= '</tr>';
         }
         return $this->users;
     }

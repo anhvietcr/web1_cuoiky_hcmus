@@ -105,15 +105,15 @@ class UserController
             $mail->Port = 587;                                    // TCP port to connect to
         
             //Recipients
-            $mail->setFrom('lqv1119961@gmail.com', 'ltweb1');
+            $mail->setFrom('lqv1119961@gmail.com', 'Web 1');
             $mail->addAddress($email);     //
             //Content
             $mail->isHTML(true);
-            $mail->Subject = 'confirm Password from website';
-            $mail->Body    = 'Nhấn vào đường dẫn sau để đặt lại mật khẩu: <a href="http://localhost:8080/web1_cuoiky/confirm.php?email='.$email.'&token='.$token.'">vào đây</a>';
+            $mail->Subject = 'Confirm Register account from website F5 Team';
+            $mail->Body    = "Nhấn vào đường dẫn sau để xác nhận đăng ký tài khoản: <a href='http://$_SERVER[HTTP_HOST]/confirm.php?email=$email&token=$token'>http://$_SERVER[HTTP_HOST]/confirm.php?email=$email&token=$token</a>";
 
             $mail->send();
-            return 'Gửi thành công, vui lòng kiểm tra email và làm theo hướng dẫn';
+            return 1;
         } catch (Exception $e) {
             return 'Không thể gửi mail. Mailser Error: '. $mail->ErrorInfo;
         }
@@ -132,6 +132,10 @@ class UserController
             return "Tên đăng nhập phải đúng định dạng email";
         }
 
+        if (empty($this->request['realname'])) {
+            return "Tên người dùng không được để trống";
+        }
+
         if (strcmp($this->request['password'], $this->request['re-password']) != 0) {
             return "Mật khẩu nhập lại không khớp nhau";
         }
@@ -147,16 +151,16 @@ class UserController
             }
 
             $token = '';
-            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@$%^&*";
+            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@$%^*";
             $len = strlen($prepare) - 1;
             for ($c = 0; $c < 25; $c++)
             {
                 $token .= $prepare[rand(0, $len)];
             }
             $passwordHash = password_hash($this->request['password'], PASSWORD_DEFAULT);
-            $strInsert = "INSERT INTO register (username, password, token, used) VALUES(?, ?, ?,?)";
+            $strInsert = "INSERT INTO register (username, password, token, used, realname) VALUES(?, ?, ?, ?, ?)";
             $data = db::$connection->prepare($strInsert);
-            if ($data->execute(array($this->request['username'], $passwordHash,$token,0))) {
+            if ($data->execute([$this->request['username'], $passwordHash,$token,0, $this->request['realname']])) {
 
                 return $this->SendEmail($this->request['username'],$token);
             }
@@ -168,18 +172,19 @@ class UserController
     public function FindRegisterByEmailAndToken($email,$token)
     {
         // valid params
-        if (!isset($email)) {
+        if (empty($email) || empty($token))
             return null;
-        }
         
         try {
             // prepare string select username
             $sqlSelect = "SELECT * FROM register WHERE username=? AND token=?";
             $data = db::$connection->prepare($sqlSelect);
-            if ($data->execute(array($email,$token))) {
+            
+            if ($data->execute([$email, $token])) {
                 return $data->fetch(PDO::FETCH_ASSOC);
             }
-            return "Có lỗi xảy ra";
+
+            return null;
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
         }
@@ -187,32 +192,29 @@ class UserController
 
     public function DeleteRegisterByEmail($email)
     {
-        
             $sqlSelect = "DELETE FROM register WHERE username = ?";
             $data = db::$connection->prepare($sqlSelect);
-            $data->execute(array($email));           
+            $data->execute([$email]);           
     }
 
     public function confirm(...$args)
     {
         $this->request = $args[0];
-            $token=$this->request['token'];
-            $email=$this->request['email'];
-            if(isset($token) && isset($email)){
-                //return "đã ở đây";
-                $check=$this->FindRegisterByEmailAndToken($email,$token);
-                if(isset($check)){
-                    //return $check;
-                    $strInsert = "INSERT INTO users(username, password, created, last_login) VALUES(?, ?, now(), now())";
-                    $data = db::$connection->prepare($strInsert);
-                    if ($data->execute(array($email, $check['password']))) {
-                        $this->DeleteRegisterByEmail($email);
-                        return 1;     
-                    }
-                    return "Đăng ký thất bại";         
-                    
+        $token=$this->request['token'];
+        $email=$this->request['email'];
+        if(isset($token) && isset($email)){
+            //return "đã ở đây";
+            $check=$this->FindRegisterByEmailAndToken($email,$token);
+            
+            if($check){
+                //return $check;
+                $strInsert = "INSERT INTO users(username, password, realname, created, last_login) VALUES(?, ?, ?, now(), now())";
+                $data = db::$connection->prepare($strInsert);
+                if ($data->execute([$email, $check['password'], $check['realname']])) {
+                    $this->DeleteRegisterByEmail($email);
+                    return 1;     
+                }
             }
-            return "Đăng ký thất bại"; 
         }
         return "Đăng ký thất bại";     
     }
@@ -719,7 +721,7 @@ class UserController
         }
     }
 
-    public function SearchPosts($username, $permission, $keyword)
+    public function SearchPosts($username, $keyword)
     {
         try {
             $usr = $this->GetUser($username);
@@ -746,22 +748,11 @@ class UserController
             // getting status from myself
             $stt = $status->StatusById($id);
 
-            if ($stt != null && $permission == 3) {
+            if ($stt != null) {
                 $arrStatus = array_merge($arrStatus, $stt);
-                foreach ($arrStatus as $sttItem) {
-                    if ($keyword === '') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
-                    }
-                    if (strpos($sttItem['content'], $keyword) !== false) {
-                        array_push($resultStatus, $sttItem);
-                    }
-                }
-
-                return $resultStatus;
             }
 
-            if (!empty($following) && $permission == 2) {
+            if (!empty($following)) {
                 $idFriends = unserialize($following);
                 foreach ($idFriends as $idf) {
                     // getting status from friend
@@ -769,30 +760,15 @@ class UserController
 
                     if ($stt != null) $arrStatus = array_merge($arrStatus, $stt);
                 }
-
-                foreach ($arrStatus as $sttItem) {
-                    if ($keyword === '') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
-                    }
-                    if (strpos($sttItem['content'], $keyword) !== false) {
-                        array_push($resultStatus, $sttItem);
-                    }
-                }
-                return $resultStatus;
             }
 
-            if ($permission == 1) {
-                $arrStatus = $status->StatusAll();
-
-                foreach ($arrStatus as $sttItem) {
-                    if ($keyword === '') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
-                    }
-                    if (strpos($sttItem['content'], $keyword) !== false) {
-                        array_push($resultStatus, $sttItem);
-                    }
+            foreach ($arrStatus as $sttItem) {
+                if ($keyword === '') {
+                    array_push($resultStatus, $sttItem);
+                    continue;
+                }
+                if (strpos($sttItem['content'], $keyword) !== false) {
+                    array_push($resultStatus, $sttItem);
                 }
             }
 
