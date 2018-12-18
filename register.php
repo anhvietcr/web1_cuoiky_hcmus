@@ -11,19 +11,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $message = $user->register($_POST);
     $display = "style='display: block; text-align: center;'";
 
-    if ($message == 1) header('Location: dashboard.php');
+    //if ($message == 1) header('Location: dashboard.php');
 }
 
 // DIRECTION
-if (isset($_COOKIE['login'])) {
-    header('Location: dashboard.php');
-}
+// if (isset($_COOKIE['login'])) {
+//     header('Location: dashboard.php');
+// }
 ?>
 
 <?= $formatHelper->addHeader('Đăng ký'); ?>
 <div class="alert alert-danger" <?= @$display ?: "style='display:none;text-align: center;'"?>> <?= @$message?: "" ?> </div>
 
 <!-- REGISTER -->
+<?php      ?>
 <form class="frmReg" action="" method="POST">
     <div class="form-group">
         <label for="usename">Email:</label>

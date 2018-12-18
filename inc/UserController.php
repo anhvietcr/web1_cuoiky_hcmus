@@ -1,5 +1,12 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+//autoloader
+require './vendor/autoload.php';
 include_once 'autoload.php';
+
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /*
  * Class control User
@@ -83,6 +90,35 @@ class UserController
         }
     }
 
+    public function SendEmail($email,$token)
+    {
+        
+        $mail = new PHPMailer(true);
+        try {
+            //Server settings
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'lqv1119961@gmail.com';                 // SMTP username
+            $mail->Password = '01673226121';                           // SMTP password
+            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 587;                                    // TCP port to connect to
+        
+            //Recipients
+            $mail->setFrom('lqv1119961@gmail.com', 'ltweb1');
+            $mail->addAddress($email);     //
+            //Content
+            $mail->isHTML(true);
+            $mail->Subject = 'confirm Password from website';
+            $mail->Body    = 'Nhấn vào đường dẫn sau để đặt lại mật khẩu: <a href="http://localhost:8080/web1_cuoiky/confirm.php?email='.$email.'&token='.$token.'">vào đây</a>';
+
+            $mail->send();
+            return 'Gửi thành công, vui lòng kiểm tra email và làm theo hướng dẫn';
+        } catch (Exception $e) {
+            return 'Không thể gửi mail. Mailser Error: '. $mail->ErrorInfo;
+        }
+    }
+
     public function register(...$args)
     {
         $this->request = $args[0];
@@ -110,29 +146,75 @@ class UserController
                 return "Đã tồn tại tên đăng nhập !";
             }
 
-            // Hash password
-            $passwordHash = password_hash($this->request['password'], PASSWORD_DEFAULT);
-
-            // prepare string insert user
-            $strInsert = "INSERT INTO users(username, password, created, last_login) VALUES(?, ?, now(), now())";
-            $data = db::$connection->prepare($strInsert);
-            if ($data->execute([$this->request['username'], $passwordHash])) {
-
-                // Remember & login
-                if (isset($this->request['remember'])) {
-                    $remember = "on";
-                } else {
-                    $remember = "off";
-                }
-
-                if ($this->setCookie($this->request['username'], $remember)) {
-                    return 1;
-                }
+            $token = '';
+            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@$%^&*";
+            $len = strlen($prepare) - 1;
+            for ($c = 0; $c < 25; $c++)
+            {
+                $token .= $prepare[rand(0, $len)];
             }
-            return "Đăng ký thất bại";
+            $passwordHash = password_hash($this->request['password'], PASSWORD_DEFAULT);
+            $strInsert = "INSERT INTO register (username, password, token, used) VALUES(?, ?, ?,?)";
+            $data = db::$connection->prepare($strInsert);
+            if ($data->execute(array($this->request['username'], $passwordHash,$token,0))) {
+
+                return $this->SendEmail($this->request['username'],$token);
+            }
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
         }
+    }
+
+    public function FindRegisterByEmailAndToken($email,$token)
+    {
+        // valid params
+        if (!isset($email)) {
+            return null;
+        }
+        
+        try {
+            // prepare string select username
+            $sqlSelect = "SELECT * FROM register WHERE username=? AND token=?";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute(array($email,$token))) {
+                return $data->fetch(PDO::FETCH_ASSOC);
+            }
+            return "Có lỗi xảy ra";
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
+    public function DeleteRegisterByEmail($email)
+    {
+        
+            $sqlSelect = "DELETE FROM register WHERE username = ?";
+            $data = db::$connection->prepare($sqlSelect);
+            $data->execute(array($email));           
+    }
+
+    public function confirm(...$args)
+    {
+        $this->request = $args[0];
+            $token=$this->request['token'];
+            $email=$this->request['email'];
+            if(isset($token) && isset($email)){
+                //return "đã ở đây";
+                $check=$this->FindRegisterByEmailAndToken($email,$token);
+                if(isset($check)){
+                    //return $check;
+                    $strInsert = "INSERT INTO users(username, password, created, last_login) VALUES(?, ?, now(), now())";
+                    $data = db::$connection->prepare($strInsert);
+                    if ($data->execute(array($email, $check['password']))) {
+                        $this->DeleteRegisterByEmail($email);
+                        return 1;     
+                    }
+                    return "Đăng ký thất bại";         
+                    
+            }
+            return "Đăng ký thất bại"; 
+        }
+        return "Đăng ký thất bại";     
     }
 
     public function ChangePassword($username, ...$args)
