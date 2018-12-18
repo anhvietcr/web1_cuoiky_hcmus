@@ -17,7 +17,7 @@ class ForgotPasswordController
 
     public function __construct()
     {
-        db::connect("localhost", "web1_hcmus", "root", "123456");
+        db::connect();
     }
 
     public function GeneralToken($email)

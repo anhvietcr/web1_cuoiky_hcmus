@@ -9,13 +9,14 @@ $formatHelper = new FormatHelper();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $user = new UserController();
     $message = $user->confirm($_GET);
+    
     if ($message == 1)
     { 
-        header('Location: login.php');
+       header('Location: login.php');
     }
     else
     {
-        header('Location: register.php');
+       header('Location: register.php');
     }
 }
 
