@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $message = "";//Thông báo KQ từ server trả về
 
     if (isset($_POST['searchStatus'])) {
-        $posts = $user->SearchPosts($_COOKIE['login'], $_POST['permissions'], (!isset($_POST['keyWord']) ? null : $_POST['keyWord']));
+        $posts = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyWord']) ? null : $_POST['keyWord']));
         // echo($users);
 
     }
@@ -40,16 +40,8 @@ if (!isset($_COOKIE['login'])) {
                 <form class="form" method="POST">
                     <!-- SEARCH -->
                     <div class="form-group" >
-                        <div class="col-sm-7 form-group NoPadding">
+                        <div class="col-sm-10 form-group NoPadding">
                             <input type="search" class="form-control" placeholder="Nhập từ khóa" name="keyWord">
-                        </div>
-                        <!-- CATEGORIES -->
-                        <div class="col-sm-3 form-group NoPadding">
-                            <select name="permissions" class="form-control">
-                                <option value="1">Công khai</option>
-                                <option value="2">Bạn bè</option>
-                                <option value="3">Chỉ tôi</option>
-                            </select>
                         </div>
                         <!-- BUTTON -->
                         <div class="col-sm-2 frm-group ">

@@ -719,7 +719,7 @@ class UserController
         }
     }
 
-    public function SearchPosts($username, $permission, $keyword)
+    public function SearchPosts($username, $keyword)
     {
         try {
             $usr = $this->GetUser($username);
@@ -746,22 +746,11 @@ class UserController
             // getting status from myself
             $stt = $status->StatusById($id);
 
-            if ($stt != null && $permission == 3) {
+            if ($stt != null) {
                 $arrStatus = array_merge($arrStatus, $stt);
-                foreach ($arrStatus as $sttItem) {
-                    if ($keyword === '') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
-                    }
-                    if (strpos($sttItem['content'], $keyword) !== false) {
-                        array_push($resultStatus, $sttItem);
-                    }
-                }
-
-                return $resultStatus;
             }
 
-            if (!empty($following) && $permission == 2) {
+            if (!empty($following)) {
                 $idFriends = unserialize($following);
                 foreach ($idFriends as $idf) {
                     // getting status from friend
@@ -769,30 +758,15 @@ class UserController
 
                     if ($stt != null) $arrStatus = array_merge($arrStatus, $stt);
                 }
-
-                foreach ($arrStatus as $sttItem) {
-                    if ($keyword === '') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
-                    }
-                    if (strpos($sttItem['content'], $keyword) !== false) {
-                        array_push($resultStatus, $sttItem);
-                    }
-                }
-                return $resultStatus;
             }
 
-            if ($permission == 1) {
-                $arrStatus = $status->StatusAll();
-
-                foreach ($arrStatus as $sttItem) {
-                    if ($keyword === '') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
-                    }
-                    if (strpos($sttItem['content'], $keyword) !== false) {
-                        array_push($resultStatus, $sttItem);
-                    }
+            foreach ($arrStatus as $sttItem) {
+                if ($keyword === '') {
+                    array_push($resultStatus, $sttItem);
+                    continue;
+                }
+                if (strpos($sttItem['content'], $keyword) !== false) {
+                    array_push($resultStatus, $sttItem);
                 }
             }
 
