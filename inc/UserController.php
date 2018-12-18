@@ -778,6 +778,13 @@ class UserController
             }
 
             foreach ($arrStatus as $sttItem) {
+                if ($id == $sttItem['id'] && $sttItem['role'] === 'Chỉ mình tôi') {
+                    array_push($resultStatus, $sttItem);
+                    continue;
+                }
+                if ($sttItem['role'] === 'Chỉ mình tôi') {
+                    continue;
+                }
                 if ($keyword === '') {
                     array_push($resultStatus, $sttItem);
                     continue;

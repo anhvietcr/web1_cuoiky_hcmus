@@ -19,6 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $message = "Not found posts";
         $display = "style='display: block; text-align: center;'";
     }
+
+    if (!empty($_POST['content_comment'])) {
+        $user->NewComment($_POST['id_status'],$_COOKIE['login'],$_POST['content_comment']);
+        header('Location: '.$_SERVER['PHP_SELF']);
+    }
 }
 
 // DIRECTION
