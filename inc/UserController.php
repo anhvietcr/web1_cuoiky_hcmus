@@ -718,7 +718,7 @@ class UserController
         //
         // A ----unFollowing-----> B
         //
-        return "Chức năng chưa hoàn thiện, vượt giới hạn deadline ^^";
+        $this->DeclineFriend($userB,$userA);
     }
 
     public function ListUsers()
