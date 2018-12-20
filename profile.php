@@ -1,82 +1,47 @@
 <?php
-require_once 'init.php';
-$page = 'profile';
-$data=[];
-if (!isset($_SESSION['logged_in'])) {
-    header('Location:login.php');
+require_once 'inc/autoload.php';
+//Trang
+// Format Helper
+$formatHelper = new FormatHelper();
+$user = new UserController();
+$status = new StatusController();
+if (!isset($_COOKIE['login'])) {
+    header('Location: index.php');
 }
-$id=$currentUser[0]['id'];
-$data=findUserById($id);
 
-if(isset($_POST['fullname'])and isset($_POST['email']))
-{
-    updateAccount($id,$_POST['email'],$_POST['fullname']);
-    //Lấy file ảnh ra
-    if(isset($_FILES['image'])) {
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if($check === false) {
-            header("Location: index.php");
-        }
-        else{
-            //tạo đường dẫn
-            $dir = dirname(__FILE__);
-            $fileName = $_FILES['image']['name'];
-            $typeImg = explode(".",$fileName);
-            $end = end($typeImg);
-            $path = "$dir/img/profile/$id.$end";
-            //Lưu xuống db
-            createPathImage($id,"/img/profile/$id.$end");
-            $fileSize = $_FILES['image']['size'];
-            $fileTemp = $_FILES['image']['tmp_name'];
-            //di chuyển ảnh từ file tạm vào file cần lưu
-            $result = move_uploaded_file($fileTemp,$path);
-            var_dump($result);
-            //Thu nhỏ ảnh
-            if($result)
-            {
-                $img= new Imagick($path);
-                $img->thumbnailImage(256,256);
-                $img->writeImage($path);
-                //$resizeImage = resizeImage($path,256,256);
-                //Lưu ảnh xuống
-                //imagejpeg($resizeImage,$path);
-            }
-            header("Location: index.php");
-        }
-    }
-}
+$user1 =$user->GetUser($_COOKIE['login']);
+$id_user2 = $_GET['id'];
+
+$user2 = $user->GetUser('',$id_user2);
+
+$user2_avatar = !empty($user2['avatar']) ? 'data:image;base64,'.$user2['avatar'] : "asset/img/non-avatar.png";
+$statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
 ?>
-<?php include 'header.php';?>
-<div class="container" >
+<?= $formatHelper->addHeader($_COOKIE['login']) ?>
+<?= $formatHelper->addFixMenu() ?>
 
-    <div class="col-md-6">
-        <h2>Cập nhật thông tin cá nhân</h2>
-        <form method="post" action="profile.php" enctype="multipart/form-data">
-            <?php
-            foreach ($data as $row) {
-                ?>
-                <div>
-                    <label>Họ và tên</label>
-                    <input class="form-control" type="text" name = "fullname" value="<?=$row['fullname']?>">
+<div class="main">
 
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input class="form-control" type="text" name = "email" value="<?= $row['email']?>">
-
-                </div>
-                <div>
-                    <input class="choose-file" type="file" name="image">
-                </div>
-               <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <div class="content">
+        <form action="friend.php" method="post">
+            <div class="myView">
+                <div class="card" style="width: 35rem;">
+                    <input type="hidden" name = "id-user2" value="<?=$id_user2?>">
+                    <img class="card-img-top" height="350"src=".<?=$user2_avatar?>">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông tin</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Họ tên: </strong> <?=$user2['realname']?></li>
+                    </ul>
 
                 </div>
-                <?php
-            }
-            ?>
-
+            </div>
         </form>
     </div>
-</div>
-<?php include 'footer.php';?>
 
+    <?= $formatHelper->addRightMenu() ?>
+
+    <?= $formatHelper->addNewsfeed($statusOfUserB,$user1['username'])?>
+</div>
+<?= $formatHelper->closeFooter() ?>

@@ -25,9 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $message = $user->unFollowing($_COOKIE['login'], $_POST['name']);
     }
+
     $display = "style='display: block; text-align: center;'";
 }
-
 // DIRECTION
 if (!isset($_COOKIE['login'])) {
     header('Location: index.php');

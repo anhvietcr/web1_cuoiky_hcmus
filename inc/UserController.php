@@ -712,7 +712,7 @@ class UserController
             throw new PDOException($ex->getMessage());
         }
     }
-
+//Trang
     public function unFollowing($userA, $userB)
     {
         //
@@ -802,7 +802,7 @@ class UserController
     
 }
 
-$work = new UserController();
+//$work = new UserController();
 
 
 //echo "<pre>";

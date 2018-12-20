@@ -94,4 +94,69 @@ class StatusController
         }
     }
     //public  function Comment($)
+    //Trang
+    public function StatusPublic($id_user2)
+    {
+        //User1 vào xem profile của user2
+        try {
+            $sqlSelect = "SELECT * FROM status where id_user = ? and role = 'Công khai' ORDER BY created";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$id_user2])) {
+                $row = $data->fetchAll(PDO::FETCH_ASSOC);
+                return $row;
+            }
+            return null;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+    //Trang
+    public function StatusFriend($id_user2)
+    {
+        //User1 vào xem profile của user2
+        try {
+            $sqlSelect = "SELECT * FROM status where id_user = ? and role = 'Bạn bè' ORDER BY created";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$id_user2])) {
+                $row = $data->fetchAll(PDO::FETCH_ASSOC);
+                return $row;
+            }
+            return null;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+    //Trang
+    //userA xem profile userB
+    public function ShowStatusWithRelationship($id_userA,$id_userB)
+    {
+
+        try {
+            $user = new UserController();
+            $usrA = $user->GetUser('',$id_userA);
+            if ($usrA['id'] != $id_userA) {
+                return "Không tồn tại id";
+            }
+            $usrB = $user->GetUser('',$id_userB);
+            if ($usrB['id'] != $id_userB) {
+                return "Không tồn tại id";
+            }
+            $arrStatus = [];
+            $sttPublic = $this->StatusPublic($id_userB);
+            if ($sttPublic != null) {
+                $arrStatus = array_merge($arrStatus, $sttPublic);
+            }
+
+            //Kiểm tra A và b có phải là bạn bè?
+            $followedA = !empty($A['followed']) ? unserialize($A['followed']) : [];
+            $followedB = !empty($B['followed']) ? unserialize($B['followed']) : [];
+            if (in_array($id_userA, $followedB) && in_array($id_userB, $followedA)) {
+                $sttFriend = $this->StatusFriend($id_userB);
+                $arrStatus = array_merge($arrStatus, $sttFriend);
+            }
+            return $arrStatus;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
 }
