@@ -764,6 +764,7 @@ class UserController
                                 array_push($resultStatus, $sttItem);
                             }
                         }
+                        continue;
                     }
                     if ($sttItem['role'] === 'Chỉ mình tôi') {
                         continue;
