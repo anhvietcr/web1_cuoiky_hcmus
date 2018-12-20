@@ -26,8 +26,7 @@ class StatusController
             $token .= $prepare[rand(0, $len)];
         }
         $file_name = $this->request['image']['name'];
-        $target_path_local = "//upload/". $id_user . $token . $file_name;
-        var_dump($target_path_local);
+        $target_path_local = __DIR__."/upload/". $id_user . $token . $file_name;
         $target_path_db = "inc/upload/". $id_user . $token . $file_name;
         move_uploaded_file($this->request["image"]["tmp_name"], $target_path_local);
 
