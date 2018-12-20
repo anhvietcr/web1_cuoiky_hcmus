@@ -26,10 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 $posts = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyWord']) ? null : $_POST['keyWord']));
-// if (count($posts) == 0) {
-//     $message = "Not found posts";
-//     $display = "style='display: block; text-align: center;'";
-// }
+if (count($posts) == 0) {
+    $message = "Not found posts";
+    $display = "style='display: block; text-align: center;'";
+}
 
 // DIRECTION
 if (!isset($_COOKIE['login'])) {

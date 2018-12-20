@@ -757,8 +757,13 @@ class UserController
             foreach ($stt as $sttItem) {
                 if ($sttItem['id_user'] == $id || in_array($sttItem['id_user'], $idFriends)) {
                     if ($id == $sttItem['id_user'] && $sttItem['role'] === 'Chỉ mình tôi') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
+                        if ($keyword === '' || $keyword === null) {
+                            array_push($resultStatus, $sttItem);
+                        } else {
+                            if (strpos($sttItem['content'], $keyword) !== false) {
+                                array_push($resultStatus, $sttItem);
+                            }
+                        }
                     }
                     if ($sttItem['role'] === 'Chỉ mình tôi') {
                         continue;
@@ -772,8 +777,13 @@ class UserController
                     }
                 } else {
                     if ($sttItem['role'] === 'Công khai') {
-                        array_push($resultStatus, $sttItem);
-                        continue;
+                        if ($keyword === '' || $keyword === null) {
+                            array_push($resultStatus, $sttItem);
+                        } else {
+                            if (strpos($sttItem['content'], $keyword) !== false) {
+                                array_push($resultStatus, $sttItem);
+                            }
+                        }
                     }
                 }
             }
