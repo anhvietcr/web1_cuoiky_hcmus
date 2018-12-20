@@ -88,7 +88,7 @@ FOOTER;
     <ul id="nav">
         <li><a href="search_status.php">Tìm status</a></li>
         <li><a href="search_user.php">Tìm user </a></li>
-        <li><a href="dashboard.php">( $name )</a></li>
+        <li><a href="profile.php">( $name )</a></li>
         <li><a href="friends.php">Bạn bè $req </a></li>
         <li><a href="logout.php">Đăng xuất</a></li>
     </ul>
@@ -159,6 +159,7 @@ STATUS;
 
             // real-name & avatar
             $usr = $user->GetUser('', $content['id_user']);
+            $id_user = $usr['id'];
             $name = empty($usr['realname']) ? $usr['username'] : $usr['realname'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
 
@@ -197,7 +198,7 @@ STATUS;
         <!-- Status -->
         <div class='new-title'>
             <img src='$src' alt='logo'>
-            <h4 id='user'><a href="#">$name</a></h4>
+            <h4 id='user'><a href="profile.php?id=$id_user">$name</a></h4>
             <i>$content[created]</i>
             <span>&nbsp;&nbsp;$role</span>
         </div>
@@ -233,6 +234,7 @@ NEWSFEED;
             foreach ($comments as $row)
             {
                 $userComment = $user->GetUser('', $row['id_user_comment']);
+                $id_user_comment = $userComment['id'];
                 $contentComment = $row['content'];
                 $avatarUserComment = !empty($userComment['avatar']) ? 'data:image;base64,'.$userComment['avatar'] : "asset/img/non-avatar.png";
                 $nameComment = $userComment['realname'];
@@ -246,7 +248,7 @@ NEWSFEED;
             <img src='$avatarUserComment' alt='icon'>
         </span>
         <span id="user-commet">
-            <a href="#"> $nameComment </a>
+            <a href="profile.php?id=$id_user_comment"> $nameComment </a>
         </span>
         <span id="content-commment">
             $contentComment
