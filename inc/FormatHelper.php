@@ -483,6 +483,7 @@ FORM_NEW_PASSWORD;
     <td>
         $name
     </td>
+    <td><a href="profile.php?id=1" class="btn btn-info">View profile</a></td>
     <td align="left">
         $usr[username]</td>
     <td>Tham gia: <i>$usr[created]</i>

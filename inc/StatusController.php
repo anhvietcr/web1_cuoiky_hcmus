@@ -64,6 +64,7 @@ class StatusController
         }
     }
 
+
     public function StatusAll()
     {
         try {
