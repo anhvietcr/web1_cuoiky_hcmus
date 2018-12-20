@@ -35,6 +35,7 @@ class FormatHelper
     <link rel="stylesheet" type="text/css" href="asset/style.css">
     <link rel="stylesheet" type="text/css" href="asset/search/searchBar.css">
     <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://use.fontawesome.com/1e803d693b.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -170,28 +171,60 @@ STATUS;
             // avatar comment
             $currentAvatar = !empty($currentUser['avatar']) ? 'data:image;base64,'.$currentUser['avatar'] : "asset/img/non-avatar.png";
 
+            // role status
+            $role = "";
+            if (strcmp($content['role'], 'Công khai') == 0)
+                $role = '<span class="fas fa-globe-asia"></span>';
+            if (strcmp($content['role'], 'Bạn bè') == 0)
+                $role = '<span class="fas fa-user"></span>';
+            if (strcmp($content['role'], 'Chỉ mình tôi') == 0)
+                $role = '<span class="far fa-eye-slash"></span>';
+
+            // like or unlike
+            $like = "";
+            $userIsLike = 1;
+            if ($userIsLike)
+                $like = "<li id='reaction-like'>&nbsp;Like</li>";
+            else 
+                $like = "<li id='reaction-unlike'>&nbsp;UnLike</li>";
+
             // content status html
             $this->newsfeed .=<<<NEWSFEED
-<div class='newsfeed'>
-    <div class='new'>
+<div class="newsfeed">
+    <a name="$content[id]"></a>
+    <div class="new" id="$content[id]">
 
         <!-- Status -->
         <div class='new-title'>
             <img src='$src' alt='logo'>
-            <h4 id='user'>$name</h4>
+            <h4 id='user'><a href="#">$name</a></h4>
             <i>$content[created]</i>
+            <span>&nbsp;&nbsp;$role</span>
         </div>
         <div class='new-content'>$content[content]</div>
         $imageAttach
 
+        <!-- Reaction Button -->
+        <hr style="width: 97%">
+        <div class="reaction">
+            <ul>
+                <li id="reaction-like">&nbsp;Like</li>
+                <li id="reaction-comment">&nbsp;Comment</li>
+                <li id="reaction-share">&nbsp;Share</li>
+            </ul>
+        </div>
+
         <!-- Comment -->
+        <hr>
         <div class="new-comment">
-            <span id="icon"><img src='$currentAvatar' alt='logo'><span>
-            <form action="" method="POST" class="frmComment">
-                <input name='id_status' value='$id_status' hidden>
-                <textarea rows='2' name="content_comment" placeholder='Viết bình luận ...'></textarea>
-                <input type="submit" name="addComment" class="btn btn-primary center-block" value="Đăng">
-            </form>
+            <span id="icon"><img src='$currentAvatar' alt='logo'></span>
+            <span>
+                <form action="#$content[id]" method="POST" class="frmComment">
+                    <input name='id_status' value='$id_status' hidden>
+                    <input type="text" name="content_comment" id="content_comment" placeholder="Viết bình luận ...">
+                    <button name="addComment" class="btn btn-primary center-block" style="display: none">Đăng</button>
+                </form>
+            </span>
         </div>
 NEWSFEED;
 

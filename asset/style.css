@@ -177,30 +177,30 @@ html, body	{
 
 .new {
 	background-color: #fff;
-	border: 1px solid #ddd;
-	border-radius: 30px 6px 6px 6px;
+	border: 1px solid #dddfe2;
+    border-radius: 3px;
 	margin: 5px 0px;
 }
 
 .new-title {
+	padding: 12px 12px 0px;
 	height: 64px;
 
 }
 .new-title img {
 	float: left;
-	width: 64px;
-	height: 64px;
+	width: 35px;
+	height: 35px;
 	margin-right: 15px;
 	background: #fff;
 	border-radius: 50%;
 }
 
-.new-title h4 {
+#user {
 	display: flex;
 	margin: 0;
-	padding: 10px 0px;
 	font-weight: 600;
-	font-size: 18px;
+	font-size: 16px;
 }
 
 .new-title i {
@@ -209,9 +209,18 @@ html, body	{
 
 .new-content {
 	display: block;
-	padding: 10px;
-	margin-left: 20px;
-	font-size: 16px;
+	font-size: 15px;
+	padding: 0px 12px 0px;
+}
+
+.newsfeed {
+	position: relative;
+}
+
+.newsfeed ~ a {
+  position: absolute;
+  left: 0px;
+  top: -40px;
 }
 
 .right-menu {
@@ -406,10 +415,82 @@ html, body	{
 	border-radius: 50%;
 }
 
-.frmComment {
-	display: inline-flex;
-}
-
 .detail-comment {
     background-color: #cfd6e0;
+}
+
+.reaction ul {
+	list-style:none;
+    margin:0 auto;
+    width: 60%;
+}
+
+
+.reaction ul li {
+	justify-content: center;
+	align-items: center;
+	padding: 6px;
+	margin: 0px 20px;
+	width: 100px;
+	display: inline-flex;
+	flex-direction: row;
+	list-style-type: none;
+	cursor: pointer;	
+	border: 1px solid #fff;
+}
+
+.reaction ul li:hover {
+	background-color: #eee;
+	border: 1px solid #eee;
+}
+
+#reaction-like:before {
+	content: "\f004";
+    font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+
+#reaction-unlike:before {
+	content: "\f004";
+    font-family: "Font Awesome 5 Free";
+	font-weight: 500;
+}
+
+#reaction-comment:before {
+	content: "\f4ad";
+    font-family: "Font Awesome 5 Free";
+	font-weight: 500;
+}
+
+#reaction-share:before {
+	content: "\f1e0";
+    font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+
+hr {
+	margin: 5px 10px !important;
+}
+
+.frmComment {
+	display: inline-flex;
+	width: 95%;
+}
+
+
+.frmComment input {
+	border-radius: 35%;
+}
+
+#content_comment {
+	width: inherit;
+	height: 40px;
+	border: 1px solid #fff;
+	background-color: #eee;
+	border-radius: 24px;
+	padding-left: 10px;
+}
+
+.new-comment {
+	padding: 12px 12px 5px 10px;
 }
