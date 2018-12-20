@@ -19,10 +19,11 @@ class FormatHelper
     private $posts;
     private $frmResetPassword;
     private $frmNewPassword;
-    private $commentForm;
 
-
-    //Function format header with custom title
+    /**
+     * Header
+     * @param [type] $title [description]
+     */
     public function addHeader($title)
     {
         $this->header =<<<HEADER
@@ -46,7 +47,10 @@ HEADER;
         return $this->header;
     }
 
-    //Function format footer
+    /**
+     * Footer
+     * @return [type] [description]
+     */
     public function closeFooter()
     {
         $this->footer =<<<FOOTER
@@ -60,6 +64,9 @@ FOOTER;
         return $this->footer;
     }
 
+    /**
+     * Giao diện Navbar
+     */
     public function addFixMenu()
     {
         $user = new UserController();
@@ -70,25 +77,29 @@ FOOTER;
         $follows = !empty($usr['follows']) ? unserialize($usr['follows']) : [];
         $count = count($follows);
         $req = $count > 0 ? "<span id='new-request'>+$count</span>" : "";
-//Here doc viết html vẫn giữ format
+        
+        //Here doc viết html vẫn giữ format
         $this->fixmenu =<<<FIXMENU
 <div class="fix-menu">
-        <div id="icon">
-            <a href="index.php"><img src="asset/img/home.png" alt="home"></a>
-        </div>
-        <ul id="nav">
-            <li><a href="search_status.php">Tìm status</a></li>
-            <li><a href="search_user.php">Tìm user </a></li>
-            <li><a href="dashboard.php">( $name )</a></li>
-            <li><a href="friends.php">Bạn bè $req </a></li>
-            <li><a href="logout.php">Đăng xuất</a></li>
-        </ul>
-        <div class="clear"></div>
+    <div id="icon">
+        <a href="index.php"><img src="asset/img/home.png" alt="home"></a>
     </div>
+    <ul id="nav">
+        <li><a href="search_status.php">Tìm status</a></li>
+        <li><a href="search_user.php">Tìm user </a></li>
+        <li><a href="dashboard.php">( $name )</a></li>
+        <li><a href="friends.php">Bạn bè $req </a></li>
+        <li><a href="logout.php">Đăng xuất</a></li>
+    </ul>
+    <div class="clear"></div>
+</div>
 FIXMENU;
         return $this->fixmenu;
     }
 
+    /**
+     * Giao diện Menu bên phải
+     */
     public function addRightMenu()
     {
         $this->rightMenu = <<<RIGHTMENU
@@ -104,6 +115,9 @@ RIGHTMENU;
         return $this->rightMenu;
     }
 
+    /**
+     * Giao diện from Viết status
+     */
     public function addStatus()
     {
         $this->status =<<<STATUS
@@ -125,86 +139,100 @@ RIGHTMENU;
 STATUS;
         return $this->status;
     }
-//Trang làm nè: tạo Giao diện để comment
-    public function addCommentForm($id_status)
-    {
-        $this->commentForm =<<<COMMENT
-<div class="comment-form">
-    <form action="" method="POST">
-        <input name='id_status' value='$id_status' hidden>
-        <textarea rows='2' name="content_comment" placeholder='Viết bình luận ...'></textarea>
-        <input type="submit" name="addComment" class="btn btn-primary center-block" value="Đăng">
-    </form>
-</div>
-COMMENT;
-        return $this->commentForm;
-    }
 
+
+    /**
+     * Thêm newsfeed (status + comment)
+     * @param [type] $contents [description]
+     * @param [type] $username [description]
+     */
     public function addNewsfeed($contents,$username)
     {
 
         $user = new UserController();
         $comment = new CommentController();
         $currentUser = $user->GetUser($username);
-        foreach ($contents as $content) {
 
-            $imageAttach = !empty($content['image']) ? "$content[image]" : "";
+
+        foreach ($contents as $content) {
 
             // real-name & avatar
             $usr = $user->GetUser('', $content['id_user']);
             $name = empty($usr['realname']) ? $usr['username'] : $usr['realname'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-            // content html
-            $this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
-            $this->newsfeed .= "<img src='$src' alt='logo'>";
-            $this->newsfeed .= "<h4 id='user'>$name</h4>";
-            $this->newsfeed .= "<i>$content[created]</i></div>";
-            $this->newsfeed .= "<div class='new-content'>$content[content]</div>";
 
-            if (!empty($imageAttach))
-                $this->newsfeed .= "<img src='$imageAttach' class='image_status'><br>";
+            // image attach in status
+            $imageAttach = !empty($content['image']) ? "<img src=$content[image] class='image_status'><br>" : "";
 
-
-            //$this->newsfeed .= "<div class='newsfeed'><div class='new'><div class='new-title'>";
             //Comment form (Trang)
             $id_status = $content['id'];
-            $commentForm = $this->addCommentForm($id_status);
 
+            // avatar comment
             $currentAvatar = !empty($currentUser['avatar']) ? 'data:image;base64,'.$currentUser['avatar'] : "asset/img/non-avatar.png";
-            $this->newsfeed .= "<img src='$currentAvatar' alt='logo' width='30px' height='30px'>";
-            $this->newsfeed.= $commentForm."</div></div>";
 
-            //show comment Giao diện (Trang)
+            // content status html
+            $this->newsfeed .=<<<NEWSFEED
+<div class='newsfeed'>
+    <div class='new'>
+
+        <!-- Status -->
+        <div class='new-title'>
+            <img src='$src' alt='logo'>
+            <h4 id='user'>$name</h4>
+            <i>$content[created]</i>
+        </div>
+        <div class='new-content'>$content[content]</div>
+        $imageAttach
+
+        <!-- Comment -->
+        <div class="new-comment">
+            <span id="icon"><img src='$currentAvatar' alt='logo'><span>
+            <form action="" method="POST" class="frmComment">
+                <input name='id_status' value='$id_status' hidden>
+                <textarea rows='2' name="content_comment" placeholder='Viết bình luận ...'></textarea>
+                <input type="submit" name="addComment" class="btn btn-primary center-block" value="Đăng">
+            </form>
+        </div>
+NEWSFEED;
+
+            //show comment
             $comments = $comment->CommentWithIdStatus($id_status);
             foreach ($comments as $row)
             {
-               $userComment = $user->GetUser('',$row['id_user_comment']);
-
+                $userComment = $user->GetUser('', $row['id_user_comment']);
                 $contentComment = $row['content'];
-
                 $avatarUserComment = !empty($userComment['avatar']) ? 'data:image;base64,'.$userComment['avatar'] : "asset/img/non-avatar.png";
                 $nameComment = $userComment['realname'];
-                $this->newsfeed .= "<div class='show-comment'>";
-                $this->newsfeed.= "<img src='$avatarUserComment' alt='logo' width='30px' height='30px'>";
-                $this->newsfeed.= "$nameComment";
-                $this->newsfeed.= " $contentComment.</div>";
+
+
+                // content html comment
+                $this->newsfeed .=<<<COMMENTS
+<div class="show-comment">
+    <div class="detail-comment">
+        <span id="icon">
+            <img src='$avatarUserComment' alt='icon'>
+        </span>
+        <span id="user-commet">
+            <a href="#"> $nameComment </a>
+        </span>
+        <span id="content-commment">
+            $contentComment
+        </span> 
+    </div>
+</div>
+COMMENTS;
             }
 
+            $this->newsfeed.= "</div></div>";
         }
         return $this->newsfeed;
     }
-    //Trang
-    public function showComment($contents)
-    {
 
-        foreach ($contents as $content) {
-            // real-name & avatar
-            var_dump($content);
 
-        }
-        die();
-        return $this->newsfeed;
-    }
+    /**
+     * Giao diện liệt kê tất cả user hiện có
+     * @param [type] $username [description]
+     */
     public function ListUsers($username)
     {
         $this->friend = "";
@@ -226,16 +254,26 @@ COMMENT;
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
 
-            //content html
-            $this->friend .= "<li><form action='' method='POST'>";
-            $this->friend .= "<img src='$src' alt='avatar'>";
-            $this->friend .= "<h2>$name</h2>";
-            $this->friend .= "<input name='name' value='$usr[username]' hidden>";
-            $this->friend .= "<button class='btn btn-primary' name='addFriend'>Thêm bạn bè</button></form></li>";
+            //content list user html
+            $this->friend .=<<<LISTUSER
+<li>
+    <form action="" method="POST">
+        <img src=$src alt="avatar">
+        <h2>$name</h2>
+        <input name="name" value=$usr[username] hidden>
+        <button class='btn btn-primary' name='addFriend'>Thêm bạn bè</button>
+    </form>
+</li>
+LISTUSER;
         }
+
         return $this->friend;
     }
 
+    /**
+     * Giao diện liệt kê tất cả Friend hiện có
+     * @param [type] $username [description]
+     */
     public function ListFriends($username)
     {
         $this->friend = "";
@@ -247,16 +285,26 @@ COMMENT;
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
 
-            //content html
-            $this->friend .= "<li><form action='' method='POST'>";
-            $this->friend .= "<img src='$src' alt='avatar'>";
-            $this->friend .= "<h2>$name</h2>";
-            $this->friend .= "<input name='name' value='$usr[username]' hidden>";
-            $this->friend .= "<button class='btn btn-danger center-block' name='unFriend'>Bỏ kết bạn</button></form></li>";
+            //content list friends html
+            $this->friend .=<<<LISTFRIEND
+<li>
+    <form action="" method="POST">
+        <img src=$src alt="avatar">
+        <h2>$name</h2>
+        <input name="name" value=$usr[username] hidden>
+        <button class='btn btn-danger center-block' name='unFriend'>Bỏ kết bạn</button>
+    </form>
+</li>
+LISTFRIEND;
         }
+
         return $this->friend;
     }
 
+    /**
+     * Giao diện liệt kê tất cả Người đang theo dõi mình
+     * @param [type] $username [description]
+     */
     public function ListFollows($username)
     {
         $this->friend = "";
@@ -267,18 +315,30 @@ COMMENT;
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-
-            //content html
-            $this->friend .= "<li><form action='' method='POST'>";
-            $this->friend .= "<img src='$src' alt='avatar'>";
-            $this->friend .= "<h2>$name</h2>";
-            $this->friend .= "<input name='name' value='$usr[username]' hidden>";
-            $this->friend .= "<div class='submit-group'><button class='btn btn-success btn-block' name='acceptFriend'>Chấp nhận</button>";
-            $this->friend .= "<button class='btn btn-danger btn-block' name='declineFriend'>Từ chối</button></div></form></li>";
+            
+            //content list Follows html
+            $this->friend .=<<<LISTFRIEND
+<li>
+    <form action="" method="POST">
+        <img src=$src alt="avatar">
+        <h2>$name</h2>
+        <input name="name" value=$usr[username] hidden>
+        <div class='submit-group'>
+            <button class='btn btn-success btn-block' name='acceptFriend'>Chấp nhận</button>
+            <button class='btn btn-danger btn-block' name='declineFriend'>Từ chối</button>
+        </div>
+    </form>
+</li>
+LISTFRIEND;
         }
+
         return $this->friend;
     }
 
+    /**
+     * Giao diện liệt kê tất cả người mà mình đang theo dõi
+     * @param [type] $username [description]
+     */
     public function ListFollowing($username)
     {
         $this->friend = "";
@@ -290,16 +350,25 @@ COMMENT;
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
 
-            //content html
-            $this->friend .= "<li><form action='' method='POST'>";
-            $this->friend .= "<img src='$src' alt='avatar'>";
-            $this->friend .= "<h2>$name</h2>";
-            $this->friend .= "<input name='name' value='$usr[username]' hidden>";
-            $this->friend .= "<button class='btn btn-warning' name='unFollowing'>Bỏ theo dõi</button></form></li>";
+            //content list Following html
+            $this->friend .=<<<LISTFRIEND
+<li>
+    <form action="" method="POST">
+        <img src=$src alt="avatar">
+        <h2>$name</h2>
+        <input name="name" value=$usr[username] hidden>
+        <button class='btn btn-warning' name='unFollowing'>Bỏ theo dõi</button></form></li>
+    </form>
+</li>
+LISTFRIEND;
         }
+
         return $this->friend;
     }
 
+    /**
+     * Giao diện Lấy lại mật khẩu
+     */
     public function addResetPassword()
     {
         $this->frmResetPassword =<<<FORM_RESET_PASSWORD
@@ -318,6 +387,9 @@ FORM_RESET_PASSWORD;
         return $this->frmResetPassword;
     }
 
+    /**
+     * Giao diện nhập mật khẩu mới khi Lấy lại mật khẩu
+     */
     public function addNewPassword()
     {
         $this->frmNewPassword =<<<FORM_NEW_PASSWORD
@@ -336,11 +408,21 @@ FORM_NEW_PASSWORD;
         return $this->frmNewPassword;
     }
 
+    /**
+     * Giao diện để show thông báo
+     * @param string $display [description]
+     * @param string $style   [description]
+     * @param string $message [description]
+     */
     public function addAlert($display = 'none', $style = 'danger', $message = '')
     {
         return "<div class='alert alert-$style' style='$display'><center>$message</center></div>";
     }
 
+    /**
+     * Giao diện Tìm kiếm 1 tài khoản
+     * @param [type] $nameKey [description]
+     */
     public function SearchUser($nameKey) {
         $user = new UserController();
         $listUser = $user->ListUsers();
@@ -359,19 +441,23 @@ FORM_NEW_PASSWORD;
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-            $this->users .= '<tr><td width="10">';
-            $this->users .= '<img class="pull-left img-circle nav-user-photo" width="50" src="'. $src .'" /> ';
-            $this->users .= '</td><td>';
-            $this->users .= $name ;
-            $this->users .= '</td><td align="left">';
-            $this->users .= $usr['username'] . '</td>';
-            $this->users .= '<td>Tham gia: <i>'. $usr['created'] .'</i></td>';
-            $this->users .= '</tr>';
+
+            $this->users .=<<<SEARCHUSER
+<tr>
+    <td width="10">
+        <img class="pull-left img-circle nav-user-photo" width="50" src="$src" /> 
+    </td>
+    <td>
+        $name
+    </td>
+    <td align="left">
+        $usr[username]</td>
+    <td>Tham gia: <i>$usr[created]</i>
+    </td>
+</tr>
+SEARCHUSER;
         }
+        
         return $this->users;
-    }
-
-    public function SearchStatus($username, $keyWord) {
-
     }
 }

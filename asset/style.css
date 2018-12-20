@@ -399,3 +399,17 @@ html, body	{
 .image_status {
 	width: 100%;
 }
+
+#icon img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+
+.frmComment {
+	display: inline-flex;
+}
+
+.detail-comment {
+    background-color: #cfd6e0;
+}
