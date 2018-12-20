@@ -132,6 +132,11 @@ class StatusController
     {
 
         try {
+            if($id_userA==$id_userB)
+            {
+                return $this->StatusById($id_userA);
+            }
+
             $user = new UserController();
             $usrA = $user->GetUser('',$id_userA);
             if ($usrA['id'] != $id_userA) {
@@ -148,8 +153,8 @@ class StatusController
             }
 
             //Kiểm tra A và b có phải là bạn bè?
-            $followedA = !empty($A['followed']) ? unserialize($A['followed']) : [];
-            $followedB = !empty($B['followed']) ? unserialize($B['followed']) : [];
+            $followedA = !empty($usrA['followed']) ? unserialize($usrA['followed']) : [];
+            $followedB = !empty($usrB['followed']) ? unserialize($usrB['followed']) : [];
             if (in_array($id_userA, $followedB) && in_array($id_userB, $followedA)) {
                 $sttFriend = $this->StatusFriend($id_userB);
                 $arrStatus = array_merge($arrStatus, $sttFriend);
