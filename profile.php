@@ -75,27 +75,27 @@ $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
                     if($id_user2!==$id_user1) {
                         if ($noRelationship) {
                             ?>
-                            <button type="submit" class="btn btn-success" name="addFriend">Thêm bạn bè</button>
+                            <button type="submit" class="btn btn-primary" name="addFriend">Thêm bạn bè</button>
                             <?php
                         }
                         ?>
                         <?php
                         if ($follows) {
                             ?>
-                            <button type="submit" class="btn btn-primary" name="acceptFriend">Chấp nhận</button>
-                            <button type="submit" class="btn btn-secondary" name="declineFriend">Xóa</button>
+                            <button type="submit" class="btn btn-success" name="acceptFriend">Chấp nhận</button>
+                            <button type="submit" class="btn btn-danger" name="declineFriend">Từ chối</button>
                             <?php
                         }
                         ?>
                         <?php
                         if ($followed) {
                             ?>
-                            <button type="submit" class="btn btn-light" name="unFriend">Hủy kết bạn</button>
+                            <button type="submit" class="btn btn-danger" name="unFriend">Hủy kết bạn</button>
                             <?php
                         }
                         if ($following) {
                             ?>
-                            <button type="submit" class="btn btn-light" name="delete-friend">Hủy lời mời</button>
+                            <button type="submit" class="btn btn-warning" name="delete-friend">Bỏ theo dõi</button>
                             <?php
                         }
                     }
