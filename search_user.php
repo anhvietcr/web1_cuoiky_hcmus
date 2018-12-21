@@ -39,14 +39,13 @@ if (!isset($_COOKIE['login'])) {
                 <form class="form" method="POST">
                     <!-- SEARCH -->
                     <div class="form-group">
-                        <div class="col-sm-10 form-group NoPadding">
+                        <div class="col-sm-11 form-group NoPadding">
                             <input type="search" class="form-control"  placeholder="Nhập tên user" name="name">
                         </div>
                         <!-- BUTTON -->
-                        <div class="col-sm-2 frm-group ">
-                            <input type="submit" class="form-control btn-success" name = "searchUser">
+                        <div class="col-sm-1 frm-group ">
+                            <button class="btn" name ="searchUser"><i class="fa fa-search"></i></button>
                         </div>
-    
                 </form>
             </div>
     </div>
