@@ -66,7 +66,7 @@ html, body	{
 
 .fix-menu {
 	padding: 10px 0px 0px 0px;
-	background-color: #cccccc; /*#5cb85c;*/
+	background-color: #b5b2b2; /*#5cb85c;*/
 	border-radius: 0px 0px 6px 6px;
 	position: fixed;
 	width: inherit;
@@ -210,8 +210,8 @@ html, body	{
 .right-menu .sub-menu {
 	width: 30%;
 	float: right;
-	background-color: #cccccc; /*#5cb85c;*/
-	border: 1px solid #cccccc; /*#4cb85c;*/
+	background-color: #b5b2b2; /*#5cb85c;*/
+	border: 1px solid #b5b2b2; /*#4cb85c;*/
 	border-radius: 6px;
     font-size: 16px;
 }
@@ -493,6 +493,11 @@ hr {
     border-radius: 20px;
     width: 100%;
     padding-left: 12px;
+}
+
+.show-comment #user-comment {
+	font-weight: 600;
+    font-size: 16px;
 }
 
 .status {

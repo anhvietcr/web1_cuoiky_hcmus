@@ -256,7 +256,7 @@ NEWSFEED;
             <img src='$avatarUserComment' alt='icon'>
         </span>
         <span id="content">
-            <span id="user-commet">
+            <span id="user-comment">
                 <a href="profile.php?id=$id_user_comment"> $nameComment </a>
             </span>
             <span id="content-commment">
