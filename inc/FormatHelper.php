@@ -487,19 +487,21 @@ FORM_NEW_PASSWORD;
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
 
             $this->users .=<<<SEARCHUSER
-<tr>
+    <tr>
     <td width="10">
         <img class="pull-left img-circle nav-user-photo" width="50" src="$src" /> 
     </td>
     <td>
+    <a href="profile.php?id=$usr[id]">
         $name
+    </a>
     </td>
-    <td><a href="profile.php?id=$usr[id]" class="btn btn-info">View profile</a></td>
     <td align="left">
         $usr[username]</td>
     <td>Tham gia: <i>$usr[created]</i>
     </td>
 </tr>
+
 SEARCHUSER;
         }
         

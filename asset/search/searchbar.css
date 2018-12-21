@@ -27,3 +27,8 @@ i {  vertical-align: middle; }
   left: 10%;
   width: 200%;
 }
+
+tr:hover{
+  cursor: pointer;
+  background-color: #ccc;
+}
