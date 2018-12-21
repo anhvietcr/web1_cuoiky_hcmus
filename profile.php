@@ -13,20 +13,22 @@ $user1 =$user->GetUser($_COOKIE['login']);
 $id_user2 = $_GET['id'];
 $id_user1 = $user1['id'];
 
+$user2 = $user->GetUser('',$id_user2);
+
 //Xác định mối quan hệ gì
 $noRelationship = false;
 $following= false;
 $follows= false;
 $followed= false;
 
-$followedA = !empty($usrA['followed']) ? unserialize($usrA['followed']) : [];
-$followedB = !empty($usrB['followed']) ? unserialize($usrB['followed']) : [];
+$followedA = !empty($user1['followed']) ? unserialize($user1['followed']) : [];
+$followedB = !empty($user2['followed']) ? unserialize($user2['followed']) : [];
 
-$followingA = !empty($A['following']) ? unserialize($A['following']) : [];
-$followsA = !empty($A['follows']) ? unserialize($A['follows']) : [];
+$followingA = !empty($user1['following']) ? unserialize($user1['following']) : [];
+$followsA = !empty($user1['follows']) ? unserialize($user1['follows']) : [];
 
-$followsB = !empty($B['follows']) ? unserialize($B['follows']) : [];
-$followingB = !empty($B['following']) ? unserialize($B['following']) : [];
+$followsB = !empty($user2['follows']) ? unserialize($user2['follows']) : [];
+$followingB = !empty($user2['following']) ? unserialize($user2['following']) : [];
 
 //nếu là chính mình
 if($id_user1==$id_user2)
