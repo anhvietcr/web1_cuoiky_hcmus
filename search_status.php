@@ -3,27 +3,32 @@
 require_once 'inc/autoload.php';
 
 // Format Helper
-$formatHelper = new FormatHelper();
-$posts = null;
+$formatHelper = new FormatHelper();  
+$user = new UserController();
+
+$keyWord = '';
+
+// $posts = null;
 //$_SERVER['REQUEST_METHOD' => Xác định request gửi đến server con đường nào (post,get,patch,delete)
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $user = new UserController();
     $message = "";//Thông báo KQ từ server trả về
 
-    if (isset($_POST['searchStatus'])) {
-        $posts = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyWord']) ? null : $_POST['keyWord']));
-        // echo($users);
+    // if (isset($_POST['searchStatus'])) {
+    //     // echo($users);
+    // }
 
-    }
-    if (count($posts) == 0) {
-        $message = "Not found posts";
-        $display = "style='display: block; text-align: center;'";
-    }
 
     if (!empty($_POST['content_comment'])) {
         $user->NewComment($_POST['id_status'],$_COOKIE['login'],$_POST['content_comment']);
         header('Location: '.$_SERVER['PHP_SELF']);
+        $posts = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyWord']) ? null : $_POST['keyWord']));
     }
+}
+
+$posts = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyWord']) ? null : $_POST['keyWord']));
+if (count($posts) == 0) {
+    $message = "Not found posts";
+    $display = "style='display: block; text-align: center;'";
 }
 
 // DIRECTION
@@ -46,7 +51,7 @@ if (!isset($_COOKIE['login'])) {
                     <!-- SEARCH -->
                     <div class="form-group" >
                         <div class="col-sm-10 form-group NoPadding">
-                            <input type="search" class="form-control" placeholder="Nhập từ khóa" name="keyWord">
+                            <input type="search" class="form-control" placeholder="Nhập từ khóa" name="keyWord" value="<?= $keyWord; ?>">
                         </div>
                         <!-- BUTTON -->
                         <div class="col-sm-2 frm-group ">
@@ -55,7 +60,7 @@ if (!isset($_COOKIE['login'])) {
                 </form>
             </div>
         </div>    
-        <div class="container" style="padding-top: 10%; width: 100%;">
+        <div class="content" style="width: 100%;">
         <?php if ($posts != null) {
             echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
         } ?>

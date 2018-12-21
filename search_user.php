@@ -54,9 +54,6 @@ if (!isset($_COOKIE['login'])) {
     <div class="container" style="padding-top: 5%; width: 196%;">
 	<div class="row">
         <div class="panel panel-default user_panel">
-            <div class="panel-heading">
-                <h3 class="panel-title">User List</h3>
-            </div>
             <div class="panel-body">
 				<div class="table-container">
                     <table class="table-users table" border="0">
