@@ -17,19 +17,25 @@ class StatusController
 
     	$content = htmlspecialchars($this->request['content']);
 
-        // upload and get path file
-        $token = '';
-        $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-        $len = strlen($prepare) - 1;
-        for ($c = 0; $c < 20; $c++)
-        {
-            $token .= $prepare[rand(0, $len)];
+
+        if (isset($this->request['image'])) {
+
+            // upload and get path file
+            $token = '';
+            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+            $len = strlen($prepare) - 1;
+            for ($c = 0; $c < 20; $c++)
+            {
+                $token .= $prepare[rand(0, $len)];
+            }
+            $file_name = $this->request['image']['name'];
+            $ext = strrchr($file_name,'.');
+            $target_path_local = __DIR__."/upload/". $id_user . $token . $ext;
+            $target_path_db = "inc/upload/". $id_user . $token . $ext;
+            move_uploaded_file($this->request["image"]["tmp_name"], $target_path_local);
+        } else {
+            $target_path_db = "";
         }
-        $file_name = $this->request['image']['name'];
-        $ext = strrchr($file_name,'.');
-        $target_path_local = __DIR__."/upload/". $id_user . $token . $ext;
-        $target_path_db = "inc/upload/". $id_user . $token . $ext;
-        move_uploaded_file($this->request["image"]["tmp_name"], $target_path_local);
 
         try {
             // prepare string insert status
