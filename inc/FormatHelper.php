@@ -61,7 +61,7 @@ HEADER;
 <div class="copyright">
     <p>FIT @ F5-- @ HCMUS</p>       
 </div>
-<script src="/asset/js/dashboard.js" defer></script>
+<script src="asset/js/dashboard.js" defer></script>
 </body>
 </html>
 FOOTER;
