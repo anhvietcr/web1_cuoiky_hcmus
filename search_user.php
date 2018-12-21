@@ -55,7 +55,7 @@ if (!isset($_COOKIE['login'])) {
 	<div class="row">
         <div class="panel panel-default user_panel">
             <div class="panel-body">
-				<div class="table-container">
+				<div class="table">
                     <table class="table-users table" border="0">
                            <?=$users?>
                     </table>
