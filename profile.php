@@ -8,6 +8,12 @@ $status = new StatusController();
 if (!isset($_COOKIE['login'])) {
     header('Location: index.php');
 }
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['addComment']) && !empty($_POST['content_comment'])) {
+        $user->NewComment($_POST['id_status'],$_COOKIE['login'],$_POST['content_comment']);
+        header('Location: '.$_SERVER['PHP_SELF']);
+    }
+}
 
 $user1 =$user->GetUser($_COOKIE['login']);
 $id_user2 = $_GET['id'];
