@@ -8,11 +8,11 @@ $user = new UserController();
 $comment = new CommentController();
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    if (!empty($_POST['content'])) {
+    if (isset($_POST['addStatus'])) {
         $user->NewStatus($_COOKIE['login'], $_FILES, $_POST);
         header('Location: '.$_SERVER['PHP_SELF']);
     }
-    if (!empty($_POST['content_comment'])) {
+    if (isset($_POST['addComment']) && !empty($_POST['content_comment'])) {
         $user->NewComment($_POST['id_status'],$_COOKIE['login'],$_POST['content_comment']);
         header('Location: '.$_SERVER['PHP_SELF']);
     }

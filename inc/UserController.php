@@ -323,12 +323,7 @@ class UserController
     {
         $this->request = $args[0];
 
-        // valid params
-        if (empty($this->request['content'])) {
-            return "Chưa viết gì hết";
-        }
-
-        // Update avatar
+        // Attach image
         if (!empty($attach['image']['name']) && $attach['image']['size'] > 0) {
 
             if (getimagesize($attach['image']['tmp_name']) === false) {
@@ -337,6 +332,13 @@ class UserController
 
             $this->request['image'] = $attach['image'];
         }
+
+
+        // valid content status
+        if (!isset($this->request['image']) && empty($this->request['content'])) {
+            return "Chưa viết gì hết";
+        }
+
 
         try {
             $usr = $this->GetUser($username);
