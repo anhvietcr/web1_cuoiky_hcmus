@@ -72,6 +72,7 @@ FOOTER;
     {
         $user = new UserController();
         $usr = $user->GetUser($_COOKIE['login'], '');
+        $id =$usr['id'];
         $name = empty($usr['realname']) ? $usr['username'] : $usr['realname'];
 
         // new request friend
@@ -88,7 +89,7 @@ FOOTER;
     <ul id="nav">
         <li><a href="search_status.php">Tìm status</a></li>
         <li><a href="search_user.php">Tìm user </a></li>
-        <li><a href="profile.php">( $name )</a></li>
+        <li><a href="profile.php?id=$id">( $name )</a></li>
         <li><a href="friends.php">Bạn bè $req </a></li>
         <li><a href="logout.php">Đăng xuất</a></li>
     </ul>
