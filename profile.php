@@ -8,19 +8,10 @@ $status = new StatusController();
 if (!isset($_COOKIE['login'])) {
     header('Location: index.php');
 }
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (isset($_POST['addComment']) && !empty($_POST['content_comment'])) {
-        $user->NewComment($_POST['id_status'],$_COOKIE['login'],$_POST['content_comment']);
-        header('Location: '.$_SERVER['PHP_SELF']);
-    }
-}
-
-$user1 =$user->GetUser($_COOKIE['login']);
 $id_user2 = $_GET['id'];
-$id_user1 = $user1['id'];
-
 $user2 = $user->GetUser('',$id_user2);
-
+$user1 =$user->GetUser($_COOKIE['login']);
+$id_user1 = $user1['id'];
 //Xác định mối quan hệ gì
 $noRelationship = false;
 $following= false;
@@ -57,7 +48,16 @@ else if(in_array($id_user1, $followingB) || in_array($id_user2, $followsA))
 else{
     $noRelationship=true;
 }
-$user2 = $user->GetUser('',$id_user2);
+
+//Comment
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['addComment']) && !empty($_POST['content_comment'])) {
+        $user->NewComment($_POST['id_status'],$_COOKIE['login'],$_POST['content_comment']);
+        header('Location: '.$_SERVER['PHP_SELF']);
+
+    }
+}
+
 $user2_avatar = !empty($user2['avatar']) ? 'data:image;base64,'.$user2['avatar'] : "asset/img/non-avatar.png";
 $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
 ?>

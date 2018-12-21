@@ -161,7 +161,6 @@ class StatusController
     //userA xem profile userB
     public function ShowStatusWithRelationship($id_userA,$id_userB)
     {
-
         try {
             if($id_userA==$id_userB)
             {
@@ -171,6 +170,11 @@ class StatusController
             $user = new UserController();
             $usrA = $user->GetUser('',$id_userA);
             if ($usrA['id'] != $id_userA) {
+                echo "Id A";
+                var_dump($id_userA);
+                echo "ID B";
+                var_dump($usrA['id']);
+                die();
                 return "Không tồn tại id";
             }
             $usrB = $user->GetUser('',$id_userB);
