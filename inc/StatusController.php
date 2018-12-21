@@ -65,12 +65,35 @@ class StatusController
     }
 
 
-    public function StatusAll()
+    public function StatusByKeyWordAndId($keyword, $id)
     {
         try {
-            $sqlSelect = "SELECT * FROM status ORDER BY created";
+            $sqlSelect = 'SELECT * FROM status AS s
+                          where s.content LIKE ? AND s.id_user = ? OR s.role = "Công khai"
+                          ORDER BY s.created';
             $data = db::$connection->prepare($sqlSelect);
-            if ($data->execute()) {
+            if ($data->execute(array('%'.$keyword.'%', $id))) {
+                $row = $data->fetchAll(PDO::FETCH_ASSOC);
+                return $row;
+            }
+            return null;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
+    public function StatusByFriendId($keyword, $userId, $friendId)
+    {
+        try {
+            $sqlSelect = 'SELECT * FROM status as s, users as u
+                          where s.content LIKE ? 
+                          AND s.id_user = u.id 
+                          AND u.id = ? 
+                          AND ? IN (u.followed) 
+                          AND role = "Công khai"
+                          ORDER BY s.created';
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute(array('%'.$keyword.'%', $friendId, $userId))) {
                 $row = $data->fetchAll(PDO::FETCH_ASSOC);
                 return $row;
             }

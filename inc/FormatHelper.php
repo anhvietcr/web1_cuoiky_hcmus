@@ -4,7 +4,9 @@ error_reporting(E_ALL);
 include_once 'autoload.php';
 
 /*
- * Class Help define template HTML
+ * Class Help define
+ *
+ *  template HTML
  */
 class FormatHelper
 {
@@ -73,6 +75,7 @@ FOOTER;
     {
         $user = new UserController();
         $usr = $user->GetUser($_COOKIE['login'], '');
+        $id =$usr['id'];
         $name = empty($usr['realname']) ? $usr['username'] : $usr['realname'];
 
         // new request friend
@@ -89,7 +92,7 @@ FOOTER;
     <ul id="nav">
         <li><a href="search_status.php">Tìm status</a></li>
         <li><a href="search_user.php">Tìm user </a></li>
-        <li><a href="profile.php">( $name )</a></li>
+        <li><a href="profile.php?id=$id">( $name )</a></li>
         <li><a href="friends.php">Bạn bè $req </a></li>
         <li><a href="logout.php">Đăng xuất</a></li>
     </ul>
@@ -294,13 +297,13 @@ COMMENTS;
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-
+            $id = $usr['id'];
             //content list user html
             $this->friend .=<<<LISTUSER
 <li>
     <form action="" method="POST">
         <img src=$src alt="avatar">
-        <h2>$name</h2>
+        <h2><a href="profile.php?id=$id">$name</a></h2>
         <input name="name" value=$usr[username] hidden>
         <button class='btn btn-primary' name='addFriend'>Thêm bạn bè</button>
     </form>
@@ -325,13 +328,13 @@ LISTUSER;
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-
+            $id = $usr['id'];
             //content list friends html
             $this->friend .=<<<LISTFRIEND
 <li>
     <form action="" method="POST">
         <img src=$src alt="avatar">
-        <h2>$name</h2>
+        <h2><a href="profile.php?id=$id">$name</a></h2>
         <input name="name" value=$usr[username] hidden>
         <button class='btn btn-danger center-block' name='unFriend'>Bỏ kết bạn</button>
     </form>
@@ -356,13 +359,13 @@ LISTFRIEND;
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-            
+            $id = $usr['id'];
             //content list Follows html
             $this->friend .=<<<LISTFRIEND
 <li>
     <form action="" method="POST">
         <img src=$src alt="avatar">
-        <h2>$name</h2>
+        <h2><a href="profile.php?id=$id">$name</a></h2>
         <input name="name" value=$usr[username] hidden>
         <div class='submit-group'>
             <button class='btn btn-success btn-block' name='acceptFriend'>Chấp nhận</button>
@@ -390,13 +393,13 @@ LISTFRIEND;
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
-
+            $id = $usr['id'];
             //content list Following html
             $this->friend .=<<<LISTFRIEND
 <li>
     <form action="" method="POST">
         <img src=$src alt="avatar">
-        <h2>$name</h2>
+        <h2><a href="profile.php?id=$id">$name</a></h2>
         <input name="name" value=$usr[username] hidden>
         <button class='btn btn-warning' name='unFollowing'>Bỏ theo dõi</button></form></li>
     </form>
@@ -491,7 +494,7 @@ FORM_NEW_PASSWORD;
     <td>
         $name
     </td>
-    <td><a href="profile.php?id=1" class="btn btn-info">View profile</a></td>
+    <td><a href="profile.php?id=$usr[id]" class="btn btn-info">View profile</a></td>
     <td align="left">
         $usr[username]</td>
     <td>Tham gia: <i>$usr[created]</i>
