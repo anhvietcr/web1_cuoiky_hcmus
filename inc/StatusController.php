@@ -21,13 +21,14 @@ class StatusController
         $token = '';
         $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
         $len = strlen($prepare) - 1;
-        for ($c = 0; $c < 10; $c++)
+        for ($c = 0; $c < 20; $c++)
         {
             $token .= $prepare[rand(0, $len)];
         }
         $file_name = $this->request['image']['name'];
-        $target_path_local = __DIR__."/upload/". $id_user . $token . $file_name;
-        $target_path_db = "inc/upload/". $id_user . $token . $file_name;
+        $ext = substr(strrchr($file_name,'.'),1);
+        $target_path_local = __DIR__."/upload/". $id_user . $token .'.'. $ext;
+        $target_path_db = "inc/upload/". $id_user . $token .'.'. $ext;
         move_uploaded_file($this->request["image"]["tmp_name"], $target_path_local);
 
         try {
