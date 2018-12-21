@@ -59,6 +59,7 @@ HEADER;
 <div class="copyright">
     <p>FIT @ F5-- @ HCMUS</p>       
 </div>
+<script src="/asset/js/dashboard.js" defer></script>
 </body>
 </html>
 FOOTER;
@@ -121,20 +122,24 @@ RIGHTMENU;
      */
     public function addStatus()
     {
+            // <label for="image">Hình ảnh: </label>
         $this->status =<<<STATUS
 <div class="status">
     <form action="" method="POST" enctype="multipart/form-data">
-        <textarea rows='2' placeholder='Viết gì đó ...' class="content" name="content"></textarea>
-        <input type="submit" name="addStatus" class="btn btn-success center-block" value="Đăng">
-            <div class="form-group">
-                <label for="image">Hình ảnh: </label>
-                <input type="file" name="image" class="form-control">
-            </div>
-          <select class="form-control" id="sel1" name = "role">
-            <option>Công khai</option>
-            <option>Bạn bè</option>
-            <option>Chỉ mình tôi</option>
-          </select>
+        <textarea rows='6' placeholder='Viết gì đó ...' class="content" name="content"></textarea>
+
+        <div class="status-extra-content">
+            <hr>
+            <input type="file" name="image" class="form-control" id="status-image">
+            <button class="btn btn-default" id="status-image-btn"><i class="far fa-image fa-2x"></i></button>
+
+            <select class="form-control" id="sel1" name = "role">
+                <option>Công khai</option>
+                <option>Bạn bè</option>
+                <option>Chỉ mình tôi</option>
+            </select>
+            <button name="addStatus" class="btn btn-primary center-block" value="" id="btnSubmit">Đăng</button>
+        </div>
     </form>
 </div>
 STATUS;
@@ -197,10 +202,10 @@ STATUS;
 
         <!-- Status -->
         <div class='new-title'>
-            <img src='$src' alt='logo'>
+            <img src='$src' alt='logo'> 
             <h4 id='user'><a href="profile.php?id=$id_user">$name</a></h4>
-            <i>$content[created]</i>
             <span>&nbsp;&nbsp;$role</span>
+            <i>$content[created]</i>
         </div>
         <div class='new-content'>$content[content]</div>
         $imageAttach
@@ -219,7 +224,7 @@ STATUS;
         <hr>
         <div class="new-comment">
             <span id="icon"><img src='$currentAvatar' alt='logo'></span>
-            <span>
+            <span id="comment">
                 <form action="#$content[id]" method="POST" class="frmComment">
                     <input name='id_status' value='$id_status' hidden>
                     <input type="text" name="content_comment" id="content_comment" placeholder="Viết bình luận ...">
@@ -227,6 +232,7 @@ STATUS;
                 </form>
             </span>
         </div>
+        <div class="show-comment">
 NEWSFEED;
 
             //show comment
@@ -242,23 +248,23 @@ NEWSFEED;
 
                 // content html comment
                 $this->newsfeed .=<<<COMMENTS
-<div class="show-comment">
     <div class="detail-comment">
         <span id="icon">
             <img src='$avatarUserComment' alt='icon'>
         </span>
-        <span id="user-commet">
-            <a href="profile.php?id=$id_user_comment"> $nameComment </a>
+        <span id="content">
+            <span id="user-commet">
+                <a href="profile.php?id=$id_user_comment"> $nameComment </a>
+            </span>
+            <span id="content-commment">
+                $contentComment
+            </span> 
         </span>
-        <span id="content-commment">
-            $contentComment
-        </span> 
     </div>
-</div>
 COMMENTS;
             }
 
-            $this->newsfeed.= "</div></div>";
+            $this->newsfeed.= "</div></div></div>";
         }
         return $this->newsfeed;
     }

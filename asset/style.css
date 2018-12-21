@@ -66,7 +66,7 @@ html, body	{
 
 .fix-menu {
 	padding: 10px 0px 0px 0px;
-	background-color: #5cb85c;
+	background-color: #cccccc; /*#5cb85c;*/
 	border-radius: 0px 0px 6px 6px;
 	position: fixed;
 	width: inherit;
@@ -150,30 +150,6 @@ html, body	{
     margin-right: 10px;
 }
 
-.status {
-    padding: 10px;
-	position: relative;
-}
-
-.status textarea{
-	overflow: hidden;
-	padding: 10px 10px 0px;
-	width: 80%;
-	font-size: 16px;
-	border: 1px solid rgba(0,0,0,0.4);
-	border-radius: 6px;
-}
-
-.status input[type="submit"] {
-	position: absolute;
-	display: inline-block;
-    padding: 10px 50px;
-	font-size: 16px;
-	font-weight: 500;
-	top: 0;
-	right: 0;
-	margin: 10px;
-}
 
 .new {
 	background-color: #fff;
@@ -201,10 +177,12 @@ html, body	{
 	margin: 0;
 	font-weight: 600;
 	font-size: 16px;
+	display: inline;
 }
 
 .new-title i {
 	color: #999;
+	display: block;
 }
 
 .new-content {
@@ -232,8 +210,8 @@ html, body	{
 .right-menu .sub-menu {
 	width: 30%;
 	float: right;
-	background-color: #5cb85c;
-	border: 1px solid #4cb85c;
+	background-color: #cccccc; /*#5cb85c;*/
+	border: 1px solid #cccccc; /*#4cb85c;*/
 	border-radius: 6px;
     font-size: 16px;
 }
@@ -409,34 +387,38 @@ html, body	{
 	width: 100%;
 }
 
+#icon {
+	display: table-cell;
+}
 #icon img {
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
-}
-
-.detail-comment {
-    background-color: #cfd6e0;
+	margin-bottom: 5px;
 }
 
 .reaction ul {
-	list-style:none;
-    margin:0 auto;
-    width: 60%;
+    list-style: none;
+    padding: 0px;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    display: table;
 }
 
 
 .reaction ul li {
 	justify-content: center;
-	align-items: center;
-	padding: 6px;
-	margin: 0px 20px;
-	width: 100px;
-	display: inline-flex;
-	flex-direction: row;
-	list-style-type: none;
-	cursor: pointer;	
-	border: 1px solid #fff;
+    align-items: center;
+    padding: 6px;
+    margin: 0px 20px;
+    display: table-cell;
+    flex-direction: row;
+    list-style-type: none;
+    cursor: pointer;
+    border: 1px solid #fff;
+    white-space: nowrap;
+    width: 33%;
 }
 
 .reaction ul li:hover {
@@ -472,25 +454,124 @@ hr {
 	margin: 5px 10px !important;
 }
 
-.frmComment {
-	display: inline-flex;
-	width: 95%;
-}
-
-
-.frmComment input {
-	border-radius: 35%;
-}
-
-#content_comment {
-	width: inherit;
-	height: 40px;
-	border: 1px solid #fff;
-	background-color: #eee;
-	border-radius: 24px;
-	padding-left: 10px;
+.frmComment #content_comment {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #fff;
+    background-color: #eee;
+    padding-left: 15px;
+    margin-left: 5px;
+    border-radius: 20px !important;
 }
 
 .new-comment {
 	padding: 12px 12px 5px 10px;
+	display: table;
+}
+
+.new-comment #comment {
+	display: table-cell;
+	width: 100%;
+}
+
+.show-comment {
+	padding: 10px 12px 10px;
+}
+
+.show-comment .detail-comment {
+	display: table;
+}
+
+.show-comment .detail-comment #icon {
+
+}
+
+.show-comment .detail-comment #content {
+	display: table-cell;
+    border: 1px solid #fff;
+    background-color: #eee;
+    border-radius: 20px;
+    width: 100%;
+    padding-left: 12px;
+}
+
+.status {
+    padding: 10px;
+	position: relative;
+}
+
+.status textarea {
+	overflow: hidden;
+	padding: 10px 10px 0px;
+	width: 80%;
+	font-size: 16px;
+	border: 1px solid rgba(0,0,0,0.4);
+	border-radius: 6px;
+	min-width: 100%;
+	min-height: 120px;
+	max-width: 100%;
+	max-height: 120px;
+}
+
+
+/*.status input[type="submit"] {
+	position: absolute;
+	display: inline-block;
+    padding: 10px 50px;
+	font-size: 16px;
+	font-weight: 500;
+	top: 0;
+	right: 0;
+	margin: 10px;
+}*/
+
+.status .status-extra-content {
+	display: inline-flex;
+	width: fit-content;
+	position: absolute;
+	right: 0;
+	bottom: 16px;
+	left: 0;
+	margin: 0 auto;
+}
+
+.status .status-extra-content button {
+	width: fit-content;
+    margin: 2px 10px;
+}
+
+
+.status .status-extra-content select {
+	width: fit-content;
+    cursor: pointer;
+    margin: 6px 30px 0px 30px;
+    border-radius: 10px !important;
+}
+
+.status .status-extra-content hr {
+	width: 100%;
+    height: 1px;
+    position: absolute;
+    top: -8px;
+}
+
+.status .status-extra-content #btnSubmit {
+	border-radius: 7px !important;
+	padding: 0px 35px;
+}
+
+.status .status-extra-content #btnSubmit:hover {
+	background-color: #ddd;
+	color: #337ab7;
+	border: 1px solid #fff;
+}
+
+
+#status-image {
+	display: none;
+}
+
+.status .status-submit {
+	position: absolute;
+	display: block;
 }
