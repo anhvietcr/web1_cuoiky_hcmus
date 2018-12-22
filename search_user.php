@@ -35,37 +35,38 @@ if (!isset($_COOKIE['login'])) {
                 <?= @$message ? : "" ?>
             </center>
         </div>
-        <div class="searchbar">
-                <form class="form" method="POST">
-                    <!-- SEARCH -->
-                    <div class="form-group">
-                        <div class="col-sm-11 form-group NoPadding">
-                            <input type="search" class="form-control"  placeholder="Nhập tên user" name="name">
-                        </div>
-                        <!-- BUTTON -->
-                        <div class="col-sm-1 frm-group ">
-                            <button class="btn" name ="searchUser"><i class="fa fa-search"></i></button>
-                        </div>
-                </form>
-            </div>
     </div>
-    <?php if ($users != null) {?>
-    <div class="container" style="padding-top: 5%; width: 196%;">
-	<div class="row">
-        <div class="panel panel-default user_panel">
-            <div class="panel-body">
-				<div class="table">
-                    <table class="table-users table" border="0">
-                           <?=$users?>
-                    </table>
+    <div class="content">
+        <div class="searchbar">
+            <form class="form" method="POST">
+                <!-- SEARCH -->
+                <div class="form-group">
+                    <div class="col-sm-11 form-group NoPadding">
+                        <input type="search" class="form-control" placeholder="Nhập tên user" name="name">
+                    </div>
+                    <!-- BUTTON -->
+                    <div class="col-sm-1 frm-group ">
+                        <button class="btn" name="searchUser"><i class="fa fa-search"></i></button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="content" style="padding-top: 5%; width: 196%;">
+        <?php if ($users != null) {?>
+        <div class="row">
+            <div class="panel panel-default user_panel">
+                <div class="panel-body">
+                    <div class="table">
+                        <table class="table-users table" border="0">
+                            <?=$users?>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-
+        <?php } ?>
     </div>
-    </div>
-    <?php } ?>
 </div>
-    <?= $formatHelper->addRightMenu() ?>
+<?= $formatHelper->addRightMenu() ?>
 </div>
 <?= $formatHelper->closeFooter() ?>

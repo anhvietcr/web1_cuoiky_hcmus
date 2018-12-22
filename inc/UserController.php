@@ -738,6 +738,25 @@ class UserController
         }
     }
 
+    public function SearchUsersByName($name)
+    {
+        try {
+            // prepare string select username
+            $sqlSelect = "SELECT *
+                          FROM users
+                          WHERE username LIKE ?
+                          OR realname LIKE ?
+                          LIMIT 100";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute(array('%'.$name.'%', '%'.$name.'%'))) {
+                return $data->fetchAll(PDO::FETCH_ASSOC);
+            }
+            return "Có lỗi xảy ra";
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
     public function SearchPosts($username, $keyword)
     {
         try {
