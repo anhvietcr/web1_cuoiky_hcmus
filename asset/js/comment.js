@@ -81,6 +81,12 @@ function eventSubmitComment(id) {
 
 					// remove input text
 					$('#content_comment_'+id).val("");
+
+					// update number comment
+					let numcom = parseInt($('#numcom-'+id)[0].innerHTML, 10);
+					let numUpdate = numcom >= 0 ? numcom+1 : "(1)";
+					$('#numcom-'+id)[0].innerHTML = numUpdate;
+
 				} else {
 					console.log(result.respText);
 				}

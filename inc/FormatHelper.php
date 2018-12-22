@@ -198,6 +198,9 @@ STATUS;
             else 
                 $like = "<li id='reaction-unlike'>&nbsp;UnLike</li>";
 
+            $comments = $comment->CommentWithIdStatus($id_status);
+            $numberComment = count($comments) > 0 ? "(<span id=numcom-$content[id]>". count($comments) ."</span>)" : "<span id=numcom-$content[id]></span>";
+
             // content status html
             $this->newsfeed .=<<<NEWSFEED
 <div class="newsfeed">
@@ -219,7 +222,7 @@ STATUS;
         <div class="reaction">
             <ul>
                 <li class="reaction-like" id="reaction-like-$content[id]">&nbsp;Like</li>
-                <li class="reaction-comment" id="reaction-comment-$content[id]">&nbsp;Comment</li>
+                <li class="reaction-comment" id="reaction-comment-$content[id]">&nbsp;Comment $numberComment</li>
                 <li class="reaction-share" id="reaction-share-$content[id]">&nbsp;Share</li>
             </ul>
         </div>
@@ -243,7 +246,6 @@ STATUS;
 NEWSFEED;
 
             //show comment
-            $comments = $comment->CommentWithIdStatus($id_status);
             foreach ($comments as $row)
             {
                 $userComment = $user->GetUser('', $row['id_user_comment']);
