@@ -45,7 +45,7 @@ class FormatHelper
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 HEADER;
         return $this->header;
     }
@@ -233,7 +233,7 @@ STATUS;
             <div class="new-comment">
                 <span id="icon"><img src='$currentAvatar' alt='logo'></span>
                 <span id="comment">
-                    <form action="#" method="POST" class="frmComment frmComment-$content[id]">
+                    <form action="#" method="POST" class="frmComment" id="frmComment-$content[id]">
                         <input name='username' value='$_COOKIE[login]' hidden>
                         <input name='type' value='new_status' hidden>
                         <input name='id_status' value='$content[id]' hidden>
@@ -276,6 +276,44 @@ COMMENTS;
             $this->newsfeed.= "</div></div></div></div>";
         }
         return $this->newsfeed;
+    }
+
+    public function ListFriendIndex($username)
+    {
+        $this->friend = "";
+        $user = new UserController();
+        $users = $user->ListFriends($username, 'followed');
+
+
+        $this->friend .=<<<FRIENDSINDEX
+<div class="listfriend">
+    <div class="content">
+        <ul>
+FRIENDSINDEX;
+
+        foreach ($users as $usr) {
+            // real-name & avatar
+            $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
+            $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
+            $id = $usr['id'];
+
+            $this->friend .=<<<FRIENDSINDEX
+<li>
+    <span id="ficon"><img src=$src alt="."></span>
+    <span><a href="profile.php?id=$id">$name</a></span>
+    <span id="onoff"></a></span>
+</li>
+FRIENDSINDEX;
+        }
+
+        $this->friend .=<<<FRIENDSINDEX
+        </ul>
+    </div>
+</div>
+FRIENDSINDEX;
+
+
+        return $this->friend;
     }
 
 

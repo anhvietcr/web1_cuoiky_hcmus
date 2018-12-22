@@ -12,15 +12,13 @@ $(document).ready(() => {
 		 */
 		if (full_id.indexOf('comment') > 0) {
 			
+
 			let comment_status = $('#comment-status-'+id);
 			if (comment_status.hasClass('hide-comment-status')) {
 
 				comment_status.removeClass('hide-comment-status');
 				comment_status.addClass('show-comment-status');
 			
-				// listen event form submit
-				eventSubmitComment(id);
-
 			} else {
 				comment_status.removeClass('show-comment-status');
 				comment_status.addClass('hide-comment-status');
@@ -31,16 +29,17 @@ $(document).ready(() => {
 		if (full_id.indexOf('like') > 0) {
 			console.log(id);
 		}
-	})
+	});
 
 
+	/*
+		Send POST request add new comment
+	 */
+	$('.frmComment').on('submit', (e) => {
 
-})
-
-function eventSubmitComment(id) {
-	
-	// Send POST comment
-	$('.frmComment-'+id).on('submit', (e) => {
+		let frm = $(e.target);
+		let frmId = frm.attr('id');
+		let id = frmId.split('-')[1];
 
 		// empty content comment
 		if ($('#content_comment_'+id).val() === "") {return;}
@@ -52,7 +51,7 @@ function eventSubmitComment(id) {
 		$.ajax({
 			url: 'inc/Handler/CommentHandler.php',
 			type: 'POST',
-			data: $(".frmComment-"+id).serialize(),
+			data: $("#frmComment-"+id).serialize(),
 			success: (data) => {
 				let result = JSON.parse(data);
 
@@ -97,4 +96,4 @@ function eventSubmitComment(id) {
 			}
 		});
 	})
-}
+})

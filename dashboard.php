@@ -30,7 +30,6 @@ $newsfeed = $user->LoadNewsfeed($_COOKIE['login']);
             <?= $formatHelper->addStatus() ?>
             <?= $formatHelper->addNewsfeed($newsfeed,$_COOKIE['login']) ?>
         </div>
-
-        <?= $formatHelper->addRightMenu() ?>
+        <?= $formatHelper->ListFriendIndex($_COOKIE['login']) ?>
     </div>
 <?= $formatHelper->closeFooter() ?>

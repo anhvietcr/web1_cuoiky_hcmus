@@ -112,6 +112,6 @@ $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
         </form>
         <?= $formatHelper->addNewsfeed($statusOfUserB,$user1['username'])?>
     </div>
-    <?= $formatHelper->addRightMenu() ?>
+    <?= $formatHelper->ListFriendIndex($_COOKIE['login']) ?>
 </div>
 <?= $formatHelper->closeFooter() ?>
