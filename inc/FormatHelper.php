@@ -59,7 +59,7 @@ HEADER;
         $this->footer =<<<FOOTER
 </div>
 <div class="copyright">
-    <p>FIT @ F5-- @ HCMUS</p>       
+    <span>HCMUS | Team F5--</span>       
 </div>
 <script src="asset/js/dashboard.js" defer></script>
 <script src="asset/js/comment.js" defer></script>
