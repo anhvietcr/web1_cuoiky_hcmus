@@ -468,20 +468,14 @@ FORM_NEW_PASSWORD;
      * Giao diện Tìm kiếm 1 tài khoản
      * @param [type] $nameKey [description]
      */
-    public function SearchUser($nameKey) {
+    public function SearchUser($name) {
         $user = new UserController();
-        $listUser = $user->ListUsers();
+        $listUser = $user->SearchUsersByName($name);
         if(count($listUser) == 0) {
             return null;
         }
 
         foreach ($listUser as $usr) {
-            
-            if ($nameKey !== '') {
-                if (strpos($usr['realname'], $nameKey) === false && strpos($usr['username'], $nameKey) === false) {
-                    continue;
-                }
-            }
 
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];

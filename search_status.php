@@ -42,30 +42,33 @@ if (!isset($_COOKIE['login'])) {
 
 <div class="main">
     <div class="content">
-        <div class="alert alert-info" <?= @$display ? : "style='display:none; text-align: center;'" ?>><center>
+        <div class="alert alert-info" <?=@$display ? : "style='display:none; text-align: center;'" ?>><center>
                 <?= @$message ? : "" ?>
             </center>
         </div>
+
+    </div>
+    <div class="content">
         <div class="searchbar">
-                <form class="form" method="POST">
-                    <!-- SEARCH -->
-                    <div class="form-group" >
-                        <div class="col-sm-11 form-group NoPadding">
-                            <input type="search" class="form-control" placeholder="Nhập từ khóa" name="keyWord" value="<?= $keyWord; ?>">
-                        </div>
-                        <!-- BUTTON -->
-                        <div class="col-sm-1 frm-group ">
-                            <button class="btn" name ="searchStatus"><i class="fa fa-search"></i></button>
-                        </div>
-                </form>
-            </div>
-        </div>    
-        <div class="content" style="width: 100%;">
+            <form class="form" method="POST">
+                <!-- SEARCH -->
+                <div class="form-group">
+                    <div class="col-sm-11 form-group NoPadding">
+                        <input type="search" class="form-control" placeholder="Nhập từ khóa" name="keyWord" value="<?= $keyWord; ?>">
+                    </div>
+                    <!-- BUTTON -->
+                    <div class="col-sm-1 frm-group ">
+                        <button class="btn" name="searchStatus"><i class="fa fa-search"></i></button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="content" style="width: 100%;">
         <?php if ($posts != null) {
             echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
         } ?>
     </div>
-    </div>
-    <?= $formatHelper->addRightMenu() ?>
+</div>
+<?= $formatHelper->addRightMenu() ?>
 </div>
 <?= $formatHelper->closeFooter() ?>
