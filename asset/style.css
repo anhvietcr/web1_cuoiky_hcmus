@@ -402,7 +402,7 @@ body {
     height: 500px;
     cursor: pointer;
     z-index: 5;
-    padding: 5px;
+    padding: 12px;
 }
 
 #icon {
@@ -686,4 +686,19 @@ hr {
 .listfriend #onoff {
 	float: right;
     margin-right: 20px;
+}
+
+.linkpreview {
+	border: 1px dotted #bbb;
+    margin-top: 5px;
+}
+
+.linkpreview img {
+    margin-top: 10px;
+    width: 100%;
+    height: 500px;
+    cursor: pointer;
+    z-index: 5;
+    padding: 100px;
+    border-bottom: 1px dotted #aaa;
 }

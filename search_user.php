@@ -67,6 +67,6 @@ if (!isset($_COOKIE['login'])) {
         <?php } ?>
     </div>
 </div>
-<?= $formatHelper->addRightMenu() ?>
+<?= $formatHelper->ListFriendIndex($_COOKIE['login']) ?>
 </div>
 <?= $formatHelper->closeFooter() ?>
