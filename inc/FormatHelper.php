@@ -61,9 +61,9 @@ HEADER;
 <div class="copyright">
     <span>HCMUS | Team F5--</span>       
 </div>
-<script src="asset/js/linkpreview.js" defer></script>
 <script src="asset/js/dashboard.js" defer></script>
 <script src="asset/js/comment.js" defer></script>
+<script src="asset/js/linkpreview.js" defer></script>
 </body>
 </html>
 FOOTER;

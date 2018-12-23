@@ -693,12 +693,20 @@ hr {
     margin-top: 5px;
 }
 
-.linkpreview img {
+.linkpreview-status img {
     margin-top: 10px;
     width: 100%;
     height: 500px;
     cursor: pointer;
-    z-index: 5;
     padding: 100px;
+    border-bottom: 1px dotted #aaa;
+}
+
+.linkpreview-comment img {
+    margin-top: 10px;
+    width: 100%;
+    height: 250px;
+    cursor: pointer;
+    padding: 50px;
     border-bottom: 1px dotted #aaa;
 }
