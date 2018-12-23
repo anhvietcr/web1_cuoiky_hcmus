@@ -44,6 +44,6 @@ if (!isset($_COOKIE['login'])) {
         </form>
     </div>
 
-    <?= $formatHelper->addRightMenu() ?>
+    <?= $formatHelper->ListFriendIndex($_COOKIE['login']) ?>
 </div>
 <?= $formatHelper->closeFooter() ?>

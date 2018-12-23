@@ -40,13 +40,12 @@ class FormatHelper
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://use.fontawesome.com/1e803d693b.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 HEADER;
         return $this->header;
     }
@@ -60,9 +59,11 @@ HEADER;
         $this->footer =<<<FOOTER
 </div>
 <div class="copyright">
-    <p>FIT @ F5-- @ HCMUS</p>       
+    <span>HCMUS | Team F5--</span>       
 </div>
 <script src="asset/js/dashboard.js" defer></script>
+<script src="asset/js/comment.js" defer></script>
+<script src="asset/js/linkpreview.js" defer></script>
 </body>
 </html>
 FOOTER;
@@ -198,6 +199,9 @@ STATUS;
             else 
                 $like = "<li id='reaction-unlike'>&nbsp;UnLike</li>";
 
+            $comments = $comment->CommentWithIdStatus($id_status);
+            $numberComment = count($comments) > 0 ? "(<span id=numcom-$content[id]>". count($comments) ."</span>)" : "<span id=numcom-$content[id]></span>";
+
             // content status html
             $this->newsfeed .=<<<NEWSFEED
 <div class="newsfeed">
@@ -218,29 +222,31 @@ STATUS;
         <hr style="width: 97%">
         <div class="reaction">
             <ul>
-                <li id="reaction-like">&nbsp;Like</li>
-                <li id="reaction-comment">&nbsp;Comment</li>
-                <li id="reaction-share">&nbsp;Share</li>
+                <li class="reaction-like" id="reaction-like-$content[id]">&nbsp;Like</li>
+                <li class="reaction-comment" id="reaction-comment-$content[id]">&nbsp;Comment $numberComment</li>
+                <li class="reaction-share" id="reaction-share-$content[id]">&nbsp;Share</li>
             </ul>
         </div>
 
         <!-- Comment -->
         <hr>
-        <div class="new-comment">
-            <span id="icon"><img src='$currentAvatar' alt='logo'></span>
-            <span id="comment">
-                <form action="#$content[id]" method="POST" class="frmComment">
-                    <input name='id_status' value='$id_status' hidden>
-                    <input type="text" name="content_comment" id="content_comment" placeholder="Viết bình luận ...">
-                    <button name="addComment" class="btn btn-primary center-block" style="display: none">Đăng</button>
-                </form>
-            </span>
-        </div>
-        <div class="show-comment">
+        <div class="hide-comment-status" id="comment-status-$content[id]">
+            <div class="new-comment">
+                <span id="icon"><img src='$currentAvatar' alt='logo'></span>
+                <span id="comment">
+                    <form action="#" method="POST" class="frmComment" id="frmComment-$content[id]">
+                        <input name='username' value='$_COOKIE[login]' hidden>
+                        <input name='type' value='new_status' hidden>
+                        <input name='id_status' value='$content[id]' hidden>
+                        <input type="text" name="content_comment" class="content_comment" placeholder="Viết bình luận ..." value="" id="content_comment_$content[id]">
+                        <button name="addComment" class="btn btn-primary center-block" style="display: none">Đăng</button>
+                    </form>
+                </span>
+            </div>
+            <div class="show-comment" id="show-comment-$content[id]">
 NEWSFEED;
 
             //show comment
-            $comments = $comment->CommentWithIdStatus($id_status);
             foreach ($comments as $row)
             {
                 $userComment = $user->GetUser('', $row['id_user_comment']);
@@ -268,9 +274,47 @@ NEWSFEED;
 COMMENTS;
             }
 
-            $this->newsfeed.= "</div></div></div>";
+            $this->newsfeed.= "</div></div></div></div>";
         }
         return $this->newsfeed;
+    }
+
+    public function ListFriendIndex($username)
+    {
+        $this->friend = "";
+        $user = new UserController();
+        $users = $user->ListFriends($username, 'followed');
+
+
+        $this->friend .=<<<FRIENDSINDEX
+<div class="listfriend">
+    <div class="content">
+        <ul>
+FRIENDSINDEX;
+
+        foreach ($users as $usr) {
+            // real-name & avatar
+            $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];
+            $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
+            $id = $usr['id'];
+
+            $this->friend .=<<<FRIENDSINDEX
+<li>
+    <span id="ficon"><img src=$src alt="."></span>
+    <span><a href="profile.php?id=$id">$name</a></span>
+    <span id="onoff"></a></span>
+</li>
+FRIENDSINDEX;
+        }
+
+        $this->friend .=<<<FRIENDSINDEX
+        </ul>
+    </div>
+</div>
+FRIENDSINDEX;
+
+
+        return $this->friend;
     }
 
 
@@ -468,20 +512,14 @@ FORM_NEW_PASSWORD;
      * Giao diện Tìm kiếm 1 tài khoản
      * @param [type] $nameKey [description]
      */
-    public function SearchUser($nameKey) {
+    public function SearchUser($name) {
         $user = new UserController();
-        $listUser = $user->ListUsers();
+        $listUser = $user->SearchUsersByName($name);
         if(count($listUser) == 0) {
             return null;
         }
 
         foreach ($listUser as $usr) {
-            
-            if ($nameKey !== '') {
-                if (strpos($usr['realname'], $nameKey) === false && strpos($usr['username'], $nameKey) === false) {
-                    continue;
-                }
-            }
 
             // real-name & avatar
             $name = !empty($usr['realname']) ? $usr['realname'] : $usr['username'];

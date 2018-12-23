@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 //autoloader
-require './vendor/autoload.php';
+require dirname(dirname(__FILE__)) .'\\vendor\\autoload.php';
 include_once 'autoload.php';
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -727,6 +727,25 @@ class UserController
             $sqlSelect = "SELECT id, username, realname, avatar, following, followed, follows, created FROM users LIMIT 100";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute()) {
+                return $data->fetchAll(PDO::FETCH_ASSOC);
+            }
+            return "Có lỗi xảy ra";
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
+    public function SearchUsersByName($name)
+    {
+        try {
+            // prepare string select username
+            $sqlSelect = "SELECT *
+                          FROM users
+                          WHERE username LIKE ?
+                          OR realname LIKE ?
+                          LIMIT 100";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute(array('%'.$name.'%', '%'.$name.'%'))) {
                 return $data->fetchAll(PDO::FETCH_ASSOC);
             }
             return "Có lỗi xảy ra";

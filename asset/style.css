@@ -2,11 +2,16 @@
 html, body	{
 	margin: 0;
 	padding: 0;
-    background: url(img/content.png) top left repeat;
+	background: #fafafa !important;
+    /*background: url(img/content.png) top left repeat;*/
 }
 
 body {
 	position: relative;
+}
+
+.container-fluid {
+	padding: 0 !important;
 }
 
 .frmLogin,
@@ -70,10 +75,10 @@ body {
 
 .fix-menu {
 	padding: 10px 0px 0px 0px;
-	background-color: #b5b2b2; /*#5cb85c;*/
+	background-color: rgba(45,45,45,0.98); /*#5cb85c;*/
 	border-radius: 0px 0px 6px 6px;
 	position: fixed;
-	width: inherit;
+	width: 100%;
 	z-index: 9999;
 }
 
@@ -105,13 +110,14 @@ body {
 
 .fix-menu a {
 	position: relative;
-	color: #fff;
+	color: #e0e0e0/*#fff*/;
 	font-size: 16px;
 }
 
 .fix-menu a:hover {
 	text-decoration: none;
-	color: #000;
+	color: #fff;
+	/*opacity: .65;*/
 }
 
 .fix-menu a:before,
@@ -149,7 +155,7 @@ body {
 }
 
 .content {
-	width: 69%;
+	width: 80%;
 	display: inline-block;
     margin-right: 10px;
 }
@@ -161,6 +167,7 @@ body {
     border-radius: 3px;
 	margin: 5px 0px;
 	max-width: 800px;
+	margin: 0 auto;
 }
 
 .new-title {
@@ -198,6 +205,7 @@ body {
 
 .newsfeed {
 	position: relative;
+	padding: 0px 0px 8px;
 }
 
 .newsfeed ~ a {
@@ -215,15 +223,15 @@ body {
 .right-menu .sub-menu {
 	width: 30%;
 	float: right;
-	background-color: #b5b2b2; /*#5cb85c;*/
-	border: 1px solid #b5b2b2; /*#4cb85c;*/
+	background-color: rgba(45,45,45,0.98); /*#5cb85c;*/
+	border: 1px solid rgba(45,45,45,0.98); /*#4cb85c;*/
 	border-radius: 6px;
     font-size: 16px;
 }
 
 .right-menu strong {
     font-size: 20px;
-    color: #111;
+    color: #fff;
 }
 
 .right-menu ul {
@@ -250,11 +258,12 @@ body {
 .right-menu .sub-menu li a {
     text-decoration: none;
     position: relative;
-    color: #eee;
+    color: #e0e0e0/*#eee*/;
 }
 
 .right-menu .sub-menu li a:hover {
-    color: #fff;
+    /*color: #fff;*/
+    opacity: .65;
     margin-left: 2px;
 }
 
@@ -383,9 +392,8 @@ body {
 	text-align: center;
 	width: 100%;
 	background-color: rgba(100,100,100,0.1);
-	font-size: 15px;
-    padding-top: 15px;
-    padding-bottom: 5px;
+	font-size: 13px;
+    padding-top: 5px;
 }
 
 .image_status {
@@ -394,6 +402,7 @@ body {
     height: 500px;
     cursor: pointer;
     z-index: 5;
+    padding: 12px;
 }
 
 #icon {
@@ -435,25 +444,25 @@ body {
 	border: 1px solid #eee;
 }
 
-#reaction-like:before {
+.reaction-like:before {
 	content: "\f004";
     font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 }
 
-#reaction-unlike:before {
+.reaction-unlike:before {
 	content: "\f004";
     font-family: "Font Awesome 5 Free";
 	font-weight: 500;
 }
 
-#reaction-comment:before {
+.reaction-comment:before {
 	content: "\f4ad";
     font-family: "Font Awesome 5 Free";
 	font-weight: 500;
 }
 
-#reaction-share:before {
+.reaction-share:before {
 	content: "\f1e0";
     font-family: "Font Awesome 5 Free";
 	font-weight: 900;
@@ -463,7 +472,7 @@ hr {
 	margin: 5px 10px !important;
 }
 
-.frmComment #content_comment {
+.frmComment .content_comment {
     width: 100%;
     height: 40px;
     border: 1px solid #fff;
@@ -500,8 +509,9 @@ hr {
     border: 1px solid #fff;
     background-color: #eee;
     border-radius: 20px;
-    width: 100%;
+    width: fit-content;
     padding-left: 12px;
+    padding-right: 12px;
 }
 
 .show-comment #user-comment {
@@ -510,8 +520,19 @@ hr {
 }
 
 .status {
-    padding: 10px;
-	position: relative;
+    padding: 5px;
+    position: relative;
+    width: inherit;
+    border: 1px solid #dddfe2;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    background: #eee;
+}
+
+.status form {
+	width: 100%;
 }
 
 .status textarea {
@@ -519,13 +540,16 @@ hr {
 	padding: 10px 10px 0px;
 	width: 80%;
 	font-size: 16px;
-	border: 1px solid rgba(0,0,0,0.4);
+	border: 1px solid #eee/*rgba(0,0,0,0.4)*/;
 	border-radius: 6px;
-	min-width: 100%;
 	min-height: 120px;
-	max-width: 100%;
 	max-height: 120px;
+	width: inherit;	
+    background-color: #eee;
+    color: #000;
 }
+
+
 
 
 /*.status input[type="submit"] {
@@ -613,4 +637,76 @@ hr {
 @keyframes zoom-image {
 	0% {top: 20%; left: 20%; transform: translate(-20%, -20%);};
 	100% {top: 50%; left: 50%; transform: translate(-50%, -50%);};
+}
+
+
+.show-comment-status {
+	display: contents;
+}
+
+.hide-comment-status {
+	display: none;
+}
+
+.listfriend {
+    position: fixed;
+    right: 0;
+    top: 40px;
+    min-width: 40px;
+    height: 95%;
+    background: #f7f7f7/*#fff*/;
+    width: 220px;
+    border-left: 1px dotted;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.listfriend ul {
+    list-style: none;
+    padding-left: 5px;
+}
+
+.listfriend ul li a {
+	text-decoration: none;
+}
+
+.listfriend ul li {
+    height: 50px;
+    padding: 10px 0px;
+    border-bottom: 1px solid #e0e0e0;
+    width: 200px;
+}
+
+.listfriend #ficon img {
+	width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.listfriend #onoff {
+	float: right;
+    margin-right: 20px;
+}
+
+.linkpreview {
+	border: 1px dotted #bbb;
+    margin-top: 5px;
+}
+
+.linkpreview-status img {
+    margin-top: 10px;
+    width: 100%;
+    height: 500px;
+    cursor: pointer;
+    padding: 100px;
+    border-bottom: 1px dotted #aaa;
+}
+
+.linkpreview-comment img {
+    margin-top: 10px;
+    width: 100%;
+    height: 250px;
+    cursor: pointer;
+    padding: 50px;
+    border-bottom: 1px dotted #aaa;
 }
