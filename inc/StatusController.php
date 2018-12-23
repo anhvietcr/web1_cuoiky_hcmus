@@ -199,4 +199,129 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
+    
+    public function AddWhoLiked($row,$id_user,$id_status)
+    {
+        try 
+        {
+            $wholiked = serialize($row['wholiked']);
+            array_push($wholiked,$id_user);
+            $convert = unserialize($wholiked);
+            $sqlSelect = "UPDATE status SET wholiked=? WHERE id_status = ?";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$convert,$id_status]))
+            {
+                return 'Thành công';
+            }
+            return 'Thất bại';
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
+    public function LikeForStatus($id_user,$id_status)
+    {
+        try
+        {
+            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$id_status])) {
+                $row = $data->fetch(PDO::FETCH_ASSOC);
+                AddWhoLiked($row,$id_user,$id_status);
+                return 'Thành công';
+            }
+        
+            return 'Thất bại';
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
+    public function RemoveWhoLiked($row,$id_user,$id_status)
+    {
+        try 
+        {
+            $wholiked = unserialize($row['wholiked']);
+
+                //$idFriends = unserialize($following);
+            foreach ($wholiked as $who) 
+            {
+                if($who==$id_user)
+                {
+                    unset($who);
+                }       
+            }
+            $updatewholiked = serialize($wholiked);
+            $sqlSelect = "UPDATE status SET wholiked=? WHERE id_status = ?";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$updatewholiked,$id_status])) {
+                return 'Thành công';
+            }
+        
+            return 'Thất bại';
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+
+    public function UnLikeForStatus($id_user,$id_status)
+    {
+        try
+        {
+            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$id_status])) {
+                $row = $data->fetch(PDO::FETCH_ASSOC);
+                RemoveWhoLiked($row,$id_user,$id_status);
+                return 'Thành công';
+            }
+        
+            return 'Thất bại';
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+    public function AmountOfLiked($id_status)
+    {
+        try
+        {
+            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$id_status])) {
+                $row = $data->fetch(PDO::FETCH_ASSOC);
+                $array = serialize($row['wholiked']);
+                $count = count($array);
+                return $count;
+            }
+        
+            return 0;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
+    public function IsLiked($id_user,$id_status)
+    {
+        try 
+        {
+            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $data = db::$connection->prepare($sqlSelect);
+            if ($data->execute([$id_status])) 
+            {
+                $row = $data->fetch(PDO::FETCH_ASSOC);
+                $wholiked = unserialize($row['wholiked']);
+
+                    //$idFriends = unserialize($following);
+                foreach ($wholiked as $who) 
+                {
+                    if($who==$id_user)
+                    {
+                        return true;
+                    }       
+                }
+            }
+            return false;
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        }
+    }
 }
