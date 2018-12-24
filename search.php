@@ -61,8 +61,7 @@ if (!isset($_COOKIE['login'])) {
         </div>
     </div>
 
-    <div id="All" class="w3-container w3-border filter">
-        <?php $currentTab = "All" ?>
+    <div id="All" class="w3-container w3-border filter" style="display:none">
         <div class="content" style="padding: 20px;">
             <?php if ($users != null) { ?>
                 <?= $users ?>
