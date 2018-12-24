@@ -547,6 +547,8 @@ FORM_NEW_PASSWORD;
             <img src="$src" alt="logo"> 
             <h4 id="user"><a href="profile.php?id=8">$name</a></h4>
             <span>&nbsp;&nbsp;</span>
+            <a href = "mailto: $usr[username]">$usr[username]</a>
+            <span>&nbsp;&nbsp;</span>
             <i>$usr[created]</i>
         </div>
     </div></div>
