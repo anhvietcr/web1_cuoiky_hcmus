@@ -34,6 +34,7 @@ class FormatHelper
 <head>
     <title> $title </title>
     <meta charset="utf-8">
+    <meta name="username" value="$title">
     <link rel="stylesheet" type="text/css" href="asset/style.css">
     <link rel="stylesheet" type="text/css" href="asset/search/searchBar.css">
     <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
@@ -62,7 +63,7 @@ HEADER;
     <span>HCMUS | Team F5--</span>       
 </div>
 <script src="asset/js/dashboard.js" defer></script>
-<script src="asset/js/comment.js" defer></script>
+<script src="asset/js/status.js" defer></script>
 <script src="asset/js/linkpreview.js" defer></script>
 </body>
 </html>
@@ -193,13 +194,17 @@ STATUS;
                 $role = '<span class="far fa-eye-slash"></span>';
 
             // like or unlike
+            $amountLike = $status->AmountOfLiked($content['id']);
             $like = "";
             // $userIsLike = $status->IsLiked($usr['id'], $content['id']);
             $userIsLike = rand(0, 1);
-            if ($userIsLike)
-                $like = "<li class='reaction-like' id=reaction-like-$content[id]>&nbsp;Like</li>";
-            else 
-                $like = "<li class='reaction-unlike' id=reaction-unlike-$content[id]>&nbsp;UnLike</li>";
+            if ($userIsLike) {
+                $like = "table-cell";
+                $nonlike = "none";
+            } else {
+                $like = "none";
+                $nonlike = "table-cell";
+            }
 
             $comments = $comment->CommentWithIdStatus($id_status);
             $numberComment = count($comments) > 0 ? "(<span id=numcom-$content[id]>". count($comments) ."</span>)" : "<span id=numcom-$content[id]></span>";
@@ -224,7 +229,8 @@ STATUS;
         <hr style="width: 97%">
         <div class="reaction">
             <ul>
-                $like
+                <li style="display: $like" class='reaction-like' id=reaction-like-$content[id]>&nbsp;Liked (<span id=numlike-$content[id]>$amountLike</span>)</li>
+                <li style="display: $nonlike" class='reaction-nonlike' id=reaction-nonlike-$content[id]>&nbsp;Like (<span id=numnonlike-$content[id]>$amountLike</span>)</li>
                 <li class="reaction-comment" id="reaction-comment-$content[id]">&nbsp;Comment $numberComment</li>
                 <li class="reaction-share" id="reaction-share-$content[id]">&nbsp;Share</li>
             </ul>

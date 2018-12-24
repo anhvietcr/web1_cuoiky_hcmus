@@ -450,7 +450,7 @@ body {
 	font-weight: 900;
 }
 
-.reaction-unlike:before {
+.reaction-nonlike:before {
 	content: "\f004";
     font-family: "Font Awesome 5 Free";
 	font-weight: 500;

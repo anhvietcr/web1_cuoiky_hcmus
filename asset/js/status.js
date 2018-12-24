@@ -25,15 +25,25 @@ $(document).ready(() => {
 			}
 		}
 
-		// Like
-		if (full_id.indexOf('unli') >= 0) {
-			console.log("like " + id);
+		/*
+			Like & Unlike
+		 */
+		else if (full_id.indexOf('nonlike') >= 0) {
+			console.log("liked " + id);
 
-		} 
+			LikeStatus(id);
 
-		if (full_id.indexOf('like') >= 0) {
 
+		} else if (full_id.indexOf('like') >= 0) {
 			console.log("unlike " + id)
+
+			UnLikeStatus(id);
+
+		} else {
+
+			// share
+			console.log("share " + id)
+
 		}
 	});
 
@@ -103,3 +113,88 @@ $(document).ready(() => {
 		});
 	})
 })
+
+function LikeStatus(id) {
+
+	let username = $('meta[name=username]').attr('value');
+
+	$.ajax({
+		url: 'inc/Handler/LikeHandler.php',
+		type: 'POST',
+		data: {
+			id_status: id,
+			username: username,
+			type: 'like'
+		},
+		dataType: 'json',
+		success: (data) => {
+
+			if (data.status === 200) {
+
+				// Update frontend
+				let numlike = parseInt($('#numlike-'+id)[0].innerHTML, 10);
+				let numUpdate = numlike > 0 ? numlike+1 : "(1)";
+				$('#numlike-'+id)[0].innerHTML = numUpdate;
+
+				$('#reaction-like-'+id).prop("style", "display: table-cell");
+				$('#reaction-nonlike-'+id).prop("style", "display: none");
+			}
+		}, 
+		error: (err) => {
+			console.log("Error: ");
+			console.log(err);
+		}
+	})
+}
+
+function UnLikeStatus(id) {
+
+	let username = $('meta[name=username]').attr('value');
+
+	$.ajax({
+		url: 'inc/Handler/LikeHandler.php',
+		type: 'POST',
+		data: {
+			id_status: id,
+			username: username,
+			type: 'unlike'
+		},	
+		dataType: 'json',
+		success: (data) => {
+
+			if (data.status === 200) {
+
+				$('#reaction-like-'+id).prop("style", "display: none");
+				$('#reaction-nonlike-'+id).prop("style", "display: table-cell");
+				
+				// Update frontend
+				let amountLike = $('#numnonlike-'+id)[0];
+				let numUpdate;
+
+
+				console.log(amountLike);
+
+
+				if (amountLike === undefined) {
+					amountLike.innerHTML = "";
+				} else {
+					let numlike = parseInt(amountLike.innerHTML, 10);
+
+					if (numlike <= 1) {
+						amountLike.innerHTML = "";
+					} else {
+						numUpdate = numlike - 1;
+					}
+				}
+				$('#numnonlike-'+id)[0].innerHTML = numUpdate;
+
+
+			}
+		}, 
+		error: (err) => {
+			console.log("Error: ");
+			console.log(err);
+		}
+	})
+
+}
