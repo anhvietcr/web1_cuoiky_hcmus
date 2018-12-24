@@ -222,6 +222,10 @@ class StatusController
                     return 'Thất bại';
                 }
             $wholiked = unserialize($row['wholiked']);
+            if (in_array($id_user,$wholiked,true))
+                {
+                    return "Đã like rồi";
+                }
             array_push($wholiked,$id_user);
             $convert = serialize($wholiked);
             $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
