@@ -123,10 +123,7 @@ class UserController
     {
         $this->request = $args[0];
 
-        // valid params
-//        if (preg_match('/[^a-zA-Z0-9]/', $this->request['username'])) {
-//            return "Tên đăng nhập không cho phép ký tự đặc biệt";
-//        }
+        
 
         if (!preg_match('/^[0-9a-zA-Z._]+\@[a-zA-Z]+\..*$/', $this->request['username'])) {
             return "Tên đăng nhập phải đúng định dạng email";
@@ -147,7 +144,7 @@ class UserController
         try {
             $usr = $this->GetUser($this->request['username']);
             if ($usr['username'] == $this->request['username']) {
-                return "Đã tồn tại tên đăng nhập !";
+                return "Đã tồn tại email!";
             }
 
             $token = '';
@@ -158,9 +155,9 @@ class UserController
                 $token .= $prepare[rand(0, $len)];
             }
             $passwordHash = password_hash($this->request['password'], PASSWORD_DEFAULT);
-            $strInsert = "INSERT INTO register (username, password, token, used, realname) VALUES(?, ?, ?, ?, ?)";
+            $strInsert = "INSERT INTO register (username, password, token, realname) VALUES(?, ?, ?, ?)";
             $data = db::$connection->prepare($strInsert);
-            if ($data->execute([$this->request['username'], $passwordHash,$token,0, $this->request['realname']])) {
+            if ($data->execute([$this->request['username'], $passwordHash,$token, $this->request['realname']])) {
 
                 return $this->SendEmail($this->request['username'],$token);
             }

@@ -25,9 +25,15 @@ $(document).ready(() => {
 			}
 		}
 
-		// Like/ Unline on status
-		if (full_id.indexOf('like') > 0) {
-			console.log(id);
+		// Like
+		if (full_id.indexOf('unli') >= 0) {
+			console.log("like " + id);
+
+		} 
+
+		if (full_id.indexOf('like') >= 0) {
+
+			console.log("unlike " + id)
 		}
 	});
 
