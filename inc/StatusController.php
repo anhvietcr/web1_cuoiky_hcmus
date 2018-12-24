@@ -8,8 +8,11 @@ include_once 'autoload.php';
 class StatusController
 {
     protected $request;
+    
     public function __construct()
-    {}
+    {
+        db::connect();
+    }
 
     public function NewStatus($id_user, ...$args)
     {
@@ -207,7 +210,7 @@ class StatusController
             $wholiked = serialize($row['wholiked']);
             array_push($wholiked,$id_user);
             $convert = unserialize($wholiked);
-            $sqlSelect = "UPDATE status SET wholiked=? WHERE id_status = ?";
+            $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$convert,$id_status]))
             {
@@ -223,7 +226,7 @@ class StatusController
     {
         try
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_status])) {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
@@ -252,7 +255,7 @@ class StatusController
                 }       
             }
             $updatewholiked = serialize($wholiked);
-            $sqlSelect = "UPDATE status SET wholiked=? WHERE id_status = ?";
+            $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$updatewholiked,$id_status])) {
                 return 'Thành công';
@@ -268,7 +271,7 @@ class StatusController
     {
         try
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_status])) {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
@@ -285,7 +288,7 @@ class StatusController
     {
         try
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_status])) {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
@@ -299,11 +302,12 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
-    public function IsLiked($id_user,$id_status)
+
+    public function IsLiked($id_user, $id_status)
     {
         try 
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_status])) 
             {

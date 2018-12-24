@@ -44,21 +44,27 @@ function ParseLinkStatus() {
 			e.innerHTML = contentHTML;
 
 			// Call REST API and get meta tag
+			// https://docs.microlink.io/api/#introduction (250 req / week)
+			// Backup: https://github.com/kasp3r/link-preview
 			$.ajax({
-				url: "http://api.linkpreview.net/?key=5c1f054d4eddb181615962bac050f4454517b82e942b1&q="+link,
+				url: "https://api.microlink.io/?url="+link,
 				method: "GET",
 				dataType: "JSON",
 				success: (data) => {
 
-					if (data.image === "") {
-						data.image = "asset/img/notpreview.png";
+					if (data.data.image == null && data.data.logo == null) { 
+						data.data.image = "asset/img/notpreview.png";
 					}
+
+					if (data.data.image == null) {data.data.image = data.data.logo}
+					if (data.data.image.width < 700) {data.data.image.width = 700}
+					if (data.data.image.height < 500) {data.data.image.height = 500}
 
 					e.innerHTML += `<div class="linkpreview linkpreview-status">
 						<a href="${data.url}">
-							<img src="${data.image}">
-							<h3>${data.title}</h3>
-							<p>${data.description}</p>
+							<img src="${data.data.image.url}" width="${data.data.image.width}" height="${data.data.image.height}">
+							<h3>${data.data.title}</h3>
+							<p>${data.data.description}</p>
 						</a>
 					</div>
 					`;
@@ -92,39 +98,6 @@ function ParseLinkComment() {
 			// Replace string with a href
 			contentHTML = content.replace(link, "<a href="+link+" target='_blank'>"+link+"</a>");
 			e.innerHTML = contentHTML;
-
-			// Call REST API and get meta tag
-			// $.ajax({
-			// 	url: "http://api.linkpreview.net/?key=5c1f054d4eddb181615962bac050f4454517b82e942b1&q="+link,
-			// 	method: "GET",
-			// 	dataType: "JSON",
-			// 	success: (data) => {
-
-			// 		if (data.image === "") {
-			// 			data.image = "asset/img/notpreview.png";
-			// 		}
-
-
-			// 		e.innerHTML += `<div class="linkpreview linkpreview-comment">
-			// 			<a href="${data.url}">
-			// 				<img src="${data.image}">
-			// 				<h3>${data.title}</h3>
-			// 				<p>${data.description}</p>
-			// 			</a>
-			// 		</div>
-
-			// 		`;
-
-			// 		// remove img next sibling if avalable
-			// 		if (e.nextSibling.nextElementSibling.localName == "img") {
-			// 			$(e.nextSibling.nextElementSibling).replaceWith("");
-			// 		}
-			// 	},
-			// 	error: (err) => {
-			// 		console.log("Error: ");
-			// 		console.log(err);
-			// 	}
-			// })
 		}
 	})
 }

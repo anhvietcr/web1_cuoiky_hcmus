@@ -162,6 +162,7 @@ STATUS;
 
         $user = new UserController();
         $comment = new CommentController();
+        $status = new StatusController();
         $currentUser = $user->GetUser($username);
 
 
@@ -193,11 +194,12 @@ STATUS;
 
             // like or unlike
             $like = "";
-            $userIsLike = 1;
+            // $userIsLike = $status->IsLiked($usr['id'], $content['id']);
+            $userIsLike = rand(0, 1);
             if ($userIsLike)
-                $like = "<li id='reaction-like'>&nbsp;Like</li>";
+                $like = "<li class='reaction-like' id=reaction-like-$content[id]>&nbsp;Like</li>";
             else 
-                $like = "<li id='reaction-unlike'>&nbsp;UnLike</li>";
+                $like = "<li class='reaction-unlike' id=reaction-unlike-$content[id]>&nbsp;UnLike</li>";
 
             $comments = $comment->CommentWithIdStatus($id_status);
             $numberComment = count($comments) > 0 ? "(<span id=numcom-$content[id]>". count($comments) ."</span>)" : "<span id=numcom-$content[id]></span>";
@@ -222,7 +224,7 @@ STATUS;
         <hr style="width: 97%">
         <div class="reaction">
             <ul>
-                <li class="reaction-like" id="reaction-like-$content[id]">&nbsp;Like</li>
+                $like
                 <li class="reaction-comment" id="reaction-comment-$content[id]">&nbsp;Comment $numberComment</li>
                 <li class="reaction-share" id="reaction-share-$content[id]">&nbsp;Share</li>
             </ul>

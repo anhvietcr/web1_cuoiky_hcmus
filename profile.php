@@ -5,13 +5,16 @@ require_once 'inc/autoload.php';
 $formatHelper = new FormatHelper();
 $user = new UserController();
 $status = new StatusController();
+
 if (!isset($_COOKIE['login'])) {
     header('Location: index.php');
 }
+
 $id_user2 = $_GET['id'];
 $user2 = $user->GetUser('',$id_user2);
 $user1 =$user->GetUser($_COOKIE['login']);
 $id_user1 = $user1['id'];
+
 //Xác định mối quan hệ gì
 $noRelationship = false;
 $following= false;
@@ -49,15 +52,6 @@ else{
     $noRelationship=true;
 }
 
-//Comment
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (isset($_POST['addComment']) && !empty($_POST['content_comment'])) {
-        $user->NewComment($_POST['id_status'],$_COOKIE['login'],$_POST['content_comment']);
-        header('Location: '.$_SERVER['PHP_SELF']);
-
-    }
-}
-
 $user2_avatar = !empty($user2['avatar']) ? 'data:image;base64,'.$user2['avatar'] : "asset/img/non-avatar.png";
 $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
 ?>
@@ -65,18 +59,14 @@ $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
 <?= $formatHelper->addFixMenu() ?>
 <div class="main">
     <div class="content">
-        <form action="friends.php" method="post">
-            <div class="card" style="width: 35rem;">
-                <input type="hidden" name = "name" value="<?=$user2['username']?>">
-                <img class="card-img-top" height="350"src="<?=$user2_avatar?>">
-                <div class="card-body">
-                    <h4 class="card-title">Thông tin</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Họ tên: </strong> <?=$user2['realname']?></li>
-                </ul>
-
-                <div class="card-body">
+        <div class="user-info">
+            <div class="info-title">
+                <span><img src="<?= $user2_avatar?>"/></span>
+                <span id="name"><?=$user2['realname']?></span>
+            </div>
+            <div class="info-body">
+                <form action="friends.php" method="post">
+                    <input type="hidden" name="name" value="<?=$user2['username']?>">
                     <?php
                     if($id_user2!==$id_user1) {
                         if ($noRelationship) {
@@ -106,10 +96,9 @@ $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
                         }
                     }
                     ?>
-
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
         <?= $formatHelper->addNewsfeed($statusOfUserB,$user1['username'])?>
     </div>
     <?= $formatHelper->ListFriendIndex($_COOKIE['login']) ?>
