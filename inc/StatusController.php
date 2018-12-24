@@ -223,11 +223,7 @@ class StatusController
                 }
             $wholiked = unserialize($row['wholiked']);
             array_push($wholiked,$id_user);
-<<<<<<< HEAD
             $convert = serialize($wholiked);
-=======
-            $convert = unserialize($wholiked);
->>>>>>> 36ba08e398efc2bb5a5610f26cd3d60bf5c71eac
             $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$convert,$id_status]))
@@ -275,11 +271,7 @@ class StatusController
                    unset($wholiked[$key]);
                 }
             }
-<<<<<<< HEAD
             $convert = serialize($wholiked);
-=======
-            $updatewholiked = serialize($wholiked);
->>>>>>> 36ba08e398efc2bb5a5610f26cd3d60bf5c71eac
             $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$convert,$id_status]))
