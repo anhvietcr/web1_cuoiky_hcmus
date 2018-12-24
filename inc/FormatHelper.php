@@ -207,9 +207,11 @@ STATUS;
 
             // like or unlike
             $amountLike = $status->AmountOfLiked($content['id']);
+            $amountLike = $amountLike > 0 ? $amountLike : "" ;
+
             $like = "";
-            // $userIsLike = $status->IsLiked($usr['id'], $content['id']);
-            $userIsLike = rand(0, 1);
+            $nonlike = "";
+            $userIsLike = $status->IsLiked($currentUser['id'], $content['id']);
             if ($userIsLike) {
                 $like = "table-cell";
                 $nonlike = "none";
@@ -219,7 +221,9 @@ STATUS;
             }
 
             $comments = $comment->CommentWithIdStatus($id_status);
-            $numberComment = count($comments) > 0 ? "(<span id=numcom-$content[id]>". count($comments) ."</span>)" : "<span id=numcom-$content[id]></span>";
+            $amountComment = count($comments);
+            $amountComment = $amountComment > 0 ? $amountComment : "";
+
 
             // content status html
             $this->newsfeed .=<<<NEWSFEED
@@ -241,9 +245,11 @@ STATUS;
         <hr style="width: 97%">
         <div class="reaction">
             <ul>
-                <li style="display: $like" class='reaction-like' id=reaction-like-$content[id]>&nbsp;Liked (<span id=numlike-$content[id]>$amountLike</span>)</li>
-                <li style="display: $nonlike" class='reaction-nonlike' id=reaction-nonlike-$content[id]>&nbsp;Like (<span id=numnonlike-$content[id]>$amountLike</span>)</li>
-                <li class="reaction-comment" id="reaction-comment-$content[id]">&nbsp;Comment $numberComment</li>
+                <li style="display: $like" class='reaction-like' id=reaction-like-$content[id]> &nbsp;Liked <span id=numlike-$content[id]>$amountLike</span>
+                </li>
+                <li style="display: $nonlike" class='reaction-nonlike' id=reaction-nonlike-$content[id]> &nbsp;Like <span id=numnonlike-$content[id]>$amountLike</span>
+                </li>
+                <li class="reaction-comment" id="reaction-comment-$content[id]">&nbsp;Comment <span id=numcom-$content[id]>$amountComment</span></li>
                 <li class="reaction-share" id="reaction-share-$content[id]">&nbsp;Share</li>
             </ul>
         </div>

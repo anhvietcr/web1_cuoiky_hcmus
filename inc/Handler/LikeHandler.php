@@ -22,7 +22,7 @@ if (isset($_POST['type']) && $_POST['type'] == "like") {
     	$status = new StatusController();
 
     	// User like comment
-    	// $message = $status->LikeForStatus($info['id'], $_POST['id_status']);
+    	$message = $status->LikeForStatus($info['id'], $_POST['id_status']);
 
     	$message = 'Thành công';
     	$result['respText'] = $message;
@@ -48,7 +48,7 @@ if (isset($_POST['type']) && $_POST['type'] == "like") {
     	$status = new StatusController();
 
     	// User like comment
-    	// $message = $status->UnLikeForStatus($info['id'], $_POST['id_status']);
+    	$message = $status->UnLikeForStatus($info['id'], $_POST['id_status']);
 
     	$message = 'Thành công';
     	$result['respText'] = $message;

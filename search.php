@@ -9,6 +9,7 @@ $comment = new CommentController();
 
 $currentTab = "All";
 $keyWord = '';
+$postEntities = null;
 $posts = null;
 $users = null;
 
@@ -17,14 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     if (isset($_POST['keyword'])) {
-        if ($currentTab === "All") {
-            $users = $formatHelper->SearchUser((!isset($_POST['keyword']) ? null : $_POST['keyword']));
-            $posts = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyword']) ? null : $_POST['keyword']));
-        } else if ($currentTab === "Status") {
-            $posts = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyword']) ? null : $_POST['keyword']));
-        } else if ($currentTab === "Users") {
-            $users = $formatHelper->SearchUser((!isset($_POST['keyword']) ? null : $_POST['keyword']));
-        }
+        $users = $formatHelper->SearchUser((!isset($_POST['keyword']) ? null : $_POST['keyword']));
+        $postEntities = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyword']) ? null : $_POST['keyword']));
+        $posts = $formatHelper->addNewsfeed($postEntities, $_COOKIE['login']);
     }
 
     if (count($posts) == 0 && count($users) == 0) {
@@ -49,39 +45,37 @@ if (!isset($_COOKIE['login'])) {
                 <?= @$message ? : "" ?>
             </center>
         </div>
-        <div class="w3-bar w3-white" style="left: 10%; color: rgb(255, 255, 255);">
-                <button class="w3-bar-item w3-button tablink" onclick="openSearchFilter(event,'All')">All</button>
+        <div class="w3-bar w3-white">
+                <button class="w3-bar-item w3-button tablink w3-red" onclick="openSearchFilter(event,'All')">All</button>
                 <button class="w3-bar-item w3-button tablink" onclick="openSearchFilter(event,'Status')">Status</button>
                 <button class="w3-bar-item w3-button tablink" onclick="openSearchFilter(event,'Users')">Users</button>
         </div>
     </div>
 
-    <div id="All" class="w3-container w3-border filter" style="display:none">
+    <div id="All" class="w3-container w3-border filter">
         <div class="content" style="padding: 20px;">
-            <?php if ($users != null) { ?>
-                <?= $users ?>
-                <?php 
+            <?php if ($users != null) {
+                echo $users;
             } ?>
         </div>
 
         <div class="content" style="padding: 20px;">
             <?php if ($posts != null) {
-                echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
+                echo $posts;
             } ?>
         </div>
     </div>
     <div id="Users" class="w3-container w3-border filter" style="display:none">
         <div class="content" style="padding: 20px;">
-            <?php if ($users != null) { ?>
-                <?= $users ?>
-                <?php 
+            <?php if ($users != null) {
+                echo $users;
             } ?>
         </div>
     </div>
     <div id="Status" class="w3-container w3-border filter" style="display:none">
         <div class="content" style="padding: 20px;">
             <?php if ($posts != null) {
-                echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
+                echo $posts;
             } ?>
         </div>
     </div>

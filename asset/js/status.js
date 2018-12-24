@@ -132,10 +132,19 @@ function LikeStatus(id) {
 			if (data.status === 200) {
 
 				// Update frontend
-				let numlike = parseInt($('#numlike-'+id)[0].innerHTML, 10);
-				let numUpdate = numlike > 0 ? numlike+1 : "(1)";
-				$('#numlike-'+id)[0].innerHTML = numUpdate;
+				let numnonlike = $('#numnonlike-'+id)[0].innerHTML;
+				let numnlike = $('#numlike-'+id)[0].innerHTML;
+				let numUpdate;
 
+				if (numnonlike === "") {
+					numUpdate = 1;
+				} else {
+					let liked = parseInt(numnonlike, 10);
+					numUpdate = liked + 1;
+				}
+
+				$('#numlike-'+id)[0].innerHTML = numUpdate;
+				$('#numnonlike-'+id)[0].innerHTML = numUpdate;
 				$('#reaction-like-'+id).prop("style", "display: table-cell");
 				$('#reaction-nonlike-'+id).prop("style", "display: none");
 			}
@@ -164,31 +173,27 @@ function UnLikeStatus(id) {
 
 			if (data.status === 200) {
 
-				$('#reaction-like-'+id).prop("style", "display: none");
-				$('#reaction-nonlike-'+id).prop("style", "display: table-cell");
-				
 				// Update frontend
-				let amountLike = $('#numnonlike-'+id)[0];
+				let numnonlike = $('#numnonlike-'+id)[0].innerHTML;
+				let numnlike = $('#numlike-'+id)[0].innerHTML;
 				let numUpdate;
 
-
-				console.log(amountLike);
-
-
-				if (amountLike === undefined) {
-					amountLike.innerHTML = "";
+				if (numnonlike === "") {
+					numUpdate = "";
 				} else {
-					let numlike = parseInt(amountLike.innerHTML, 10);
+					let liked = parseInt(numnonlike, 10);
 
-					if (numlike <= 1) {
-						amountLike.innerHTML = "";
+					if (liked < 2) {
+						numUpdate = "";
 					} else {
-						numUpdate = numlike - 1;
+						numUpdate = liked - 1;
 					}
 				}
+				
+				$('#numlike-'+id)[0].innerHTML = numUpdate;
 				$('#numnonlike-'+id)[0].innerHTML = numUpdate;
-
-
+				$('#reaction-like-'+id).prop("style", "display: none");
+				$('#reaction-nonlike-'+id).prop("style", "display: table-cell");
 			}
 		}, 
 		error: (err) => {
@@ -196,5 +201,4 @@ function UnLikeStatus(id) {
 			console.log(err);
 		}
 	})
-
 }
