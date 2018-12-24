@@ -71,13 +71,12 @@ if (!isset($_COOKIE['login'])) {
         </div>
 
         <div class="content" style="padding: 20px;">
-                <?php if ($posts != null) {
-                    echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
-                } ?>
-            </div>
+            <?php if ($posts != null) {
+                echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
+            } ?>
+        </div>
     </div>
-
-    <div id="Status" class="w3-container w3-border filter" style="display:none">
+    <div id="Users" class="w3-container w3-border filter" style="display:none">
         <div class="content" style="padding: 20px;">
             <?php if ($users != null) { ?>
                 <?= $users ?>
@@ -85,13 +84,14 @@ if (!isset($_COOKIE['login'])) {
             } ?>
         </div>
     </div>
-    <div id="Users" class="w3-container w3-border filter" style="display:none">
+    <div id="Status" class="w3-container w3-border filter" style="display:none">
         <div class="content" style="padding: 20px;">
             <?php if ($posts != null) {
                 echo ($formatHelper->addNewsfeed($posts, $_COOKIE['login']));
             } ?>
         </div>
     </div>
+
 </div>
 
 </div>
