@@ -734,7 +734,7 @@ hr {
     max-width: 800px;
     margin: 0 auto;
     margin-bottom: 10px;
-	background-image: radial-gradient(ellipse farthest-side at left center, #959595 0%, #191919 46%, #010101 50%, #0F0F0F 53%, #303030 76%, #383838 87%, #01000F 100%);
+    background-image: radial-gradient(ellipse farthest-side at right top, #959595 0%, #191919 46%, #010101 50%, #0F0F0F 53%, #303030 76%, #383838 87%, #545454 100%);
 }
 
 .user-info .info-title img {
