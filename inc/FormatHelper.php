@@ -545,7 +545,7 @@ FORM_NEW_PASSWORD;
         <!-- Status -->
         <div class="new-title">
             <img src="$src" alt="logo"> 
-            <h4 id="user"><a href="profile.php?id=8">$name</a></h4>
+            <h4 id="user"><a href="profile.php?id=$usr[id]">$name</a></h4>
             <span>&nbsp;&nbsp;</span>
             <i>$usr[created]</i>
         </div>
