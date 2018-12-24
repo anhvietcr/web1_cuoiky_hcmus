@@ -11,7 +11,6 @@ $(document).ready(() => {
 		 *	Hide/Show comment element on status
 		 */
 		if (full_id.indexOf('comment') > 0) {
-			
 
 			let comment_status = $('#comment-status-'+id);
 			if (comment_status.hasClass('hide-comment-status')) {
@@ -101,7 +100,6 @@ $(document).ready(() => {
 					let numcom = parseInt($('#numcom-'+id)[0].innerHTML, 10);
 					let numUpdate = numcom >= 0 ? numcom+1 : "(1)";
 					$('#numcom-'+id)[0].innerHTML = numUpdate;
-
 				} else {
 					console.log(result.respText);
 				}
