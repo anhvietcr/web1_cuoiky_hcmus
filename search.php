@@ -41,43 +41,27 @@ if (!isset($_COOKIE['login'])) {
 
 <div class="main">
     <div class="content">
-        <div class="alert alert-info" <?= @$display ? : "style='display:none; text-align: center;'" ?>><center>
+        <div class="alert alert-info" <?=@$display ? : "style='display:none; text-align: center;'" ?>><center>
                 <?= @$message ? : "" ?>
             </center>
         </div>
-        <div class="w3-bar w3-white">
-                <button class="w3-bar-item w3-button tablink w3-red" onclick="openSearchFilter(event,'All')">All</button>
-                <button class="w3-bar-item w3-button tablink" onclick="openSearchFilter(event,'Status')">Status</button>
-                <button class="w3-bar-item w3-button tablink" onclick="openSearchFilter(event,'Users')">Users</button>
+        <div id="btnFilters">
+            <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+            <button class="btn" onclick="filterSelection('users')"> Users</button>
+            <button class="btn" onclick="filterSelection('status')"> Status</button>
         </div>
     </div>
 
-    <div id="All" class="w3-container w3-border filter">
-        <div class="content" style="padding: 20px;">
-            <?php if ($users != null) {
-                echo $users;
-            } ?>
-        </div>
+    <div class="content" id="users" style="padding: 20px;">
+        <?php if ($users != null) {
+            echo $users;
+        } ?>
+    </div>
 
-        <div class="content" style="padding: 20px;">
-            <?php if ($posts != null) {
-                echo $posts;
-            } ?>
-        </div>
-    </div>
-    <div id="Users" class="w3-container w3-border filter" style="display:none">
-        <div class="content" style="padding: 20px;">
-            <?php if ($users != null) {
-                echo $users;
-            } ?>
-        </div>
-    </div>
-    <div id="Status" class="w3-container w3-border filter" style="display:none">
-        <div class="content" style="padding: 20px;">
-            <?php if ($posts != null) {
-                echo $posts;
-            } ?>
-        </div>
+    <div class="content" id="status" style="padding: 20px;">
+        <?php if ($posts != null) {
+            echo $posts;
+        } ?>
     </div>
 
 </div>

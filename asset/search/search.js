@@ -1,14 +1,26 @@
-function openSearchFilter(evt, filterName) {
-  var i, x, tablinks, items;
-  x = document.getElementsByClassName("filter");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
+function filterSelection(c) {
+  var items, i;
+  items = document.getElementsByClassName("content");
+  for (i = 0; i < items.length; i++) {
+    if (c=="all") {
+      items[i].style.display = 'block';
+      continue;
+    }
+    if (items[i].id != "" && items[i].id != c) {
+      items[i].style.display = 'none';
+    } else {
+      items[i].style.display = 'block';
+    }
   }
+}
 
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
-  }
-  document.getElementById(filterName).style.display = "block";
-  evt.currentTarget.className += " w3-red";
+
+var btnContainer = document.getElementById("btnFilters");
+var btns = btnContainer.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function(){
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
 }
