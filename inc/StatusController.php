@@ -204,10 +204,24 @@ class StatusController
     {
         try 
         {
-            $wholiked = serialize($row['wholiked']);
+            
+            if (empty($row['wholiked']))
+                {
+                    $arr = array();
+                    array_push($arr,$id_user);
+                    $convert = serialize($arr);
+                    $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
+                    $data = db::$connection->prepare($sqlSelect);
+                    if ($data->execute([$convert,$id_status]))
+                    {
+                        return 'Thành công';
+                    }
+                    return 'Thất bại';
+                }
+            $wholiked = unserialize($row['wholiked']);
             array_push($wholiked,$id_user);
-            $convert = unserialize($wholiked);
-            $sqlSelect = "UPDATE status SET wholiked=? WHERE id_status = ?";
+            $convert = serialize($wholiked);
+            $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$convert,$id_status]))
             {
@@ -223,12 +237,12 @@ class StatusController
     {
         try
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_status])) {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
-                AddWhoLiked($row,$id_user,$id_status);
-                return 'Thành công';
+                return $this->AddWhoLiked($row,$id_user,$id_status);
+                
             }
         
             return 'Thất bại';
@@ -241,23 +255,26 @@ class StatusController
     {
         try 
         {
-            $wholiked = unserialize($row['wholiked']);
-
-                //$idFriends = unserialize($following);
-            foreach ($wholiked as $who) 
-            {
-                if($who==$id_user)
+            if (empty($row['wholiked']))
                 {
-                    unset($who);
-                }       
+                    return 'Thành công';
+                }
+            
+            $wholiked = unserialize($row['wholiked']);
+            foreach ($wholiked as $key => $value) 
+            {
+                if($value==$id_user)
+                {
+                   unset($wholiked[$key]);
+                }
             }
-            $updatewholiked = serialize($wholiked);
-            $sqlSelect = "UPDATE status SET wholiked=? WHERE id_status = ?";
+            $convert = serialize($wholiked);
+            $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
-            if ($data->execute([$updatewholiked,$id_status])) {
+            if ($data->execute([$convert,$id_status]))
+            {
                 return 'Thành công';
             }
-        
             return 'Thất bại';
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
@@ -268,12 +285,12 @@ class StatusController
     {
         try
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
-            if ($data->execute([$id_status])) {
+            if ($data->execute([$id_status])) 
+            {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
-                RemoveWhoLiked($row,$id_user,$id_status);
-                return 'Thành công';
+                return $this->RemoveWhoLiked($row,$id_user,$id_status);
             }
         
             return 'Thất bại';
@@ -285,11 +302,13 @@ class StatusController
     {
         try
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_status])) {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
-                $array = serialize($row['wholiked']);
+                if(empty($row['wholiked'])) return 0;
+                
+                $array = unserialize($row['wholiked']);
                 $count = count($array);
                 return $count;
             }
@@ -303,21 +322,24 @@ class StatusController
     {
         try 
         {
-            $sqlSelect = "SELECT * FROM status WHERE id_status = ?";
+            $sqlSelect = "SELECT * FROM status WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_status])) 
             {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
-                $wholiked = unserialize($row['wholiked']);
-
-                    //$idFriends = unserialize($following);
-                foreach ($wholiked as $who) 
+                
+                if (isset($row['wholiked']))
                 {
-                    if($who==$id_user)
+                    $wholiked = unserialize($row['wholiked']);
+                    foreach ($wholiked as $key => $value) 
                     {
-                        return true;
-                    }       
+                        if($value==$id_user)
+                        {
+                            return true;
+                        }
+                    }
                 }
+                return false;
             }
             return false;
         } catch (PDOException $ex) {
