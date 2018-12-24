@@ -211,8 +211,7 @@ STATUS;
 
             $like = "";
             $nonlike = "";
-            $userIsLike = $status->IsLiked($usr['id'], $content['id']);
-            // $userIsLike = rand(0, 1);
+            $userIsLike = $status->IsLiked($currentUser['id'], $content['id']);
             if ($userIsLike) {
                 $like = "table-cell";
                 $nonlike = "none";

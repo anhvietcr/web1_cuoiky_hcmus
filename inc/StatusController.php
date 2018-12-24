@@ -332,7 +332,7 @@ class StatusController
             {
                 $row = $data->fetch(PDO::FETCH_ASSOC);
                 
-                if (isset($row['wholiked']))
+                if (!empty($row['wholiked']))
                 {
                     $wholiked = unserialize($row['wholiked']);
                     foreach ($wholiked as $key => $value) 
