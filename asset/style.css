@@ -468,6 +468,22 @@ body {
 	font-weight: 900;
 }
 
+.reaction-like span,
+.reaction-nonlike span,
+.reaction-comment span {
+    font-size: 12px;
+    position: absolute;
+    margin-left: 5px;
+}
+
+.reaction-like span {
+	color: #FF0000;	
+	font-weight: 600;
+}
+.reaction-nonlike span {
+	color: inherit;
+	font-weight: 400;
+}
 hr {
 	margin: 5px 10px !important;
 }
