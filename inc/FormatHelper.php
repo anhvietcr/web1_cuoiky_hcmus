@@ -36,8 +36,9 @@ class FormatHelper
     <meta charset="utf-8">
     <meta name="username" value="$title">
     <link rel="stylesheet" type="text/css" href="asset/style.css">
-    <link rel="stylesheet" type="text/css" href="asset/search/searchBar.css">
+    <link rel="stylesheet" type="text/css" href="asset/search/search.css">
     <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -65,6 +66,7 @@ HEADER;
 <script src="asset/js/dashboard.js" defer></script>
 <script src="asset/js/status.js" defer></script>
 <script src="asset/js/linkpreview.js" defer></script>
+<script src="asset/search/search.js" defer></script>
 </body>
 </html>
 FOOTER;
@@ -93,12 +95,22 @@ FOOTER;
         <a href="index.php"><img src="asset/img/home.png" alt="home"></a>
     </div>
     <ul id="nav">
-        <li><a href="search_status.php">Tìm status</a></li>
-        <li><a href="search_user.php">Tìm user </a></li>
         <li><a href="profile.php?id=$id">( $name )</a></li>
         <li><a href="friends.php">Bạn bè $req </a></li>
         <li><a href="logout.php">Đăng xuất</a></li>
     </ul>
+    <ul id="nav">
+    <div class="d-flex justify-content-center h-100">
+    <form class="form" action="search.php" method="POST">
+        <div class="searchbar ">
+        <input class="search_input " type="search" name="keyword" placeholder="Search...">
+        <a class="search_icon "><i class="fas fa-search "></i></a>
+        </div>
+    </form>
+    </div>
+    </ul>
+
+
     <div class="clear"></div>
 </div>
 FIXMENU;
@@ -534,21 +546,16 @@ FORM_NEW_PASSWORD;
             $src = !empty($usr['avatar']) ? 'data:image;base64,'.$usr['avatar'] : "asset/img/non-avatar.png";
 
             $this->users .=<<<SEARCHUSER
-    <tr>
-    <td width="10">
-        <img class="pull-left img-circle nav-user-photo" width="50" src="$src" /> 
-    </td>
-    <td>
-    <a href="profile.php?id=$usr[id]">
-        $name
-    </a>
-    </td>
-    <td align="left">
-        $usr[username]</td>
-    <td>Tham gia: <i>$usr[created]</i>
-    </td>
-</tr>
-
+            <div class="user">
+        <div class="user-item" id="38">
+        <!-- Status -->
+        <div class="new-title">
+            <img src="$src" alt="logo"> 
+            <h4 id="user"><a href="profile.php?id=$usr[id]">$name</a></h4>
+            <span>&nbsp;&nbsp;</span>
+            <i>$usr[created]</i>
+        </div>
+    </div></div>
 SEARCHUSER;
         }
         
