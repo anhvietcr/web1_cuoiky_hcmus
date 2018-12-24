@@ -4,8 +4,7 @@ require_once 'inc/autoload.php';
 
 // Format HTML
 $formatHelper = new FormatHelper();
-$test = new StatusConroller();
-print_r($test->IsLiked(1,1));
+
 // Form REQUEST
 if ($_SERVER['REQUEST_METHOD'] == 'POST')  {
     $user = new UserController();
