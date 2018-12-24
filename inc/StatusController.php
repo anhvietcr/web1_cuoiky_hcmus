@@ -8,8 +8,11 @@ include_once 'autoload.php';
 class StatusController
 {
     protected $request;
+    
     public function __construct()
-    {}
+    {
+        db::connect();
+    }
 
     public function NewStatus($id_user, ...$args)
     {
@@ -220,7 +223,11 @@ class StatusController
                 }
             $wholiked = unserialize($row['wholiked']);
             array_push($wholiked,$id_user);
+<<<<<<< HEAD
             $convert = serialize($wholiked);
+=======
+            $convert = unserialize($wholiked);
+>>>>>>> 36ba08e398efc2bb5a5610f26cd3d60bf5c71eac
             $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$convert,$id_status]))
@@ -268,7 +275,11 @@ class StatusController
                    unset($wholiked[$key]);
                 }
             }
+<<<<<<< HEAD
             $convert = serialize($wholiked);
+=======
+            $updatewholiked = serialize($wholiked);
+>>>>>>> 36ba08e398efc2bb5a5610f26cd3d60bf5c71eac
             $sqlSelect = "UPDATE status SET wholiked=? WHERE id = ?";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$convert,$id_status]))
@@ -318,7 +329,8 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
-    public function IsLiked($id_user,$id_status)
+
+    public function IsLiked($id_user, $id_status)
     {
         try 
         {

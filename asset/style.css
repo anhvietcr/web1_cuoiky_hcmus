@@ -450,7 +450,7 @@ body {
 	font-weight: 900;
 }
 
-.reaction-unlike:before {
+.reaction-nonlike:before {
 	content: "\f004";
     font-family: "Font Awesome 5 Free";
 	font-weight: 500;
@@ -522,7 +522,6 @@ hr {
 .status {
     padding: 5px;
     position: relative;
-    width: inherit;
     border: 1px solid #dddfe2;
     border-radius: 10px;
     max-width: 800px;
@@ -695,8 +694,8 @@ hr {
 
 .linkpreview-status img {
     margin-top: 10px;
-    width: 100%;
-    height: 500px;
+    .width: 100%;
+    .height: 500px;
     cursor: pointer;
     padding: 100px;
     border-bottom: 1px dotted #aaa;
@@ -704,9 +703,44 @@ hr {
 
 .linkpreview-comment img {
     margin-top: 10px;
-    width: 100%;
-    height: 250px;
+    .width: 100%;
+    .height: 250px;
     cursor: pointer;
     padding: 50px;
     border-bottom: 1px dotted #aaa;
+}
+
+.user-info {
+	padding: 5px;
+    position: relative;
+    border: 1px solid #dddfe2;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+	background-image: radial-gradient(ellipse farthest-side at left center, #959595 0%, #191919 46%, #010101 50%, #0F0F0F 53%, #303030 76%, #383838 87%, #01000F 100%);
+}
+
+.user-info .info-title img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #fff;
+    opacity: .9;
+}
+
+.user-info .info-title #name {
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: #fff;
+    font-weight: 600;
+    margin-left: 10px;
+    line-height: 100px;
+}
+
+.user-info .info-body {
+	position: absolute;
+    right: 5px;
+    top: 70px;
+    bottom: 0;
 }
