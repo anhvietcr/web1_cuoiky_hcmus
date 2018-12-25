@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 //autoloader
-require dirname(dirname(__FILE__)) .'\\vendor\\autoload.php';
+require dirname(dirname(__FILE__)) .'/vendor/autoload.php';
 include_once 'autoload.php';
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
