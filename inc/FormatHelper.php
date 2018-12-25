@@ -107,7 +107,7 @@ FOOTER;
         <form class="form" action="search.php" method="POST">
             <div class="searchbar ">
             <input class="search_input " type="search" name="keyword" placeholder="Tìm status, bạn bè...">
-            <a class="search_icon "><i class="fas fa-search "></i></a>
+            <a href="search.php" class="search_icon "><i class="fas fa-search "></i></a>
             </div>
         </form>
         </div>
