@@ -20,7 +20,7 @@ class UserController
         db::connect();
     }
 
-    private function setCookie($username, $remember = "on")
+    private function setCookie($username, $realname, $remember = "on")
     {
         if ($remember == 'on') {
             $time = 3600 * 24; // 24 hours
@@ -29,6 +29,7 @@ class UserController
         }
 
         setcookie('login', $username , time() + $time);
+        setcookie('realname', $realname , time() + $time);
         return 1;
     }
 //Trả về user theo id và username
@@ -80,7 +81,7 @@ class UserController
             $data = db::$connection->prepare($sqlUpdate);
             if ($data->execute([$usr['username']])) {
 
-                if ($this->setCookie($usr['username'])) {
+                if ($this->setCookie($usr['username'], $usr['realname'])) {
                     return 1;
                 }
             }
@@ -148,7 +149,7 @@ class UserController
             }
 
             $token = '';
-            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@$%^*";
+            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
             $len = strlen($prepare) - 1;
             for ($c = 0; $c < 25; $c++)
             {

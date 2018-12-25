@@ -32,9 +32,9 @@ class FormatHelper
 <!DOCTYPE html>
 <html lang="vn">
 <head>
-    <title> $title </title>
+    <title> $_COOKIE[realname] </title>
     <meta charset="utf-8">
-    <meta name="username" value="$title">
+    <meta name="username" value="$_COOKIE[login]">
     <link rel="stylesheet" type="text/css" href="asset/style.css">
     <link rel="stylesheet" type="text/css" href="asset/search/search.css">
     <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
