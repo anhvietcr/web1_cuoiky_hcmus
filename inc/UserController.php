@@ -148,7 +148,7 @@ class UserController
             }
 
             $token = '';
-            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@$%^*";
+            $prepare = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
             $len = strlen($prepare) - 1;
             for ($c = 0; $c < 25; $c++)
             {
@@ -741,10 +741,11 @@ class UserController
             // prepare string select username
             $sqlSelect = "SELECT *
                           FROM users
-                          WHERE realname LIKE ?
+                          WHERE username LIKE ?
+                          OR realname LIKE ?
                           LIMIT 100";
             $data = db::$connection->prepare($sqlSelect);
-            if ($data->execute(array('%'.$name.'%'))) {
+            if ($data->execute(array('%'.$name.'%', '%'.$name.'%'))) {
                 return $data->fetchAll(PDO::FETCH_ASSOC);
             }
             return "Có lỗi xảy ra";
