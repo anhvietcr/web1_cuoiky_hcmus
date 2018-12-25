@@ -410,7 +410,7 @@ class UserController
                 foreach ($idFriends as $idf) {
 
                     // getting status from friend
-                    $stt = $status->StatusById($idf, 2);
+                    $stt = $status->ShowStatusWithRelationship($id, $idf);
                     if ($stt != null) $arrStatus = array_merge($arrStatus, $stt);
                 }
             }
