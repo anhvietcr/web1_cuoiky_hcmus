@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname(dirname(__FILE__)) .'\\'. 'autoload.php';
+include_once dirname(dirname(__FILE__)) . '/autoload.php';
 
 if (isset($_POST['type']) && $_POST['type'] == "new_status") {
 
