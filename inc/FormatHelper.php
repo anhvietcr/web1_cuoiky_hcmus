@@ -63,6 +63,7 @@ HEADER;
 <div class="copyright">
     <span>HCMUS | Team F5--</span>       
 </div>
+<script src="asset/js/hamburgerMenu.js" defer></script>
 <script src="asset/js/dashboard.js" defer></script>
 <script src="asset/js/status.js" defer></script>
 <script src="asset/js/linkpreview.js" defer></script>
@@ -94,21 +95,36 @@ FOOTER;
     <div id="icon">
         <a href="index.php"><img src="asset/img/home.png" alt="home"></a>
     </div>
-    <ul id="nav">
+
+    <ul id="nav" class="nav-info">
         <li><a href="profile.php?id=$id">( $name )</a></li>
         <li><a href="friends.php">Bạn bè $req </a></li>
         <li><a href="logout.php">Đăng xuất</a></li>
     </ul>
+
     <ul id="nav">
-    <div class="d-flex justify-content-center h-100">
-    <form class="form" action="search.php" method="POST">
-        <div class="searchbar ">
-        <input class="search_input " type="search" name="keyword" placeholder="Search...">
-        <a class="search_icon "><i class="fas fa-search "></i></a>
+        <div class="d-flex justify-content-center h-100">
+        <form class="form" action="search.php" method="POST">
+            <div class="searchbar ">
+            <input class="search_input " type="search" name="keyword" placeholder="Tìm status, bạn bè...">
+            <a class="search_icon "><i class="fas fa-search "></i></a>
+            </div>
+        </form>
         </div>
-    </form>
-    </div>
     </ul>
+    <span id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+    <div class="hamburger-menu">
+        <ul>
+            <li><i class="fas fa-caret-right"></i><a href="dashboard.php">Trang chủ</a></li>
+            <li><i class="fas fa-caret-right"></i><a href="profile.php?id=$id"><i>$name<i></a></li>
+            <li><i class="fas fa-caret-right"></i><a href="friends.php">Bạn bè $req </a></li>
+            <li><i class="fas fa-caret-right"></i><a href="logout.php">Đăng xuất</a></li>
+        </ul>
+    </div>  
 
 
     <div class="clear"></div>

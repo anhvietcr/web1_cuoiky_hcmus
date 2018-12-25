@@ -96,14 +96,16 @@ body {
     font-weight: 500;
 }
 
-.fix-menu ul {
+.fix-menu .nav-info >  ul,
+.fix-menu > ul {
 	float: right;
 	list-style-type: none;
 	display: inline-block;
 	margin-right: 40px;
 }
 
-.fix-menu li {
+.fix-menu .nav-info > li,
+.fix-menu > li {
 	display: inline-block;
 	padding: 0px 20px;
 }
@@ -150,12 +152,12 @@ body {
 }
 
 .main {
-	margin: 8vh 0;
+	margin: 55px 0;
 	width: inherit;
 }
 
 .content {
-	width: 80%;
+	width: 83%;
 	display: inline-block;
     margin-right: 10px;
 }
@@ -763,4 +765,207 @@ hr {
 
 .user-info .info-body select {
 	font-size: 17px;
+}
+
+.fix-menu #hamburger {
+	cursor: pointer;
+}
+
+.fix-menu #hamburger span {
+	height: 3px;
+	width: 38px;
+	background: #fff;
+	display: block;
+	margin-bottom: 5px;
+	border-radius: 4px;
+}
+
+#hamburger {
+	width: fit-content;
+	margin: 5px 10px 0px;
+}
+.fix-menu #hamburger ul {
+	max-height: 0px;
+	background: #000;
+}
+.showing {
+	display: block !important;
+}
+
+.fix-menu #hamburger ul li {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 24px 0;
+	text-align: center;
+	border-bottom: 1px solid #fff;
+}
+
+
+
+/** MOBILE FIRST DESIGN - RESPONSIVE BY ANHVIETCR */
+@media only screen and (min-width: 320px) {
+	/* Small Mobile Custom*/
+	.listfriend {
+		width: 150px;
+	}
+
+	.image_status {
+		margin-top: 10px;
+		width: 100%;
+	    height: 500px;
+	    cursor: pointer;
+	    z-index: 5;
+	    padding: 12px;
+	}
+	ul.nav-info,
+	.fix-menu #icon {
+		display: none;
+	}
+
+	#hamburger {
+		display: block;
+	}
+
+	.hamburger-menu {
+		display: none;
+		border-top: 1px solid #fff;
+	    margin-top: 10px;
+	}
+
+	.hamburger-menu ul {
+		list-style-type: none;
+	}
+	.hamburger-menu li {
+	    padding: 10px 0px;
+	    border-bottom: 1px dotted #ddd;
+	    width: 99px;
+	}
+
+	.hamburger-menu i {
+	    width: 15px;
+	    color: #fff;
+	}
+
+}
+
+@media only screen and (min-width: 480px) {
+	/*Mobile*/
+	.content {
+		width: 75%;
+		display: inline-block;
+	    margin-right: 10px;
+	}
+
+	.image_status {
+	    height: 250px;
+	}
+
+	.listfriend {
+		width: 130px;
+	}
+
+	.tab-content .global {
+	    grid-template-columns: 50% 50%;
+	}
+
+	.tab {
+		font-size: 12px;
+	}
+
+	.center-image {
+		width: 85%;
+		height: 50%;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	/*Tablet*/
+
+	.content {
+		width: 77%;
+		display: inline-block;
+	    margin-right: 10px;
+	}
+	
+	.image_status {
+	    height: 320px;
+	}
+
+	.listfriend {
+		width: 175px;
+	}
+
+	.tab-content .global {
+	    grid-template-columns: 33% 33% 33%;
+	}
+
+	.tab {
+		font-size: 13px;
+	}
+	
+	.center-image {
+		width: 80%;
+		height: 60%;
+	}
+}
+
+@media only screen and (min-width: 992px) {
+	/*Laptop, PC*/
+	.content {
+		width: 78%;
+		display: inline-block;
+	    margin-right: 10px;
+	}
+
+	.image_status {
+	    height: 400px;
+	}
+
+	.listfriend {
+		width: 220px;
+	}
+	
+	.tab-content .global {
+	    grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
+
+	.tab {
+		font-size: 14px;
+	}
+
+	.center-image {
+		width: 80%;
+		height: 80%;
+	}
+
+	ul.nav-info,
+	.fix-menu #icon {
+		display: inline-flex;
+	}
+	#hamburger,
+	.hamburger-menu {
+		display: none !important;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	/*Tivi*/
+	.content {
+		width: 83%;
+		display: inline-block;
+	    margin-right: 10px;
+	}
+
+	.image_status {
+	    height: 410px;
+	}
+
+	.listfriend {
+		width: 230px;
+	}
+
+	.center-image {
+		width: 80%;
+		height: 80%;
+	}
 }
