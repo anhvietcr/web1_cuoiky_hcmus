@@ -1,5 +1,33 @@
 $(document).ready(() => {
 
+	// Parse time on status
+	$('.new-title i').each((i, e) => {
+
+		let time_post = $(e)[0].innerHTML;
+		let time_now = new Date();
+		
+		let post_data = time_post.split(' ');
+
+		// date post
+		let post_year = post_data[0].split('-')[0];
+		let post_month = post_data[0].split('-')[1];
+		let post_day = post_data[0].split('-')[2];
+
+		// time post
+		let post_hours = post_data[1].split(':')[0];
+		let post_minutes = post_data[1].split(':')[1];
+		let post_seconds = post_data[1].split(':')[2];
+		
+
+		// console.log(post_year +" "+ post_month +" "+ post_day +" "+ post_hours +" "+ post_minutes +" "+ post_seconds);
+		// console.log(new Date(post_year, post_month-1, post_day, post_hours, post_minutes, post_seconds));
+
+		$(e)[0].innerHTML = BeautifullyTimeStatus(
+			new Date(time_now.getFullYear(), time_now.getMonth(), time_now.getDate(), time_now.getHours(), time_now.getMinutes(), time_now.getSeconds()),
+			new Date(post_year, post_month-1, post_day, post_hours, post_minutes, post_seconds));
+	})
+
+
 	// Reaction action	
 	$(".reaction li").on('click', (e) => {
 		
@@ -111,6 +139,47 @@ $(document).ready(() => {
 		});
 	})
 })
+
+function BeautifullyTimeStatus(current, previous) {
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    // seconds different
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+    	if (Math.round(elapsed/1000) > 0) {
+	         return Math.round(elapsed/1000) + ' seconds ago';   
+    	} else {
+    		return 'just now';
+    	}
+    }
+
+    else if (elapsed < msPerHour) {
+         return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+    }
+
+    else if (elapsed < msPerDay ) {
+         return Math.round(elapsed/msPerHour ) + ' hours ago';   
+    }
+
+    else if (elapsed < msPerMonth) {
+        return Math.round(elapsed/msPerDay) + ' days ago';   
+    }
+
+    else if (elapsed < msPerYear) {
+        return Math.round(elapsed/msPerMonth) + ' months ago';   
+    }
+
+    else {
+        return Math.round(elapsed/msPerYear ) + ' years ago';   
+    }
+}
+
 
 function LikeStatus(id) {
 

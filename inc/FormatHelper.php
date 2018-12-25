@@ -236,7 +236,7 @@ STATUS;
             <img src='$src' alt='logo'> 
             <h4 id='user'><a href="profile.php?id=$id_user">$name</a></h4>
             <span>&nbsp;&nbsp;$role</span>
-            <i>$content[created]</i>
+            <span title="$usr[created]"><i>$content[created]</i></span>
         </div>
         <div class='new-content'>$content[content]</div>
         $imageAttach
@@ -559,7 +559,7 @@ FORM_NEW_PASSWORD;
             <img src="$src" alt="logo"> 
             <h4 id="user"><a href="profile.php?id=$usr[id]">$name</a></h4>
             <span>&nbsp;&nbsp;</span>
-            <i>$usr[created]</i>
+            <span title="$usr[created]"><i>$usr[created]</i></span>
         </div>
     </div></div>
 SEARCHUSER;
