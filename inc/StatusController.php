@@ -118,7 +118,7 @@ class StatusController
     public function StatusRandom()
     {
         try {
-            $sqlSelect = "SELECT DISTINCT(id_user), content, created, id,role FROM status LIMIT 10";
+            $sqlSelect = "SELECT DISTINCT(id_user), content, created, id, role FROM status WHERE role = 'Công khai' ORDER BY created LIMIT 10";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute()) {
                 $row = $data->fetchAll(PDO::FETCH_ASSOC);
