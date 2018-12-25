@@ -10,7 +10,7 @@ class CommentController
 {
     public function __construct()
     {}
-    //Trang làm nè : lưu comment xuống databasr
+    //Trang làm nè : lưu comment xuống database
     public function NewComment($id_status,$id_user, $content)
     {
         //var_dump($id_status);

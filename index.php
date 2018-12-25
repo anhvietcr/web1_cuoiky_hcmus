@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vn">
 <head>
-    <title>Chào mừng bạn đến với website | 1660765 - Web 1 - HCMUS</title>
+    <title>Chào mừng bạn đến với website | F5 Team - Web 1 - HCMUS</title>
     <meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="asset/style.css">
 	<link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
