@@ -68,7 +68,7 @@ $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
                 <form action="friends.php" method="post">
                     <input type="hidden" name="name" value="<?=$user2['username']?>">
                     <?php
-                    if($id_user2!==$id_user1) {
+                    if($id_user2 != $id_user1) {
                         if ($noRelationship) {
                             ?>
                             <button type="submit" class="btn btn-primary" name="addFriend">Thêm bạn bè</button>
@@ -94,6 +94,17 @@ $statusOfUserB = $status->ShowStatusWithRelationship($user1['id'],$id_user2);
                             <button type="submit" class="btn btn-warning" name="delete-friend">Bỏ theo dõi</button>
                             <?php
                         }
+                    } else {
+                        ?>
+                        <select id="options_setting" class="form-control" onchange="location = this.value;">
+                            <option value="settings" selected> Cài đặt </option>
+                            <option disabled>---------------</option>
+                            <option value="change_profile.php">Đổi thông tin</option>
+                            <option value="change_password.php">Đổi mật khẩu</option>
+                            <option disabled>---------------</option>
+                            <option value="logout.php">Đăng xuất</option>
+                        </select>
+                        <?php
                     }
                     ?>
                 </form>

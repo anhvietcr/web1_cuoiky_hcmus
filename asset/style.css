@@ -760,3 +760,7 @@ hr {
     top: 70px;
     bottom: 0;
 }
+
+.user-info .info-body select {
+	font-size: 17px;
+}
