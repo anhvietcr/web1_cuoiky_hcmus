@@ -8,16 +8,14 @@ $user = new UserController();
 $comment = new CommentController();
 
 $currentTab = "All";
-$keyWord = '';
 $postEntities = null;
 $posts = null;
 $users = null;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $message = "";//Thông báo KQ từ server trả về
+    $message = "";
 
-
-    if (isset($_POST['keyword'])) {
+    if (isset($_POST['keyword']) || isset($_POST['search'])) {
         $users = $formatHelper->SearchUser((!isset($_POST['keyword']) ? null : $_POST['keyword']));
         $postEntities = $user->SearchPosts($_COOKIE['login'], (!isset($_POST['keyword']) ? null : $_POST['keyword']));
         $posts = $formatHelper->addNewsfeed($postEntities, $_COOKIE['login']);
@@ -41,7 +39,7 @@ if (!isset($_COOKIE['login'])) {
 
 <div class="main">
     <div class="content">
-        <div class="alert alert-info" <?=@$display ? : "style='display:none; text-align: center;'" ?>><center>
+        <div class="alert alert-info" <?= @$display ? : "style='display:none; text-align: center;'" ?>><center>
                 <?= @$message ? : "" ?>
             </center>
         </div>
