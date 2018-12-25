@@ -1,6 +1,8 @@
 <?php
 include_once 'autoload.php';
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 /*
  * Class control Status
  */
