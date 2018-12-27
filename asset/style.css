@@ -312,7 +312,7 @@ body {
 }
 
 .tab-title:hover {
-	background: #4cae4c;
+	background: #999;
 	color: #fff;
 	border: 1px solid #fff;
 }
@@ -329,8 +329,8 @@ body {
 
 .tab-item:checked + .tab-title {
 	top: -0.25em;
-	background: #50b450;
-	color: #fff;
+    background: #666;
+    color: #fff;
 }
 
 .tab-item:checked + .tab-title + .tab-content {
