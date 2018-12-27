@@ -781,15 +781,14 @@ class UserController
                 $resultStatus = array_merge($resultStatus, $stt);
             }
 
-            
-            foreach ($idFriends as $idFriend) {
-                $stt = $status->StatusByFriendId($keyword, $id, $idFriend);
-                if ($stt != null) {
-                    $resultStatus = array_merge($resultStatus, $stt);
+            if (!empty($idFriends)) {
+                foreach ($idFriends as $idFriend) {
+                    $stt = $status->StatusByFriendId($keyword, $id, $idFriend);
+                    if ($stt != null) {
+                        $resultStatus = array_merge($resultStatus, $stt);
+                    }
                 }
             }
-
-
             return $resultStatus;
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
