@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
-$newsfeed = $user->LoadNewsfeed($_COOKIE['login']);
-
+// $newsfeed = $user->LoadNewsfeed($_COOKIE['login']);
+$postEntities = $user->SearchPosts($_COOKIE['login'], "");
 ?>
 
 <?= $formatHelper->addHeader($_COOKIE['login']) ?>
@@ -28,7 +28,7 @@ $newsfeed = $user->LoadNewsfeed($_COOKIE['login']);
     <div class="main">
         <div class="content">
             <?= $formatHelper->addStatus() ?>
-            <?= $formatHelper->addNewsfeed($newsfeed,$_COOKIE['login']) ?>
+            <?= $formatHelper->addNewsfeed($postEntities, $_COOKIE['login']); ?>
         </div>
         <?= $formatHelper->ListFriendIndex($_COOKIE['login']) ?>
     </div>
