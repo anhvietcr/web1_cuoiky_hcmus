@@ -204,7 +204,7 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
-    
+    //Add những người đã like
     public function AddWhoLiked($row,$id_user,$id_status)
     {
         try 
@@ -241,7 +241,7 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
-
+//Like cho status nào
     public function LikeForStatus($id_user,$id_status)
     {
         try
@@ -259,7 +259,7 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
-
+//Xóa liketrong database
     public function RemoveWhoLiked($row,$id_user,$id_status)
     {
         try 
@@ -289,7 +289,7 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
-
+//Bỏ like( người nào status nào)
     public function UnLikeForStatus($id_user,$id_status)
     {
         try
@@ -307,6 +307,7 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
+    //Số lượng lượt like cho 1 status
     public function AmountOfLiked($id_status)
     {
         try
@@ -327,7 +328,7 @@ class StatusController
             throw new PDOException($ex->getMessage());
         }
     }
-
+//đã like hay chưa
     public function IsLiked($id_user, $id_status)
     {
         try 
