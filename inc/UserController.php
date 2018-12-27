@@ -783,9 +783,16 @@ class UserController
 
             if (!empty($idFriends)) {
                 foreach ($idFriends as $idFriend) {
-                    $stt = $status->StatusByFriendId($keyword, $id, $idFriend);
-                    if ($stt != null) {
-                        $resultStatus = array_merge($resultStatus, $stt);
+                    $stt = $status->ShowStatusWithRelationship($id, $idFriend);
+                    foreach ($stt as $sttItem) {
+                        if ($keyword == "" || $keyword == null) {
+                           array_push($resultStatus, $sttItem);
+                           continue;
+                        }
+                        if (strpos($sttItem['content'], $keyword) !== false) {
+                           array_push($resultStatus, $sttItem);
+                           continue;
+                        }
                     }
                 }
             }
