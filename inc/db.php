@@ -18,7 +18,7 @@ class db
     	$host = 'localhost';
     	$dbname = 'web1_hcmus';
     	$username = 'root';
-    	$password = 'DKyN@co111';
+    	$password = '123456';
 
         self::$option = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
