@@ -135,7 +135,7 @@ class StatusController
     {
         //User1 vào xem profile của user2
         try {
-            $sqlSelect = "SELECT * FROM status where id_user = ? and role = 'Công khai' ORDER BY created";
+            $sqlSelect = "SELECT * FROM status where id_user = ? and role = 'Công khai' ORDER BY created DESC";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_user2])) {
                 $row = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -151,7 +151,7 @@ class StatusController
     {
         //User1 vào xem profile của user2
         try {
-            $sqlSelect = "SELECT * FROM status where id_user = ? and role = 'Bạn bè' ORDER BY created";
+            $sqlSelect = "SELECT * FROM status where id_user = ? and role = 'Bạn bè' ORDER BY created DESC";
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute([$id_user2])) {
                 $row = $data->fetchAll(PDO::FETCH_ASSOC);
