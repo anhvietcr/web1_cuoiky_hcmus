@@ -16,7 +16,7 @@ class db
     {
 
     	$host = 'localhost';
-    	$dbname = 'hcmus_web1';
+    	$dbname = 'web1_hcmus';
     	$username = 'root';
     	$password = 'DKyN@co111';
 
