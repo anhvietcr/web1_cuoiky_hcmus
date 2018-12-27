@@ -746,10 +746,11 @@ class UserController
             // prepare string select username
             $sqlSelect = "SELECT *
                           FROM users
-                          WHERE realname LIKE ?
+                          WHERE username LIKE ?
+                          OR realname LIKE ?
                           LIMIT 100";
             $data = db::$connection->prepare($sqlSelect);
-            if ($data->execute(array('%'.$name.'%'))) {
+            if ($data->execute(array('%'.$name.'%', '%'.$name.'%'))) {
                 return $data->fetchAll(PDO::FETCH_ASSOC);
             }
             return "Có lỗi xảy ra";
