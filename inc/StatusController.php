@@ -82,7 +82,7 @@ class StatusController
         try {
             $sqlSelect = 'SELECT * FROM status AS s
                           where s.content LIKE ? AND (s.id_user = ? OR s.role = "Công khai")
-                          ORDER BY s.created';
+                          ORDER BY s.created DESC';
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute(array('%'.$keyword.'%', $id))) {
                 $row = $data->fetchAll(PDO::FETCH_ASSOC);
@@ -102,7 +102,7 @@ class StatusController
                           AND (s.id_user = u.id 
                           AND u.id = ? 
                           AND ? IN (u.followed) 
-                          AND role = "Công khai")
+                          AND role IN ("Công khai", "Bạn bè"))
                           ORDER BY s.created';
             $data = db::$connection->prepare($sqlSelect);
             if ($data->execute(array('%'.$keyword.'%', $friendId, $userId))) {
