@@ -90,7 +90,7 @@ class UserController
             throw new PDOException($ex->getMessage());
         }
     }
-
+//Gửi email : Token là cái verify vs database
     public function SendEmail($email,$token)
     {
         
