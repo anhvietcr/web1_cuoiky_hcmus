@@ -138,9 +138,13 @@ class UserController
             return "Mật khẩu nhập lại không khớp nhau";
         }
 
+        if (strlen($this->request['password']) < 6) {
+            return "Mật khẩu độ dài tối thiểu 6 ký tự";
+        }
+
         if (empty($this->request['username']) || empty($this->request['password']) || empty($this->request['re-password'])) {
             return "Nhập đầy đủ dữ liệu";
-        }
+        }        
 
         try {
             $usr = $this->GetUser($this->request['username']);
