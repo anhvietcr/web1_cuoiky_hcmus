@@ -28,13 +28,28 @@ class FormatHelper
      */
     public function addHeader($title)
     {
+        $realname = "";
+        $login = "";
+
+        if (!isset($_COOKIE['realname'])) {
+            $realname = "Web 1 - HCMUS";
+        } else {
+            $realname = $_COOKIE['realname'];
+        }
+
+        if (!isset($_COOKIE['login'])) {
+            $login = "Web 1 - HCMUS";
+        } else {
+            $login = $_COOKIE['login'];
+        }
+
         $this->header =<<<HEADER
 <!DOCTYPE html>
 <html lang="vn">
 <head>
-    <title> $_COOKIE[realname] </title>
+    <title> $realname </title>
     <meta charset="utf-8">
-    <meta name="username" value="$_COOKIE[login]">
+    <meta name="username" value="$login">
     <link rel="stylesheet" type="text/css" href="asset/style.css">
     <link rel="stylesheet" type="text/css" href="asset/search/search.css">
     <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css">
