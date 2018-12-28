@@ -101,11 +101,11 @@ class StatusController
                           where s.content LIKE ? 
                           AND (s.id_user = u.id 
                           AND u.id = ? 
-                          AND ? IN (u.followed) 
-                          AND role IN ("Công khai", "Bạn bè"))
+                          AND u.followed LIKE ?
+                          AND role IN ("Bạn bè"))
                           ORDER BY s.created';
             $data = db::$connection->prepare($sqlSelect);
-            if ($data->execute(array('%'.$keyword.'%', $friendId, $userId))) {
+            if ($data->execute(array('%'.$keyword.'%', $friendId, '%'.$userId.'%'))) {
                 $row = $data->fetchAll(PDO::FETCH_ASSOC);
                 return $row;
             }
